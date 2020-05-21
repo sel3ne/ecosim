@@ -1,7 +1,9 @@
-ecosim: main.o
-	g++ main.o -o ecosim -lsfml-graphics -lsfml-window -lsfml-system	
+ecosim: obj/main.o obj/game.o
+	g++ $^ -o $@ -lsfml-graphics -lsfml-window -lsfml-system
 
-main.o: main.cpp
-	g++ -c main.cpp
+obj/main.o: src/main.cpp
+	g++ -c src/main.cpp -o $@
 
 
+obj/game.o: src/game.cpp src/game.h
+	g++ -c src/game.cpp -o $@
