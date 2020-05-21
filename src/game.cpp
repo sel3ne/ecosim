@@ -2,7 +2,7 @@
 
 void Game::render() {
   window_->clear();
-  // window_->draw(shape);
+  world_->render(*window_);
   window_->display();
 }
 

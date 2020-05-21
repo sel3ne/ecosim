@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
+#include "world.h"
+
 class Game {
  public:
   Game() = delete;
@@ -13,6 +15,7 @@ class Game {
   void runMainLoop();
 
  private:
+  std::unique_ptr<World> world_;
   std::unique_ptr<sf::RenderWindow> window_;
 };
 
