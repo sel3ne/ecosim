@@ -10,10 +10,11 @@ class World {
  public:
   World();
   void render(sf::RenderWindow& window);
+  void addEntityToEntities(Entity&& entity);
 
  private:
   ChunkManager chunk_manager_;
-  Entity* entity_;
+  std::vector<Entity> entities_;
 };
 
 #endif  // define ECOSIM_WORLD_H
