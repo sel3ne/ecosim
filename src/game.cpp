@@ -21,14 +21,9 @@ void Game::runMainLoop() {
 
     while (window_->pollEvent(event)) {
       if (event.type == sf::Event::MouseButtonPressed) {
-        sf::Texture* texture1 = new sf::Texture;
-        if (!texture1->loadFromFile(
-                "data/green-grass-textures_74190-5443.png")) {
-          std::cout << "could not load the test texture";
-        }
         sf::Vector2i position = sf::Mouse::getPosition(*window_);
-
-        Entity entity1(position.x, position.y, texture1);
+        sf::Texture* grass_tex = resource_mgr_.getTexture(TEXTURE_GRASS);
+        Entity entity1(position.x, position.y, grass_tex);
         world_->addEntityToEntities(std::move(entity1));
       }
       if (event.type == sf::Event::Closed) {

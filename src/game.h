@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
+#include "resource_manager.h"
 #include "world.h"
 
 class Game {
@@ -17,6 +18,7 @@ class Game {
  private:
   std::unique_ptr<World> world_;
   std::unique_ptr<sf::RenderWindow> window_;
+  ResourceManager resource_mgr_;
 };
 
 #endif  // define ECOSIM_GAME_H
