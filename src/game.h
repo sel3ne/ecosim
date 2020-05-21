@@ -9,7 +9,7 @@
 class Game {
  public:
   Game() = delete;
-  Game(std::unique_ptr<sf::RenderWindow> window) : window_(std::move(window)) {}
+  Game(std::unique_ptr<sf::RenderWindow> window);
 
   void render();
   void runMainLoop();

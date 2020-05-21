@@ -1,5 +1,12 @@
 #include "game.h"
 
+#include <iostream>
+
+Game::Game(std::unique_ptr<sf::RenderWindow> window)
+    : window_(std::move(window)) {
+  world_ = std::make_unique<World>();
+}
+
 void Game::render() {
   window_->clear();
   world_->render(*window_);
