@@ -9,7 +9,7 @@ Eco sim game
 
 * Install the `sfml` package
 * If you use sublime:
-  * Install `clang-format-static-bin` from the AUR.
+  * Install the `clang` package
   * Install the `Clang Format` package in Sublime.
   * Under `Preferences` -> `Package Settings` -> `Clang Format` -> `Settings - User` set the config:
 
@@ -18,3 +18,4 @@ Eco sim game
 	"style": "Google",
 	"format_on_save": true
 }
+ ```
