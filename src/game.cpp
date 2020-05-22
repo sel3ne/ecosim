@@ -66,6 +66,7 @@ void Game::runMainLoop() {
         currentView.move(0.0f, 4.0f);
         window_->setView(currentView);
       } else if (event.type == sf::Event::MouseWheelScrolled) {
+        // Zoom around mouse position
         const float zoomAmount{1.1f};
         if (event.mouseWheelScroll.delta > 0)
           zoomViewAt({event.mouseWheelScroll.x, event.mouseWheelScroll.y},
