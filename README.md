@@ -4,7 +4,6 @@ Eco sim game
 
 ## Setup
 
-
 ### Arch Linux
 
 * Install the `sfml` package
@@ -18,4 +17,13 @@ Eco sim game
 	"style": "Google",
 	"format_on_save": true
 }
+ ```
+
+ ## Building
+
+ ```
+ mkdir build
+ cd build
+ cmake ..
+ make
  ```
