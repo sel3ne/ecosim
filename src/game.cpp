@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "entity.h"
+#include "grid.h"
 
 Game::Game(std::unique_ptr<sf::RenderWindow> window)
     : window_(std::move(window)) {
@@ -34,8 +35,14 @@ void Game::runMainLoop() {
     while (window_->pollEvent(event)) {
       if (event.type == sf::Event::MouseButtonPressed) {
         sf::Vector2i position = sf::Mouse::getPosition(*window_);
+        std::cout << position.x << std::endl << position.y << std::endl;
+        sf::Vector2f worldPos = window_->mapPixelToCoords(position);
+        sf::Vector2i gridPos = worldCoordinateToGrid(worldPos);
+        std::cout << gridPos.x << std::endl << gridPos.y << std::endl;
         sf::Texture* grass_tex = resource_mgr_.getTexture(TEXTURE_GRASS);
-        Entity entity1(position.x, position.y, grass_tex);
+
+        sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
+        Entity entity1(worldPosEntity.x, worldPosEntity.y, grass_tex);
         world_->addEntityToEntities(std::move(entity1));
       } else if ((event.type == sf::Event::KeyPressed &&
                   event.key.code == sf::Keyboard::Left) ||
