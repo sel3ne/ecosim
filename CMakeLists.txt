@@ -22,6 +22,8 @@ add_executable(
 	src/world.cpp
 	src/world.h
 	src/grid.cpp
-	src/grid.h)
+	src/grid.h
+	src/constructible.cpp
+	src/constructible.h)
 
 target_link_libraries(ecosim sfml-graphics sfml-audio)

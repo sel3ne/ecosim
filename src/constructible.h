@@ -1,0 +1,36 @@
+#ifndef ECOSIM_CONSTRUCTIBLE_H
+#define ECOSIM_CONSTRUCTIBLE_H
+
+#include <SFML/Graphics.hpp>
+#include <iostream>
+#include <memory>
+
+#include "entity.h"
+
+class Constructible : public Entity {
+ public:
+  Constructible() = delete;
+  Constructible(int x_grid, int y_grid, int w_grid, int h_grid,
+                sf::Texture* texture)
+      : Entity(texture),
+        x_grid_(x_grid),
+        y_grid_(y_grid),
+        w_grid_(w_grid),
+        h_grid_(h_grid) {}
+
+  void allignToGrid();
+
+  // convert grid to world position/size
+  virtual float worldX();
+  virtual float worldY();
+  virtual float worldW();
+  virtual float worldH();
+
+ private:
+  int x_grid_;
+  int y_grid_;
+  int w_grid_;
+  int h_grid_;
+};
+
+#endif  // define ECOSIM_CONSTRUCTIBLE_H

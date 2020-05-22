@@ -8,16 +8,20 @@
 class Entity {
  public:
   Entity() = delete;
-  Entity(float x, float y, sf::Texture* texture)
-      : x_(x), y_(y), texture_(texture) {}
-  Entity(Entity&& enti) : x_(enti.x_), y_(enti.y_), texture_(enti.texture_) {}
+  Entity(sf::Texture* texture) : texture_(texture) {}
+  Entity(Entity&& enti) : texture_(enti.texture_) {}
   Entity(const Entity& enti) = default;
 
   void render(sf::RenderWindow& window);
 
+  virtual float worldX() = 0;
+  virtual float worldY() = 0;
+  virtual float worldW() = 0;
+  virtual float worldH() = 0;
+
  private:
-  float x_;
-  float y_;
+  // float x_;
+  // float y_;
   sf::Texture* texture_;
 };
 

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "entity.h"
+#include "constructible.h"
 #include "grid.h"
 
 Game::Game(std::unique_ptr<sf::RenderWindow> window)
@@ -39,11 +39,13 @@ void Game::runMainLoop() {
         sf::Vector2f worldPos = window_->mapPixelToCoords(position);
         sf::Vector2i gridPos = worldCoordinateToGrid(worldPos);
         std::cout << gridPos.x << std::endl << gridPos.y << std::endl;
-        sf::Texture* grass_tex = resource_mgr_.getTexture(TEXTURE_GRASS);
+        sf::Texture* house_tex = resource_mgr_.getTexture(TEXTURE_HOUSE);
 
         sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
-        Entity entity1(worldPosEntity.x, worldPosEntity.y, grass_tex);
-        world_->addEntityToEntities(std::move(entity1));
+        sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
+        std::unique_ptr<Entity> constructible = std::make_unique<Constructible>(
+            gridPosEntity.x, gridPosEntity.y, 20, 30, house_tex);
+        world_->addEntityToEntities(std::move(constructible));
       } else if ((event.type == sf::Event::KeyPressed &&
                   event.key.code == sf::Keyboard::Left) ||
                  (event.type == sf::Event::KeyPressed &&

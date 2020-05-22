@@ -19,11 +19,11 @@ World::World() {
 
 void World::render(sf::RenderWindow& window) {
   chunk_manager_.renderTiles(window);
-  for (Entity& n : entities_) {
-    n.render(window);
+  for (std::unique_ptr<Entity>& n : entities_) {
+    n->render(window);
   }
 }
 
-void World::addEntityToEntities(Entity&& entity) {
-  entities_.push_back(entity);
+void World::addEntityToEntities(std::unique_ptr<Entity> entity) {
+  entities_.push_back(std::move(entity));
 }
