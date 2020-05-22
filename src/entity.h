@@ -10,7 +10,7 @@ class Entity {
   Entity() = delete;
   Entity(float x, float y, sf::Texture* texture)
       : x_(x), y_(y), texture_(texture) {}
-  Entity(Entity&& enti) : x_(x_), y_(y_), texture_(texture_) {}
+  Entity(Entity&& enti) : x_(enti.x_), y_(enti.y_), texture_(enti.texture_) {}
   Entity(const Entity& enti) = default;
 
   void render(sf::RenderWindow& window);
