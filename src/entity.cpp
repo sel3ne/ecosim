@@ -18,8 +18,7 @@ void Entity::render(sf::RenderWindow& window) {
   sf::Sprite sprite;
   sprite.setTexture(*texture);
   sprite.setPosition(worldX(), worldY());
-  sprite.setScale(worldW() / kPixelsPerTile / texSize.x,
-                  worldH() / kPixelsPerTile / texSize.y);
+  sprite.setScale(worldW() / texSize.x, worldH() / texSize.y);
   window.draw(sprite);
 }
 
