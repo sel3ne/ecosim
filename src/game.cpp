@@ -2,13 +2,16 @@
 
 #include <iostream>
 
-#include "constructible.h"
+#include "building.h"
 #include "grid.h"
 #include "resource_manager.h"
+
+Game* gGame = nullptr;
 
 Game::Game(std::unique_ptr<sf::RenderWindow> window)
     : window_(std::move(window)) {
   world_ = std::make_unique<World>();
+  window_->setFramerateLimit(60);
 }
 
 void Game::render() {
@@ -16,6 +19,10 @@ void Game::render() {
   world_->render(*window_);
   window_->display();
 }
+
+World& Game::returnWorld() { return *world_; }
+
+void Game::update(float time_s) { world_->update(time_s); }
 
 void zoomViewAt(sf::Vector2i pixel, sf::RenderWindow& window, float zoom) {
   const sf::Vector2f beforeCoord{window.mapPixelToCoords(pixel)};
@@ -29,8 +36,9 @@ void zoomViewAt(sf::Vector2i pixel, sf::RenderWindow& window, float zoom) {
 }
 
 void Game::runMainLoop() {
+  sf::Clock clock;
+  sf::Event event;
   while (window_->isOpen()) {
-    sf::Event event;
     sf::View currentView = window_->getView();
 
     while (window_->pollEvent(event)) {
@@ -40,12 +48,12 @@ void Game::runMainLoop() {
         sf::Vector2f worldPos = window_->mapPixelToCoords(position);
         sf::Vector2i gridPos = worldCoordinateToGrid(worldPos);
         std::cout << gridPos.x << std::endl << gridPos.y << std::endl;
-        // sf::Texture* house_tex = gResourceManager->getTexture(TEXTURE_HOUSE);
 
         sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
         sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
-        std::unique_ptr<Entity> constructible = std::make_unique<Constructible>(
-            gridPosEntity.x, gridPosEntity.y, 20, 60, Entity::LIGHTHOUSE);
+        std::unique_ptr<Entity> constructible = std::make_unique<Building>(
+            gridPosEntity.x, gridPosEntity.y, 20, 60, Entity::HOUSE);
+        world_->addNumberLighthouse();
         world_->addEntityToEntities(std::move(constructible));
       } else if ((event.type == sf::Event::KeyPressed &&
                   event.key.code == sf::Keyboard::Left) ||
@@ -89,6 +97,9 @@ void Game::runMainLoop() {
         window_->close();
       }
     }
+
+    sf::Time elapsed = clock.restart();
+    update(elapsed.asSeconds());
 
     render();
   }

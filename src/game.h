@@ -14,10 +14,14 @@ class Game {
 
   void render();
   void runMainLoop();
+  void update(float time_s);
+  World& returnWorld();
 
  private:
   std::unique_ptr<World> world_;
   std::unique_ptr<sf::RenderWindow> window_;
 };
+
+extern Game* gGame;
 
 #endif  // define ECOSIM_GAME_H
