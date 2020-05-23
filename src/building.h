@@ -9,7 +9,7 @@
 
 class Building : public Constructible {
  public:
-  enum Ressources {
+  enum Resources {
     FOOD,
     GOLD,
   };
@@ -19,9 +19,10 @@ class Building : public Constructible {
            Entity::EntityType entity_type)
       : Constructible(x_grid, y_grid, w_grid, h_grid, entity_type) {}
 
-  int returnRessourceAmount(Building::Ressources res);
+  int returnResourceAmount(Building::Resources res);
 
  private:
+  std::map<Building::Resources, int> ResourceToAmount;
 };
 
 #endif  // define ECOSIM_BUILDING_H
