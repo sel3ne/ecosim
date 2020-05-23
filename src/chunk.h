@@ -11,8 +11,8 @@ class Chunk {
  public:
   Chunk() = delete;
   Chunk(const Chunk&) = delete;
-  Chunk(int chunk_x, int chunk_y)
-      : chunk_x_(chunk_x), chunk_y_(chunk_y), tiles_() {}
+  // tile_ids is an array of size kChunkSize * kChunkSize.
+  Chunk(int chunk_x, int chunk_y, Tile::TileId tile_ids[]);
   Chunk(Chunk&& chunk) = default;
 
   // Returns the tile at (offset_x, offset_y) relative to the chunk location.

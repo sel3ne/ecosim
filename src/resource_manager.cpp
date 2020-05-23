@@ -6,7 +6,9 @@
 ResourceManager* gResourceManager = nullptr;
 
 const std::map<TextureID, std::string> kTexturePaths = {
-    {TEXTURE_GRASS, "data/green-grass-textures_74190-5443.png"},
+    {TEXTURE_GRASS, "data/grass64.png"},
+    {TEXTURE_WATER, "data/water64.png"},
+    {TEXTURE_STONE, "data/stone64.png"},
     {TEXTURE_HOUSE, "data/Greekheroichouse.png"},
     {TEXTURE_LIGHTHOUSE, "data/MTS_blennus-1383251-LighthouseMain.png"},
     {TEXTURE_HUMAN, "data/happy-smile-png-2.png"},

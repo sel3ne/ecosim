@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "chunk.h"
+#include "map_generator.h"
 
 /*
  * Defines how to hash a sf::Vector2i. This is necessary to make it usable
@@ -27,10 +28,13 @@ class ChunkManager {
  public:
   ChunkManager();
 
+  void generateChunk(int chunk_x, int chunk_y);
+
   void renderTiles(sf::RenderWindow& window);
 
  private:
   std::unordered_map<sf::Vector2i, Chunk> chunks_;
+  std::unique_ptr<MapGenerator> map_gen_;
 };
 
 #endif  // define ECOSIM_CHUNK_MANAGER_H

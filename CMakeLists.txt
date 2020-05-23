@@ -21,6 +21,8 @@ add_executable(
   src/game.cpp
   src/game.h
   src/main.cpp
+  src/map_generator.cpp
+  src/map_generator.h
   src/resource_manager.cpp
   src/resource_manager.h
   src/tile.cpp
