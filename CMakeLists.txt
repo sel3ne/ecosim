@@ -10,6 +10,8 @@ find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
 add_executable(
 	ecosim
+	src/building.h
+	src/building.cpp
 	src/chunk.cpp
 	src/chunk.h
 	src/chunk_manager.cpp

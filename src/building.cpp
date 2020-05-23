@@ -3,10 +3,10 @@
 #include <iostream>
 
 std::map<Building::Ressources, int> RessourceToAmount = {
-    {FOOD, 100},
-    {GOLD, 100},
+    {Building::FOOD, 100},
+    {Building::GOLD, 100},
 };
 
 int Building::returnRessourceAmount(Building::Ressources res) {
-  return RessourceToAmount.at(res)
+  return RessourceToAmount.at(res);
 }
