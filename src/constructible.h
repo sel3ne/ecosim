@@ -11,14 +11,12 @@ class Constructible : public Entity {
  public:
   Constructible() = delete;
   Constructible(int x_grid, int y_grid, int w_grid, int h_grid,
-                sf::Texture* texture)
-      : Entity(texture),
+                EntityType entity_type)
+      : Entity(entity_type),
         x_grid_(x_grid),
         y_grid_(y_grid),
         w_grid_(w_grid),
         h_grid_(h_grid) {}
-
-  void allignToGrid();
 
   // convert grid to world position/size
   virtual float worldX();

@@ -5,7 +5,12 @@
 #include <string_view>
 #include <unordered_map>
 
-enum TextureID { TEXTURE_GRASS, TEXTURE_HOUSE };
+enum TextureID {
+  TEXTURE_GRASS,
+  TEXTURE_HOUSE,
+  TEXTURE_LIGHTHOUSE,
+  TEXTURE_HUMAN
+};
 
 class ResourceManager {
  public:

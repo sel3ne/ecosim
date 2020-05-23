@@ -3,13 +3,24 @@
 #include <iostream>
 
 #include "grid.h"
+#include "resource_manager.h"
+
+const std::map<Entity::EntityType, TextureID> kEntityTypeToTextureID = {
+    {Entity::HOUSE, TEXTURE_HOUSE},
+    {Entity::LIGHTHOUSE, TEXTURE_LIGHTHOUSE},
+    {Entity::HUMAN, TEXTURE_HUMAN},
+};
 
 void Entity::render(sf::RenderWindow& window) {
-  sf::Vector2u texSize = texture_->getSize();
+  TextureID texID = kEntityTypeToTextureID.at(entity_type_);
+  sf::Texture* texture = gResourceManager->getTexture(texID);
+  sf::Vector2u texSize = texture->getSize();
   sf::Sprite sprite;
-  sprite.setTexture(*texture_);
+  sprite.setTexture(*texture);
   sprite.setPosition(worldX(), worldY());
   sprite.setScale(worldW() / kPixelsPerTile / texSize.x,
                   worldH() / kPixelsPerTile / texSize.y);
   window.draw(sprite);
 }
+
+Entity::EntityType Entity::typeOfEntity() { return entity_type_; }

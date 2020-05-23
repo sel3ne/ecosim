@@ -7,22 +7,28 @@
 
 class Entity {
  public:
+  enum EntityType {
+    LIGHTHOUSE,
+    HOUSE,
+    ROAD,
+    HUMAN,
+  };
+
   Entity() = delete;
-  Entity(sf::Texture* texture) : texture_(texture) {}
-  Entity(Entity&& enti) : texture_(enti.texture_) {}
+  Entity(EntityType entity_type) : entity_type_(entity_type) {}
+  Entity(Entity&& enti) : entity_type_(enti.entity_type_) {}
   Entity(const Entity& enti) = default;
 
   void render(sf::RenderWindow& window);
 
+  EntityType typeOfEntity();
   virtual float worldX() = 0;
   virtual float worldY() = 0;
   virtual float worldW() = 0;
   virtual float worldH() = 0;
 
  private:
-  // float x_;
-  // float y_;
-  sf::Texture* texture_;
+  EntityType entity_type_;
 };
 
 #endif  // define ECOSIM_ENTITY_H

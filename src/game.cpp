@@ -40,12 +40,12 @@ void Game::runMainLoop() {
         sf::Vector2f worldPos = window_->mapPixelToCoords(position);
         sf::Vector2i gridPos = worldCoordinateToGrid(worldPos);
         std::cout << gridPos.x << std::endl << gridPos.y << std::endl;
-        sf::Texture* house_tex = gResourceManager->getTexture(TEXTURE_HOUSE);
+        // sf::Texture* house_tex = gResourceManager->getTexture(TEXTURE_HOUSE);
 
         sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
         sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
         std::unique_ptr<Entity> constructible = std::make_unique<Constructible>(
-            gridPosEntity.x, gridPosEntity.y, 20, 30, house_tex);
+            gridPosEntity.x, gridPosEntity.y, 20, 60, Entity::LIGHTHOUSE);
         world_->addEntityToEntities(std::move(constructible));
       } else if ((event.type == sf::Event::KeyPressed &&
                   event.key.code == sf::Keyboard::Left) ||
