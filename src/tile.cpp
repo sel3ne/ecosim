@@ -1,5 +1,7 @@
 #include "tile.h"
 
+#include <iostream>
+
 #include "grid.h"
 #include "resource_manager.h"
 
@@ -14,7 +16,9 @@ void Tile::render(sf::RenderWindow& window, int grid_x, int grid_y) const {
   sf::Texture* texture = gResourceManager->getTexture(tex_id);
   sf::Vector2u tex_size = texture->getSize();
   sf::Sprite sprite;
+  sprite.setTexture(*texture);
   sprite.setPosition(grid_x * kPixelsPerTile, grid_y * kPixelsPerTile);
-  sprite.setScale(kPixelsPerTile / tex_size.x, kPixelsPerTile / tex_size.y);
+  sprite.setScale(1. * kPixelsPerTile / tex_size.x,
+                  1. * kPixelsPerTile / tex_size.y);
   window.draw(sprite);
 }
