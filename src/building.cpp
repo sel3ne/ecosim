@@ -2,11 +2,11 @@
 
 #include <iostream>
 
-std::map<Building::Ressources, int> RessourceToAmount = {
+std::map<Building::Resources, int> ResourceToAmount = {
     {Building::FOOD, 100},
     {Building::GOLD, 100},
 };
 
-int Building::returnRessourceAmount(Building::Ressources res) {
-  return RessourceToAmount.at(res);
+int Building::returnResourceAmount(Building::Resources res) {
+  return ResourceToAmount.at(res);
 }
