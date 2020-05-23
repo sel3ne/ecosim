@@ -27,7 +27,9 @@ void World::addEntityToEntities(std::unique_ptr<Entity> entity) {
 }
 
 void World::addNumberLighthouse() { number_lighthouse_++; }
-
 void World::removeNumberLighthouse() { number_lighthouse_--; }
-
 int World::returnNumberLighthouse() { return number_lighthouse_; }
+
+void World::addNumberHappyHouse() { number_happy_house_++; }
+void World::removeNumberHappyHouse() { number_happy_house_--; }
+int World::returnNumberHappyHouse() { return number_happy_house_; }

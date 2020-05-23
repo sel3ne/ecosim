@@ -42,23 +42,38 @@ void Game::runMainLoop() {
     sf::View currentView = window_->getView();
 
     while (window_->pollEvent(event)) {
-      if (event.type == sf::Event::MouseButtonPressed) {
+      if (event.key.code == sf::Keyboard::O) {
+        // House event
         sf::Vector2i position = sf::Mouse::getPosition(*window_);
-        std::cout << position.x << std::endl << position.y << std::endl;
-        sf::Vector2f worldPos = window_->mapPixelToCoords(position);
-        sf::Vector2i gridPos = worldCoordinateToGrid(worldPos);
-        std::cout << gridPos.x << std::endl << gridPos.y << std::endl;
-
+        // std::cout << position.x << std::endl << position.y << std::endl;
+        // sf::Vector2f worldPos = window_->mapPixelToCoords(position);
+        // sf::Vector2i gridPos = worldCoordinateToGrid(worldPos);
         sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
         sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
         std::unique_ptr<Entity> constructible = std::make_unique<Building>(
-            gridPosEntity.x, gridPosEntity.y, 20, 60, Entity::HOUSE);
+            gridPosEntity.x, gridPosEntity.y, 3, 3, Entity::HOUSE);
+        world_->addNumberHappyHouse();
+        world_->addEntityToEntities(std::move(constructible));
+
+      } else if (event.key.code == sf::Keyboard::P) {
+        // Lighthouse event
+        sf::Vector2i position = sf::Mouse::getPosition(*window_);
+        // std::cout << position.x << std::endl << position.y << std::endl;
+        // sf::Vector2f worldPos = window_->mapPixelToCoords(position);
+        // sf::Vector2i gridPos = worldCoordinateToGrid(worldPos);
+        sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
+        sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
+        std::unique_ptr<Entity> constructible = std::make_unique<Building>(
+            gridPosEntity.x, gridPosEntity.y, 2, 4, Entity::LIGHTHOUSE);
         world_->addNumberLighthouse();
         world_->addEntityToEntities(std::move(constructible));
-      } else if ((event.type == sf::Event::KeyPressed &&
-                  event.key.code == sf::Keyboard::Left) ||
-                 (event.type == sf::Event::KeyPressed &&
-                  event.key.code == sf::Keyboard::A)) {
+
+      }
+
+      else if ((event.type == sf::Event::KeyPressed &&
+                event.key.code == sf::Keyboard::Left) ||
+               (event.type == sf::Event::KeyPressed &&
+                event.key.code == sf::Keyboard::A)) {
         // Move left
         currentView.move(-4.0f, 0.f);
         window_->setView(currentView);

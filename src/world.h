@@ -15,6 +15,10 @@ class World {
   void addNumberLighthouse();
   int returnNumberLighthouse();
   void removeNumberLighthouse();
+  void addNumberHappyHouse();
+  int returnNumberHappyHouse();
+  void removeNumberHappyHouse();
+
   void update(float time_s);
 
  private:
