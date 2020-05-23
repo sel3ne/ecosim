@@ -17,4 +17,6 @@ class ResourceManager {
   std::unordered_map<TextureID, sf::Texture> textures_;
 };
 
+extern ResourceManager* gResourceManager;
+
 #endif
