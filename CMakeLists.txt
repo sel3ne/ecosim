@@ -20,6 +20,8 @@ add_executable(
   src/entity.h
   src/game.cpp
   src/game.h
+  src/human.cpp
+  src/human.h
   src/main.cpp
   src/map_generator.cpp
   src/map_generator.h

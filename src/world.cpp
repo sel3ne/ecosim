@@ -26,10 +26,27 @@ void World::addEntityToEntities(std::unique_ptr<Entity> entity) {
   entities_.push_back(std::move(entity));
 }
 
-void World::addNumberLighthouse() { number_lighthouse_++; }
-void World::removeNumberLighthouse() { number_lighthouse_--; }
+void World::addNumberLighthouse(int i) {
+  number_lighthouse_ = number_lighthouse_ + i;
+}
 int World::returnNumberLighthouse() { return number_lighthouse_; }
 
-void World::addNumberHappyHouse() { number_happy_house_++; }
-void World::removeNumberHappyHouse() { number_happy_house_--; }
+void World::addNumberHappyHouse(int i) {
+  number_happy_house_ = number_happy_house_ + i;
+}
 int World::returnNumberHappyHouse() { return number_happy_house_; }
+
+void World::addNumberUnhappyHouse(int i) {
+  number_unhappy_house_ = number_unhappy_house_ + i;
+}
+int World::returnNumberUnhappyHouse() { return number_unhappy_house_; }
+
+void World::addNumberHappyHuman(int i) {
+  number_happy_human_ = number_happy_human_ + i;
+}
+int World::returnNumberHappyHuman() { return number_happy_human_; }
+
+void World::addNumberUnhappyHuman(int i) {
+  number_unhappy_human_ = number_unhappy_human_ + i;
+}
+int World::returnNumberUnhappyHuman() { return number_unhappy_human_; }

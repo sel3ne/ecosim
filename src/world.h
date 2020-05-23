@@ -12,12 +12,20 @@ class World {
   void render(sf::RenderWindow& window);
   void addEntityToEntities(std::unique_ptr<Entity> entity);
 
-  void addNumberLighthouse();
+  void addNumberLighthouse(int i);
   int returnNumberLighthouse();
-  void removeNumberLighthouse();
-  void addNumberHappyHouse();
+
+  void addNumberHappyHouse(int i);
   int returnNumberHappyHouse();
-  void removeNumberHappyHouse();
+
+  void addNumberUnhappyHouse(int i);
+  int returnNumberUnhappyHouse();
+
+  void addNumberHappyHuman(int i);
+  int returnNumberHappyHuman();
+
+  void addNumberUnhappyHuman(int i);
+  int returnNumberUnhappyHuman();
 
   void update(float time_s);
 

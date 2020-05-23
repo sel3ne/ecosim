@@ -19,7 +19,7 @@ class Entity {
   Entity(Entity&& enti) : entity_type_(enti.entity_type_) {}
   Entity(const Entity& enti) = default;
 
-  void render(sf::RenderWindow& window);
+  virtual void render(sf::RenderWindow& window);
 
   EntityType typeOfEntity();
   virtual float worldX() = 0;

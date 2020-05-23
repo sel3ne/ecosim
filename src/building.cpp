@@ -2,7 +2,9 @@
 
 #include <iostream>
 
-const float kFoodDecay = 10. / 60.;
+#include "game.h"
+
+const float kFoodDecay = 1000. / 60.;
 
 Building::Building(int x_grid, int y_grid, int w_grid, int h_grid,
                    Entity::EntityType entity_type)
@@ -26,13 +28,18 @@ void Building::adaptResource(Building::Resources res, float delta_amount) {
 }
 
 void Building::update(float time_s) {
-  if (typeOfEntity() == HOUSE) {
+  if (typeOfEntity() == HOUSE && ResourceToAmount[Building::FOOD] != 0) {
     float delta_amount = kFoodDecay * time_s;
     Building::adaptResource(Building::FOOD, -delta_amount);
+
     if (Building::returnResourceAmount(Building::FOOD) < 0) {
+      // Updates number of happy and unhappy houses depeding on the food inside
+      // of them
       ResourceToAmount[Building::FOOD] = 0;
       std::cout << "no more food :(" << std::endl;
-      // ToDO update unhappy and happy houses number
+      World& world = gGame->returnWorld();
+      world.addNumberHappyHouse(-1);
+      world.addNumberUnhappyHouse(1);
     }
   }
 }
