@@ -42,7 +42,8 @@ void Game::runMainLoop() {
     sf::View currentView = window_->getView();
 
     while (window_->pollEvent(event)) {
-      if (event.key.code == sf::Keyboard::O) {
+      if (event.type == sf::Event::KeyPressed &&
+          event.key.code == sf::Keyboard::O) {
         // House event
         sf::Vector2i position = sf::Mouse::getPosition(*window_);
         // std::cout << position.x << std::endl << position.y << std::endl;
@@ -55,7 +56,8 @@ void Game::runMainLoop() {
         world_->addNumberHappyHouse();
         world_->addEntityToEntities(std::move(constructible));
 
-      } else if (event.key.code == sf::Keyboard::P) {
+      } else if (event.type == sf::Event::KeyPressed &&
+                 event.key.code == sf::Keyboard::P) {
         // Lighthouse event
         sf::Vector2i position = sf::Mouse::getPosition(*window_);
         // std::cout << position.x << std::endl << position.y << std::endl;
@@ -66,6 +68,7 @@ void Game::runMainLoop() {
         std::unique_ptr<Entity> constructible = std::make_unique<Building>(
             gridPosEntity.x, gridPosEntity.y, 2, 4, Entity::LIGHTHOUSE);
         world_->addNumberLighthouse();
+        std::cout << world_->returnNumberLighthouse() << std::endl;
         world_->addEntityToEntities(std::move(constructible));
 
       }
