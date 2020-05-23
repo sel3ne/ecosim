@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string_view>
 
+ResourceManager* gResourceManager = nullptr;
+
 const std::map<TextureID, std::string> kTexturePaths = {
     {TEXTURE_GRASS, "data/green-grass-textures_74190-5443.png"},
     {TEXTURE_HOUSE, "data/Greekheroichouse.png"},

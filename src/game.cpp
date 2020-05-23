@@ -4,6 +4,7 @@
 
 #include "constructible.h"
 #include "grid.h"
+#include "resource_manager.h"
 
 Game::Game(std::unique_ptr<sf::RenderWindow> window)
     : window_(std::move(window)) {
@@ -39,7 +40,7 @@ void Game::runMainLoop() {
         sf::Vector2f worldPos = window_->mapPixelToCoords(position);
         sf::Vector2i gridPos = worldCoordinateToGrid(worldPos);
         std::cout << gridPos.x << std::endl << gridPos.y << std::endl;
-        sf::Texture* house_tex = resource_mgr_.getTexture(TEXTURE_HOUSE);
+        sf::Texture* house_tex = gResourceManager->getTexture(TEXTURE_HOUSE);
 
         sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
         sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);

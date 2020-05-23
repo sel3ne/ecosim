@@ -18,7 +18,6 @@ class Game {
  private:
   std::unique_ptr<World> world_;
   std::unique_ptr<sf::RenderWindow> window_;
-  ResourceManager resource_mgr_;
 };
 
 #endif  // define ECOSIM_GAME_H
