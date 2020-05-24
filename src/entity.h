@@ -12,6 +12,8 @@ class Entity {
     HOUSE,
     ROAD,
     HUMAN,
+    FARMHOUSE,
+    FARM,
   };
 
   Entity() = delete;

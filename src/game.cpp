@@ -4,9 +4,11 @@
 #include <random>
 
 #include "building.h"
+#include "farmhouse.h"
 #include "grid.h"
 #include "human.h"
 #include "resource_manager.h"
+#include "settings.h"
 
 Game* gGame = nullptr;
 
@@ -61,14 +63,14 @@ void Game::runMainLoop() {
         // sf::Vector2i gridPos = worldCoordinateToGrid(worldPos);
         sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
         sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
-        std::unique_ptr<Entity> constructible = std::make_unique<Building>(
+        std::unique_ptr<Entity> building = std::make_unique<Building>(
             gridPosEntity.x, gridPosEntity.y, 3, 3, Entity::HOUSE);
         world_->addNumberHappyHouse(1);
 
-        world_->addEntityToEntities(std::move(constructible));
+        world_->addEntityToEntities(std::move(building));
         // add the 10 humans per house
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < kHumansPerHouse; i++) {
           world_->addNumberHappyHuman(1);
           int x_coord = worldPosEntity.x +
                         RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
@@ -88,11 +90,30 @@ void Game::runMainLoop() {
         // sf::Vector2i gridPos = worldCoordinateToGrid(worldPos);
         sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
         sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
-        std::unique_ptr<Entity> constructible = std::make_unique<Building>(
+        std::unique_ptr<Entity> building = std::make_unique<Building>(
             gridPosEntity.x, gridPosEntity.y, 2, 4, Entity::LIGHTHOUSE);
         world_->addNumberLighthouse(1);
-        std::cout << world_->returnNumberLighthouse() << std::endl;
-        world_->addEntityToEntities(std::move(constructible));
+        world_->addEntityToEntities(std::move(building));
+
+      } else if (event.type == sf::Event::KeyPressed &&
+                 event.key.code == sf::Keyboard::I) {
+        // Farmhouse event
+        sf::Vector2i position = sf::Mouse::getPosition(*window_);
+        sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
+        sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
+        std::unique_ptr<Entity> farmhouse = std::make_unique<Farmhouse>(
+            gridPosEntity.x, gridPosEntity.y, 3, 3, Entity::FARMHOUSE);
+        world_->addNumberFarmhouse(1);
+        world_->addEntityToEntities(std::move(farmhouse));
+      } else if (event.type == sf::Event::KeyPressed &&
+                 event.key.code == sf::Keyboard::F) {
+        // Farm event
+        sf::Vector2i position = sf::Mouse::getPosition(*window_);
+        sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
+        sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
+        std::unique_ptr<Entity> farm = std::make_unique<Farm>(
+            gridPosEntity.x, gridPosEntity.y, 4, 4, Entity::FARM);
+        world_->addEntityToEntities(std::move(farm));
 
       }
 

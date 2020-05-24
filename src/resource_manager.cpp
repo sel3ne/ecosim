@@ -13,7 +13,9 @@ const std::map<TextureID, std::string> kTexturePaths = {
     {TEXTURE_LIGHTHOUSE, "data/MTS_blennus-1383251-LighthouseMain.png"},
     {TEXTURE_HUMAN_HAPPY, "data/happy-smile-png-2.png"},
     {TEXTURE_HUMAN_UNHAPPY, "data/unhappy_human.png"},
-};
+    {TEXTURE_FARMHOUSE, "data/farmhouse.png"},
+    {TEXTURE_FARM, "data/farm_field.png"},
+    {TEXTURE_ONE, "data/one.png"}};
 
 ResourceManager::ResourceManager() {
   for (const auto& [id, path] : kTexturePaths) {

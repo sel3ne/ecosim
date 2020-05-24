@@ -50,3 +50,8 @@ void World::addNumberUnhappyHuman(int i) {
   number_unhappy_human_ = number_unhappy_human_ + i;
 }
 int World::returnNumberUnhappyHuman() { return number_unhappy_human_; }
+
+void World::addNumberFarmhouse(int i) {
+  number_farmhouse_ = number_farmhouse_ + i;
+}
+int World::returnNumberFarmhouse() { return number_farmhouse_; }

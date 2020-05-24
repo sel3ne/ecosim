@@ -8,6 +8,8 @@
 const std::map<Entity::EntityType, TextureID> kEntityTypeToTextureID = {
     {Entity::HOUSE, TEXTURE_HOUSE},
     {Entity::LIGHTHOUSE, TEXTURE_LIGHTHOUSE},
+    {Entity::FARMHOUSE, TEXTURE_FARMHOUSE},
+    {Entity::FARM, TEXTURE_FARM},
 };
 
 void Entity::render(sf::RenderWindow& window) {

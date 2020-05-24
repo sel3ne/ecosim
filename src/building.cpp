@@ -3,8 +3,7 @@
 #include <iostream>
 
 #include "game.h"
-
-const float kFoodDecay = 1000. / 60.;
+#include "settings.h"
 
 Building::Building(int x_grid, int y_grid, int w_grid, int h_grid,
                    Entity::EntityType entity_type)
@@ -25,6 +24,10 @@ void Building::adaptResource(Building::Resources res, float delta_amount) {
   float old_amount = Building::returnResourceAmount(res);
   float new_amount = old_amount + delta_amount;
   ResourceToAmount[res] = new_amount;
+}
+
+void Building::setResourceToAmount(Building::Resources res, float set_amount) {
+  ResourceToAmount[res] = set_amount;
 }
 
 void Building::update(float time_s) {

@@ -16,10 +16,16 @@ add_executable(
   src/chunk.h
   src/chunk_manager.cpp
   src/chunk_manager.h
+  src/constructible.cpp
+  src/constructible.h
   src/entity.cpp
   src/entity.h
+  src/farmhouse.cpp
+  src/farmhouse.h
   src/game.cpp
   src/game.h
+  src/grid.cpp
+  src/grid.h
   src/human.cpp
   src/human.h
   src/main.cpp
@@ -27,13 +33,10 @@ add_executable(
   src/map_generator.h
   src/resource_manager.cpp
   src/resource_manager.h
+  src/settings.h
   src/tile.cpp
   src/tile.h
   src/world.cpp
-  src/world.h
-  src/grid.cpp
-  src/grid.h
-  src/constructible.cpp
-  src/constructible.h)
+  src/world.h)
 
 target_link_libraries(ecosim sfml-graphics sfml-audio)

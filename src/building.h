@@ -24,6 +24,8 @@ class Building : public Constructible {
 
   void adaptResource(Building::Resources res, float delta_amount);
 
+  void setResourceToAmount(Building::Resources res, float set_amount);
+
   virtual void update(float time_s);
 
  private:

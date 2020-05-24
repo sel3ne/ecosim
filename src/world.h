@@ -27,6 +27,9 @@ class World {
   void addNumberUnhappyHuman(int i);
   int returnNumberUnhappyHuman();
 
+  void addNumberFarmhouse(int i);
+  int returnNumberFarmhouse();
+
   void update(float time_s);
 
  private:
@@ -37,6 +40,7 @@ class World {
   int number_happy_human_;
   int number_unhappy_human_;
   int number_lighthouse_;
+  int number_farmhouse_;
 };
 
 #endif  // define ECOSIM_WORLD_H
