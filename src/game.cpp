@@ -21,6 +21,7 @@ Game::Game(std::unique_ptr<sf::RenderWindow> window)
 void Game::render() {
   window_->clear();
   world_->render(*window_);
+  ui_.render(*window_);
   window_->display();
 }
 
@@ -156,6 +157,9 @@ void Game::runMainLoop() {
         // Move down
         currentView.move(0.0f, 4.0f);
         window_->setView(currentView);
+      } else if (event.type == sf::Event::KeyPressed &&
+                 event.key.code == sf::Keyboard::F5) {
+        ui_.toggleDebugView();
       } else if (event.type == sf::Event::MouseWheelScrolled) {
         // Zoom around mouse position
         const float zoomAmount{1.1f};

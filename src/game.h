@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "resource_manager.h"
+#include "ui.h"
 #include "world.h"
 
 class Game {
@@ -20,6 +21,7 @@ class Game {
  private:
   std::unique_ptr<World> world_;
   std::unique_ptr<sf::RenderWindow> window_;
+  UI ui_;
 };
 
 extern Game* gGame;

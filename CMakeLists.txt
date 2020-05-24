@@ -36,6 +36,8 @@ add_executable(
   src/settings.h
   src/tile.cpp
   src/tile.h
+  src/ui.cpp
+  src/ui.h
   src/world.cpp
   src/world.h)
 

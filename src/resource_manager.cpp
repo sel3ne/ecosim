@@ -15,7 +15,13 @@ const std::map<TextureId, std::string> kTexturePaths = {
     {TEXTURE_HUMAN_UNHAPPY, "data/unhappy_human.png"},
     {TEXTURE_FARMHOUSE, "data/farmhouse.png"},
     {TEXTURE_FARM, "data/farm_field.png"},
-    {TEXTURE_ONE, "data/one.png"}};
+    {TEXTURE_ONE, "data/one.png"},
+};
+
+const std::map<FontId, std::string> kFontPaths = {
+    {FONT_COURIER, "data/cour.ttf"},
+    {FONT_COURIER_BOLD, "data/courbd.ttf"},
+};
 
 ResourceManager::ResourceManager() {
   for (const auto& [id, path] : kTexturePaths) {
@@ -25,8 +31,17 @@ ResourceManager::ResourceManager() {
       exit(1);
     }
   }
+  for (const auto& [id, path] : kFontPaths) {
+    sf::Font& font = fonts_[id];
+    if (!font.loadFromFile(path)) {
+      std::cout << "Failed to load font from: " << path << "!" << std::endl;
+      exit(1);
+    }
+  }
 }
 
 sf::Texture* ResourceManager::getTexture(TextureId id) {
   return &textures_.at(id);
 }
+
+sf::Font* ResourceManager::getFont(FontId id) { return &fonts_.at(id); }
