@@ -31,6 +31,11 @@
 *.out
 *.app
 
+# Output binary
 ecosim
 
+# CMake build files
 build
+
+# Sublime
+ecosim.sublime-workspace
