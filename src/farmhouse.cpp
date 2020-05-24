@@ -19,7 +19,7 @@ void Farm::update(float time_s) {
 }
 
 void Farm::render(sf::RenderWindow& window) {
-  TextureID texID = TEXTURE_FARMHOUSE;
+  TextureId texID = TEXTURE_FARMHOUSE;
 
   sf::Texture* texture = gResourceManager->getTexture(texID);
   sf::Vector2u texSize = texture->getSize();
@@ -30,7 +30,7 @@ void Farm::render(sf::RenderWindow& window) {
   window.draw(sprite);
 
   if (returnResourceAmount(Building::FOOD) == 1) {
-    TextureID texID1 = TEXTURE_ONE;
+    TextureId texID1 = TEXTURE_ONE;
     sf::Texture* texture1 = gResourceManager->getTexture(texID1);
     sf::Vector2u texSize1 = texture->getSize();
     sf::Sprite sprite1;
