@@ -5,7 +5,7 @@
 #include "grid.h"
 #include "resource_manager.h"
 
-const std::map<Entity::EntityType, TextureID> kEntityTypeToTextureID = {
+const std::map<Entity::EntityType, TextureId> kEntityTypeToTextureId = {
     {Entity::HOUSE, TEXTURE_HOUSE},
     {Entity::LIGHTHOUSE, TEXTURE_LIGHTHOUSE},
     {Entity::FARMHOUSE, TEXTURE_FARMHOUSE},
@@ -13,7 +13,7 @@ const std::map<Entity::EntityType, TextureID> kEntityTypeToTextureID = {
 };
 
 void Entity::render(sf::RenderWindow& window) {
-  TextureID texID = kEntityTypeToTextureID.at(entity_type_);
+  TextureId texID = kEntityTypeToTextureId.at(entity_type_);
   sf::Texture* texture = gResourceManager->getTexture(texID);
   sf::Vector2u texSize = texture->getSize();
   sf::Sprite sprite;

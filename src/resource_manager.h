@@ -5,7 +5,7 @@
 #include <string_view>
 #include <unordered_map>
 
-enum TextureID {
+enum TextureId {
   TEXTURE_GRASS,
   TEXTURE_WATER,
   TEXTURE_STONE,
@@ -22,10 +22,10 @@ class ResourceManager {
  public:
   ResourceManager();
 
-  sf::Texture* getTexture(TextureID id);
+  sf::Texture* getTexture(TextureId id);
 
  private:
-  std::unordered_map<TextureID, sf::Texture> textures_;
+  std::unordered_map<TextureId, sf::Texture> textures_;
 };
 
 extern ResourceManager* gResourceManager;

@@ -14,7 +14,7 @@ float Human::worldW() { return w_world_; }
 float Human::worldH() { return h_world_; }
 
 void Human::render(sf::RenderWindow& window) {
-  TextureID texID;
+  TextureId texID;
   if (happiness_) {
     texID = TEXTURE_HUMAN_HAPPY;
   } else if (!happiness_) {

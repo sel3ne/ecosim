@@ -5,7 +5,7 @@
 
 ResourceManager* gResourceManager = nullptr;
 
-const std::map<TextureID, std::string> kTexturePaths = {
+const std::map<TextureId, std::string> kTexturePaths = {
     {TEXTURE_GRASS, "data/grass64.png"},
     {TEXTURE_WATER, "data/water64.png"},
     {TEXTURE_STONE, "data/stone64.png"},
@@ -27,6 +27,6 @@ ResourceManager::ResourceManager() {
   }
 }
 
-sf::Texture* ResourceManager::getTexture(TextureID id) {
+sf::Texture* ResourceManager::getTexture(TextureId id) {
   return &textures_.at(id);
 }
