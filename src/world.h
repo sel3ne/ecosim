@@ -12,6 +12,8 @@ class World {
   void render(sf::RenderWindow& window);
   void addEntityToEntities(std::unique_ptr<Entity> entity);
 
+  void doForAllEntities(std::function<void(Entity&)> func);
+
   void addNumberLighthouse(int i);
   int returnNumberLighthouse();
 
@@ -30,6 +32,9 @@ class World {
   void addNumberFarmhouse(int i);
   int returnNumberFarmhouse();
 
+  void addNumberFarm(int i);
+  int returnNumberFarm();
+
   void update(float time_s);
 
  private:
@@ -41,6 +46,7 @@ class World {
   int number_unhappy_human_;
   int number_lighthouse_;
   int number_farmhouse_;
+  int number_farm_;
 };
 
 #endif  // define ECOSIM_WORLD_H

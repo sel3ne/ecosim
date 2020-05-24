@@ -24,6 +24,11 @@ class Constructible : public Entity {
   virtual float worldW();
   virtual float worldH();
 
+  int gridX() { return x_grid_; }
+  int gridY() { return y_grid_; }
+  int gridW() { return w_grid_; }
+  int gridH() { return h_grid_; }
+
  private:
   int x_grid_;
   int y_grid_;

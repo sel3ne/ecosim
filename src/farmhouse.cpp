@@ -5,15 +5,47 @@
 #include "game.h"
 #include "settings.h"
 
+Farm* Farmhouse::closestFullFarm() {
+  World& world = gGame->returnWorld();
+
+  Farm* nearest_full_farm = nullptr;
+  std::function<void(Entity&)> store_min = [this,
+                                            &nearest_full_farm](Entity& ent) {
+    if (ent.typeOfEntity() == Entity::FARM) {
+      Farm* farm = dynamic_cast<Farm*>(&ent);
+      if (farm->returnResourceAmount(Building::FOOD) >= kMaxFoodPerFarm) {
+        if (!nearest_full_farm) {
+          nearest_full_farm = farm;
+        } else {
+          int x_farm = farm->gridX() - gridX();
+          int y_farm = farm->gridY() - gridY();
+          int x_nearest_farm = nearest_full_farm->gridX() - gridX();
+          int y_nearest_farm = nearest_full_farm->gridY() - gridY();
+          int distance_farm = x_farm * x_farm + y_farm + y_farm;
+          int distance_nearest_farm =
+              x_nearest_farm * x_nearest_farm + y_nearest_farm * y_nearest_farm;
+          if (distance_farm < distance_nearest_farm) {
+            nearest_full_farm = farm;
+          }
+        }
+      }
+    }
+  };
+
+  world.doForAllEntities(store_min);
+
+  return nearest_full_farm;
+}
+
 void Farm::update(float time_s) {
   std::cout << "Food in Farm: " << returnResourceAmount(Building::FOOD)
             << std::endl;
-  if (returnResourceAmount(Building::FOOD) != 1) {
+  if (returnResourceAmount(Building::FOOD) != kMaxFoodPerFarm) {
     float delta_amount = kFoodProductionFarm * time_s;
     adaptResource(Building::FOOD, delta_amount);
 
-    if (returnResourceAmount(Building::FOOD) > 1) {
-      setResourceToAmount(Building::FOOD, 1.0f);
+    if (returnResourceAmount(Building::FOOD) > kMaxFoodPerFarm) {
+      setResourceToAmount(Building::FOOD, kMaxFoodPerFarm);
     }
   }
 }
@@ -29,7 +61,7 @@ void Farm::render(sf::RenderWindow& window) {
   sprite.setScale(worldW() / texSize.x, worldH() / texSize.y);
   window.draw(sprite);
 
-  if (returnResourceAmount(Building::FOOD) == 1) {
+  if (returnResourceAmount(Building::FOOD) == kMaxFoodPerFarm) {
     TextureId texID1 = TEXTURE_ONE;
     sf::Texture* texture1 = gResourceManager->getTexture(texID1);
     sf::Vector2u texSize1 = texture->getSize();

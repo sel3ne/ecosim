@@ -7,6 +7,8 @@
 
 #include "building.h"
 
+class Farm;
+
 class Farmhouse : public Building {
  public:
   Farmhouse() = delete;
@@ -17,6 +19,7 @@ class Farmhouse : public Building {
   // virtual void render(sf::RenderWindow& window);
 
   // virtual void update(float time_s);
+  Farm* closestFullFarm();
 
  private:
 };

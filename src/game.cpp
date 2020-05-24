@@ -104,7 +104,18 @@ void Game::runMainLoop() {
         std::unique_ptr<Entity> farmhouse = std::make_unique<Farmhouse>(
             gridPosEntity.x, gridPosEntity.y, 3, 3, Entity::FARMHOUSE);
         world_->addNumberFarmhouse(1);
+        Farmhouse* farmhouse_ptr = dynamic_cast<Farmhouse*>(farmhouse.get());
         world_->addEntityToEntities(std::move(farmhouse));
+
+        // add farmer-dude
+        int x_coord = worldPosEntity.x +
+                      RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
+        int y_coord = worldPosEntity.y +
+                      RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
+        std::unique_ptr<Entity> human = std::make_unique<Human>(
+            x_coord, y_coord, 8, 8, Entity::HUMAN, farmhouse_ptr, 118);
+        world_->addEntityToEntities(std::move(human));
+
       } else if (event.type == sf::Event::KeyPressed &&
                  event.key.code == sf::Keyboard::F) {
         // Farm event

@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "human.h"
+
 World::World()
     : number_happy_house_(0),
       number_unhappy_house_(0),
@@ -13,6 +15,12 @@ void World::render(sf::RenderWindow& window) {
   chunk_manager_.renderTiles(window);
   for (std::unique_ptr<Entity>& n : entities_) {
     n->render(window);
+  }
+}
+
+void World::doForAllEntities(std::function<void(Entity&)> func) {
+  for (std::unique_ptr<Entity>& n : entities_) {
+    func(*n);
   }
 }
 
@@ -55,3 +63,6 @@ void World::addNumberFarmhouse(int i) {
   number_farmhouse_ = number_farmhouse_ + i;
 }
 int World::returnNumberFarmhouse() { return number_farmhouse_; }
+
+void World::addNumberFarm(int i) { number_farm_ = number_farm_ + i; }
+int World::returnNumberFarm() { return number_farm_; }
