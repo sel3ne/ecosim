@@ -16,6 +16,12 @@ class Human : public Entity {
     _N_RESOURCES,
   };
 
+  enum Job {
+    UNEMPOLYED,
+    FARMER,
+
+  };
+
   Human() = delete;
   Human(int x_world, int y_world, int w_world, int h_world,
         Entity::EntityType entity_type)
@@ -60,6 +66,23 @@ class Human : public Entity {
     Human::ResourceToAmount[FOOD] = food_start_amount;
   }
 
+  Human(int x_world, int y_world, int w_world, int h_world,
+        Entity::EntityType entity_type, Entity* target, int food_start_amount,
+        Job job)
+      : Entity(entity_type),
+        x_world_(x_world),
+        y_world_(y_world),
+        w_world_(w_world),
+        h_world_(h_world),
+        target_entity_(target) {
+    happiness_ = 1;
+    job_ = job;
+    for (int i = 0; i < _N_RESOURCES; i++) {
+      Human::ResourceToAmount[static_cast<ResourcesCarrie>(i)] = 0.0f;
+    }
+    Human::ResourceToAmount[FOOD] = food_start_amount;
+  }
+
   void printHappiness() { std::cout << happiness_ << std::endl; }
 
   void setTargetEntity(Entity* target);
@@ -78,6 +101,14 @@ class Human : public Entity {
 
   void setResourceToAmount(Human::ResourcesCarrie res, float set_amount);
 
+  void setJob(Job job) { job_ = job; }
+
+  Job returnJob() { return job_; }
+
+  void setEmployer(Entity* employer) { employer_ = employer; };
+
+  Entity* returnEmployer() { return employer_; }
+
  private:
   float x_world_;
   float y_world_;
@@ -85,7 +116,9 @@ class Human : public Entity {
   float h_world_;
   bool happiness_;
   Entity* target_entity_;
+  Entity* employer_ = nullptr;
   std::map<Human::ResourcesCarrie, float> ResourceToAmount;
+  Job job_ = UNEMPOLYED;
 };
 
 #endif  // define ECOSIM_HUMAN_H

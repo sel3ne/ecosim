@@ -46,28 +46,56 @@ void Human::update(float time_s) {
     // std::cout << "balanced humans" << std::endl;
   }
 
-  if (target_entity_) {
-    sf::Vector2f directionVector;
-    directionVector.x = target_entity_->worldX() - worldX();
-    directionVector.y = target_entity_->worldY() - worldY();
+  if (job_ == FARMER) {
+    if (target_entity_) {
+      sf::Vector2f directionVector;
+      directionVector.x = target_entity_->worldX() - worldX();
+      directionVector.y = target_entity_->worldY() - worldY();
 
-    float vectorSize = sqrt(directionVector.x * directionVector.x +
-                            directionVector.y * directionVector.y);
-    if (vectorSize < 0.6 &&
-        target_entity_->typeOfEntity() == Entity::FARMHOUSE) {
-      Farmhouse* farmhouse = dynamic_cast<Farmhouse*>(target_entity_);
-      farmhouse->setResourceToAmount(Building::FOOD,
-                                     returnResourceAmount(Human::FOOD));
-      setResourceToAmount(Human::FOOD, 0);
-      target_entity_ = nullptr;
+      float vectorSize = sqrt(directionVector.x * directionVector.x +
+                              directionVector.y * directionVector.y);
+
+      sf::Vector2f directionVectorNorm;
+      directionVectorNorm.x = directionVector.x / vectorSize;
+      directionVectorNorm.y = directionVector.y / vectorSize;
+
+      float move_distance = kSpeedHuman * time_s;
+      x_world_ = (float)x_world_ + directionVectorNorm.x * move_distance;
+      y_world_ = (float)y_world_ + directionVectorNorm.y * move_distance;
+
+      if (vectorSize < 0.6 &&
+          target_entity_->typeOfEntity() == Entity::FARMHOUSE) {
+        Farmhouse* farmhouse = dynamic_cast<Farmhouse*>(target_entity_);
+        farmhouse->setResourceToAmount(Building::FOOD,
+                                       returnResourceAmount(Human::FOOD));
+        setResourceToAmount(Human::FOOD, 0);
+        target_entity_ = nullptr;
+      } else if (vectorSize < 0.6 &&
+                 target_entity_->typeOfEntity() == Entity::FARM) {
+        Farm* farm = dynamic_cast<Farm*>(target_entity_);
+        this->setResourceToAmount(Human::FOOD,
+                                  farm->returnResourceAmount(Building::FOOD));
+        farm->setResourceToAmount(Building::FOOD, 0.0f);
+        farm->set_assigned(false);
+        target_entity_ = nullptr;
+      }
+
+      if (this->returnResourceAmount(FOOD) != 0 && !target_entity_) {
+        // human is at farm, new target will be his farmhouse aka employer
+        target_entity_ = returnEmployer();
+        // farm_farmhouse_toggle = !farm_farmhouse_toggle;
+      } else if (this->returnResourceAmount(FOOD) == 0 && !target_entity_) {
+        // human is at farmhouse, new target will be closest full farm
+        Farmhouse* employer_farmhouse = dynamic_cast<Farmhouse*>(employer_);
+        Farm* next_farm = employer_farmhouse->closestFullFarm();
+
+        // set this farm as assigned, so no one else will go there
+        if (next_farm) {
+          target_entity_ = next_farm;
+          next_farm->set_assigned(true);
+        }
+      }
     }
-    sf::Vector2f directionVectorNorm;
-    directionVectorNorm.x = directionVector.x / vectorSize;
-    directionVectorNorm.y = directionVector.y / vectorSize;
-
-    float move_distance = kSpeedHuman * time_s;
-    x_world_ = (float)x_world_ + directionVectorNorm.x * move_distance;
-    y_world_ = (float)y_world_ + directionVectorNorm.y * move_distance;
   }
 }
 

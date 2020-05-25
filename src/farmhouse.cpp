@@ -13,19 +13,25 @@ Farm* Farmhouse::closestFullFarm() {
                                             &nearest_full_farm](Entity& ent) {
     if (ent.typeOfEntity() == Entity::FARM) {
       Farm* farm = dynamic_cast<Farm*>(&ent);
-      if (farm->returnResourceAmount(Building::FOOD) >= kMaxFoodPerFarm) {
-        if (!nearest_full_farm) {
-          nearest_full_farm = farm;
-        } else {
-          int x_farm = farm->gridX() - gridX();
-          int y_farm = farm->gridY() - gridY();
-          int x_nearest_farm = nearest_full_farm->gridX() - gridX();
-          int y_nearest_farm = nearest_full_farm->gridY() - gridY();
-          int distance_farm = x_farm * x_farm + y_farm + y_farm;
-          int distance_nearest_farm =
-              x_nearest_farm * x_nearest_farm + y_nearest_farm * y_nearest_farm;
-          if (distance_farm < distance_nearest_farm) {
+      // check if farm is already assigned
+      if (!farm->is_assigned()) {
+        // check if farm is full
+        if (farm->returnResourceAmount(Building::FOOD) >= kMaxFoodPerFarm) {
+          if (!nearest_full_farm) {
+            // if it is the first farm, return it
             nearest_full_farm = farm;
+          } else {
+            int x_farm = farm->gridX() - gridX();
+            int y_farm = farm->gridY() - gridY();
+            int x_nearest_farm = nearest_full_farm->gridX() - gridX();
+            int y_nearest_farm = nearest_full_farm->gridY() - gridY();
+            int distance_farm = x_farm * x_farm + y_farm + y_farm;
+            int distance_nearest_farm = x_nearest_farm * x_nearest_farm +
+                                        y_nearest_farm * y_nearest_farm;
+            // check if it is closer than the previos farm
+            if (distance_farm < distance_nearest_farm) {
+              nearest_full_farm = farm;
+            }
           }
         }
       }
@@ -51,7 +57,7 @@ void Farm::update(float time_s) {
 }
 
 void Farm::render(sf::RenderWindow& window) {
-  TextureId texID = TEXTURE_FARMHOUSE;
+  TextureId texID = TEXTURE_FARM;
 
   sf::Texture* texture = gResourceManager->getTexture(texID);
   sf::Vector2u texSize = texture->getSize();

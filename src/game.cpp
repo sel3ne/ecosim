@@ -113,8 +113,12 @@ void Game::runMainLoop() {
                       RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
         int y_coord = worldPosEntity.y +
                       RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
-        std::unique_ptr<Entity> human = std::make_unique<Human>(
-            x_coord, y_coord, 8, 8, Entity::HUMAN, farmhouse_ptr, 118);
+        std::unique_ptr<Entity> human =
+            std::make_unique<Human>(x_coord, y_coord, 8, 8, Entity::HUMAN,
+                                    farmhouse_ptr, 118, Human::FARMER);
+        Human* human_with_human_entity = dynamic_cast<Human*>(human.get());
+        human_with_human_entity->setEmployer(farmhouse_ptr);
+
         world_->addEntityToEntities(std::move(human));
 
       } else if (event.type == sf::Event::KeyPressed &&
