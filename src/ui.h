@@ -12,6 +12,8 @@ class UI {
   void toggleDebugView() { debug_view_enabled_ = !debug_view_enabled_; }
 
  private:
+  void renderDebugView(sf::RenderWindow& window);
+
   bool debug_view_enabled_;
 };
 
