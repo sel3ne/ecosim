@@ -48,122 +48,129 @@ float RandomFloat(float beg, float end) {
   return dis(gen);
 }
 
-void Game::runMainLoop() {
-  sf::Clock clock;
-  sf::Event event;
-  while (window_->isOpen()) {
-    sf::View currentView = window_->getView();
+void Game::moveView(float dx, float dy) {
+  sf::View view = window_->getView();
+  view.move(dx, dy);
+  window_->setView(view);
+}
 
-    while (window_->pollEvent(event)) {
-      if (event.type == sf::Event::KeyPressed &&
-          event.key.code == sf::Keyboard::O) {
-        // House event
-        sf::Vector2i position = sf::Mouse::getPosition(*window_);
-        // std::cout << position.x << std::endl << position.y << std::endl;
-        // sf::Vector2f worldPos = window_->mapPixelToCoords(position);
-        // sf::Vector2i gridPos = worldCoordinateToGrid(worldPos);
-        sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
-        sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
-        std::unique_ptr<Entity> building = std::make_unique<Building>(
-            gridPosEntity.x, gridPosEntity.y, 3, 3, Entity::HOUSE);
-        world_->addNumberHappyHouse(1);
+void Game::handleKeyPress(sf::Event::EventType type,
+                          const sf::Event::KeyEvent& key_event) {
+  switch (key_event.code) {
+    case sf::Keyboard::O: {
+      // House event
+      sf::Vector2i position = sf::Mouse::getPosition(*window_);
+      sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
+      sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
+      std::unique_ptr<Entity> building = std::make_unique<Building>(
+          gridPosEntity.x, gridPosEntity.y, 3, 3, Entity::HOUSE);
+      world_->addNumberHappyHouse(1);
 
-        world_->addEntityToEntities(std::move(building));
-        // add the 10 humans per house
+      world_->addEntityToEntities(std::move(building));
+      // add the 10 humans per house
 
-        for (int i = 0; i < kHumansPerHouse; i++) {
-          world_->addNumberHappyHuman(1);
-          int x_coord = worldPosEntity.x +
-                        RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
-          int y_coord = worldPosEntity.y +
-                        RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
-          std::unique_ptr<Entity> human =
-              std::make_unique<Human>(x_coord, y_coord, 8, 8, Entity::HUMAN);
-          world_->addEntityToEntities(std::move(human));
-        }
-
-      } else if (event.type == sf::Event::KeyPressed &&
-                 event.key.code == sf::Keyboard::P) {
-        // Lighthouse event
-        sf::Vector2i position = sf::Mouse::getPosition(*window_);
-        // std::cout << position.x << std::endl << posit<<ion.y << std::endl;
-        // sf::Vector2f worldPos = window_->mapPixelToCoords(position);
-        // sf::Vector2i gridPos = worldCoordinateToGrid(worldPos);
-        sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
-        sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
-        std::unique_ptr<Entity> building = std::make_unique<Building>(
-            gridPosEntity.x, gridPosEntity.y, 2, 4, Entity::LIGHTHOUSE);
-        world_->addNumberLighthouse(1);
-        world_->addEntityToEntities(std::move(building));
-
-      } else if (event.type == sf::Event::KeyPressed &&
-                 event.key.code == sf::Keyboard::I) {
-        // Farmhouse event
-        sf::Vector2i position = sf::Mouse::getPosition(*window_);
-        sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
-        sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
-        std::unique_ptr<Entity> farmhouse = std::make_unique<Farmhouse>(
-            gridPosEntity.x, gridPosEntity.y, 3, 3, Entity::FARMHOUSE);
-        world_->addNumberFarmhouse(1);
-        Farmhouse* farmhouse_ptr = dynamic_cast<Farmhouse*>(farmhouse.get());
-        world_->addEntityToEntities(std::move(farmhouse));
-
-        // add farmer-dude
+      for (int i = 0; i < kHumansPerHouse; i++) {
+        world_->addNumberHappyHuman(1);
         int x_coord = worldPosEntity.x +
                       RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
         int y_coord = worldPosEntity.y +
                       RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
         std::unique_ptr<Entity> human =
-            std::make_unique<Human>(x_coord, y_coord, 8, 8, Entity::HUMAN,
-                                    farmhouse_ptr, 118, Human::FARMER);
-        Human* human_with_human_entity = dynamic_cast<Human*>(human.get());
-        human_with_human_entity->setEmployer(farmhouse_ptr);
-
+            std::make_unique<Human>(x_coord, y_coord, 8, 8, Entity::HUMAN);
         world_->addEntityToEntities(std::move(human));
-
-      } else if (event.type == sf::Event::KeyPressed &&
-                 event.key.code == sf::Keyboard::F) {
-        // Farm event
-        sf::Vector2i position = sf::Mouse::getPosition(*window_);
-        sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
-        sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
-        std::unique_ptr<Entity> farm = std::make_unique<Farm>(
-            gridPosEntity.x, gridPosEntity.y, 4, 4, Entity::FARM);
-        world_->addEntityToEntities(std::move(farm));
-
       }
+      break;
+    }
+    case sf::Keyboard::P: {
+      // Lighthouse event
+      sf::Vector2i position = sf::Mouse::getPosition(*window_);
+      // std::cout << position.x << std::endl << posit<<ion.y << std::endl;
+      // sf::Vector2f worldPos = window_->mapPixelToCoords(position);
+      // sf::Vector2i gridPos = worldCoordinateToGrid(worldPos);
+      sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
+      sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
+      std::unique_ptr<Entity> building = std::make_unique<Building>(
+          gridPosEntity.x, gridPosEntity.y, 2, 4, Entity::LIGHTHOUSE);
+      world_->addNumberLighthouse(1);
+      world_->addEntityToEntities(std::move(building));
+      break;
+    }
+    case sf::Keyboard::I: {
+      // Farmhouse event
+      sf::Vector2i position = sf::Mouse::getPosition(*window_);
+      sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
+      sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
+      std::unique_ptr<Entity> farmhouse = std::make_unique<Farmhouse>(
+          gridPosEntity.x, gridPosEntity.y, 3, 3, Entity::FARMHOUSE);
+      world_->addNumberFarmhouse(1);
+      Farmhouse* farmhouse_ptr = dynamic_cast<Farmhouse*>(farmhouse.get());
+      world_->addEntityToEntities(std::move(farmhouse));
 
-      else if ((event.type == sf::Event::KeyPressed &&
-                event.key.code == sf::Keyboard::Left) ||
-               (event.type == sf::Event::KeyPressed &&
-                event.key.code == sf::Keyboard::A)) {
-        // Move left
-        currentView.move(-4.0f, 0.f);
-        window_->setView(currentView);
-      } else if ((event.type == sf::Event::KeyPressed &&
-                  event.key.code == sf::Keyboard::Right) ||
-                 (event.type == sf::Event::KeyPressed &&
-                  event.key.code == sf::Keyboard::D)) {
-        // Move right
-        currentView.move(4.0f, 0.f);
-        window_->setView(currentView);
-      } else if ((event.type == sf::Event::KeyPressed &&
-                  event.key.code == sf::Keyboard::Up) ||
-                 (event.type == sf::Event::KeyPressed &&
-                  event.key.code == sf::Keyboard::W)) {
-        // Move up
-        currentView.move(0.0f, -4.0f);
-        window_->setView(currentView);
-      } else if ((event.type == sf::Event::KeyPressed &&
-                  event.key.code == sf::Keyboard::Down) ||
-                 (event.type == sf::Event::KeyPressed &&
-                  event.key.code == sf::Keyboard::S)) {
-        // Move down
-        currentView.move(0.0f, 4.0f);
-        window_->setView(currentView);
-      } else if (event.type == sf::Event::KeyPressed &&
-                 event.key.code == sf::Keyboard::F5) {
-        ui_.toggleDebugView();
+      // add farmer-dude
+      int x_coord = worldPosEntity.x +
+                    RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
+      int y_coord = worldPosEntity.y +
+                    RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
+      std::unique_ptr<Entity> human =
+          std::make_unique<Human>(x_coord, y_coord, 8, 8, Entity::HUMAN,
+                                  farmhouse_ptr, 118, Human::FARMER);
+      Human* human_with_human_entity = dynamic_cast<Human*>(human.get());
+      human_with_human_entity->setEmployer(farmhouse_ptr);
+
+      world_->addEntityToEntities(std::move(human));
+      break;
+    }
+    case sf::Keyboard::F: {
+      // Farm event
+      sf::Vector2i position = sf::Mouse::getPosition(*window_);
+      sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
+      sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
+      std::unique_ptr<Entity> farm = std::make_unique<Farm>(
+          gridPosEntity.x, gridPosEntity.y, 4, 4, Entity::FARM);
+      world_->addEntityToEntities(std::move(farm));
+      break;
+    }
+    case sf::Keyboard::Left:
+    case sf::Keyboard::A: {
+      // Move left
+      moveView(-4.0f, 0.f);
+      break;
+    }
+    case sf::Keyboard::Right:
+    case sf::Keyboard::D: {
+      // Move right
+      moveView(4.0f, 0.f);
+      break;
+    }
+    case sf::Keyboard::Up:
+    case sf::Keyboard::W: {
+      // Move up
+      moveView(0.0f, -4.0f);
+      break;
+    }
+    case sf::Keyboard::Down:
+    case sf::Keyboard::S: {
+      // Move down
+      moveView(0.0f, 4.0f);
+      break;
+    }
+    case sf::Keyboard::F5: {
+      ui_.toggleDebugView();
+      break;
+    }
+    // All other keys do nothing.
+    default:;
+  }
+}
+
+void Game::runMainLoop() {
+  sf::Clock clock;
+  sf::Event event;
+  while (window_->isOpen()) {
+    while (window_->pollEvent(event)) {
+      if (event.type == sf::Event::KeyPressed ||
+          event.type == sf::Event::KeyReleased) {
+        handleKeyPress(event.type, event.key);
       } else if (event.type == sf::Event::MouseWheelScrolled) {
         // Zoom around mouse position
         const float zoomAmount{1.1f};
