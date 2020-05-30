@@ -73,8 +73,7 @@ void Game::moveView(float dx, float dy) {
   window_->setView(view);
 }
 
-void Game::handleKeyPress(sf::Event::EventType type,
-                          const sf::Event::KeyEvent& key_event) {
+void Game::handleKeyPress(const sf::Event::KeyEvent& key_event) {
   switch (key_event.code) {
     case sf::Keyboard::O: {
       // House event
@@ -163,9 +162,8 @@ void Game::runMainLoop() {
   sf::Event event;
   while (window_->isOpen()) {
     while (window_->pollEvent(event)) {
-      if (event.type == sf::Event::KeyPressed ||
-          event.type == sf::Event::KeyReleased) {
-        handleKeyPress(event.type, event.key);
+      if (event.type == sf::Event::KeyPressed) {
+        handleKeyPress(event.key);
       } else if (event.type == sf::Event::MouseWheelScrolled) {
         // Zoom around mouse position
         const float zoomAmount{1.1f};

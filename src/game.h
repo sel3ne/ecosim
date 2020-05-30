@@ -21,8 +21,7 @@ class Game {
   void moveView(float dx, float dy);
 
  private:
-  void handleKeyPress(sf::Event::EventType type,
-                      const sf::Event::KeyEvent& key_event);
+  void handleKeyPress(const sf::Event::KeyEvent& key_event);
 
   std::unique_ptr<World> world_;
   std::unique_ptr<sf::RenderWindow> window_;
