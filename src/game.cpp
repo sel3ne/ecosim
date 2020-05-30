@@ -27,7 +27,26 @@ void Game::render() {
 
 World& Game::returnWorld() { return *world_; }
 
-void Game::update(float time_s) { world_->update(time_s); }
+void Game::update(float time_s) {
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) ||
+      sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+    moveView(0.0f, -4.0f);
+  }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) ||
+      sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+    moveView(-4.0f, 0.f);
+  }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) ||
+      sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+    moveView(4.0f, 0.f);
+  }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) ||
+      sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+    moveView(0.0f, 4.0f);
+  }
+
+  world_->update(time_s);
+}
 
 void zoomViewAt(sf::Vector2i pixel, sf::RenderWindow& window, float zoom) {
   const sf::Vector2f beforeCoord{window.mapPixelToCoords(pixel)};
@@ -128,30 +147,6 @@ void Game::handleKeyPress(sf::Event::EventType type,
       std::unique_ptr<Entity> farm = std::make_unique<Farm>(
           gridPosEntity.x, gridPosEntity.y, 4, 4, Entity::FARM);
       world_->addEntityToEntities(std::move(farm));
-      break;
-    }
-    case sf::Keyboard::Left:
-    case sf::Keyboard::A: {
-      // Move left
-      moveView(-4.0f, 0.f);
-      break;
-    }
-    case sf::Keyboard::Right:
-    case sf::Keyboard::D: {
-      // Move right
-      moveView(4.0f, 0.f);
-      break;
-    }
-    case sf::Keyboard::Up:
-    case sf::Keyboard::W: {
-      // Move up
-      moveView(0.0f, -4.0f);
-      break;
-    }
-    case sf::Keyboard::Down:
-    case sf::Keyboard::S: {
-      // Move down
-      moveView(0.0f, 4.0f);
       break;
     }
     case sf::Keyboard::F5: {
