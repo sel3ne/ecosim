@@ -25,10 +25,8 @@ class World {
   void addNumberUnhappyHouse(int i);
   int returnNumberUnhappyHouse();
 
-  // void addNumberHappyHuman(int i);
   int returnNumberHappyHuman();
 
-  // void addNumberUnhappyHuman(int i);
   int returnNumberUnhappyHuman();
 
   void addNumberFarmhouse(int i);

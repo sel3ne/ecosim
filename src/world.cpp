@@ -51,16 +51,10 @@ void World::addNumberUnhappyHouse(int i) {
 }
 int World::returnNumberUnhappyHouse() { return number_unhappy_house_; }
 
-// void World::addNumberHappyHuman(int i) {
-//   number_happy_human_ = number_happy_human_ + i;
-// }
 int World::returnNumberHappyHuman() {
   return happy_employed_humans_.size() + happy_unemployed_humans_.size();
 }
 
-// void World::addNumberUnhappyHuman(int i) {
-//   number_unhappy_human_ = number_unhappy_human_ + i;
-// }
 int World::returnNumberUnhappyHuman() {
   return unhappy_employed_humans_.size() + unhappy_unemployed_humans_.size();
 }
