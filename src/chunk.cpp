@@ -11,7 +11,7 @@ Chunk::Chunk(int chunk_x, int chunk_y, Tile::TileId tile_ids[])
   }
 }
 
-const Tile& Chunk::getRelativeTile(int offset_x, int offset_y) const {
+Tile& Chunk::getRelativeTile(int offset_x, int offset_y) {
   return tiles_[kChunkSize * offset_y + offset_x];
 }
 
@@ -24,7 +24,7 @@ sf::IntRect calculateVisibleRect(sf::RenderWindow& window) {
   return sf::IntRect(visible_rect);
 }
 
-void Chunk::render(sf::RenderWindow& window) const {
+void Chunk::render(sf::RenderWindow& window) {
   sf::IntRect chunk_rect(/*rectLeft=*/chunk_x_ * kChunkSize * kPixelsPerTile,
                          /*rectTop=*/chunk_y_ * kChunkSize * kPixelsPerTile,
                          /*rectWidth=*/kChunkSize * kPixelsPerTile,

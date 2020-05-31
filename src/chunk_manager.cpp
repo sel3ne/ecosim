@@ -1,5 +1,17 @@
 #include "chunk_manager.h"
 
+int gridToChunkCoordinate(int grid_coord) {
+  return std::floor((float)grid_coord / (float)kChunkSize);
+}
+
+int gridToRelativeTile(int grid_coord) {
+  int temp = grid_coord % kChunkSize;
+  if (temp < 0) {
+    return temp + kChunkSize;
+  }
+  return temp;
+}
+
 ChunkManager::ChunkManager() {
   map_gen_ = std::make_unique<SimpleIslandGenerator>();
   for (int x = -10; x <= 10; ++x) {
@@ -20,7 +32,17 @@ void ChunkManager::generateChunk(int chunk_x, int chunk_y) {
 }
 
 void ChunkManager::renderTiles(sf::RenderWindow& window) {
-  for (const auto& [unused_chunk_coords, chunk] : chunks_) {
+  for (auto& [unused_chunk_coords, chunk] : chunks_) {
     chunk.render(window);
   }
+}
+
+Tile& ChunkManager::getTile(int grid_x, int grid_y) {
+  int chunk_coord_x = gridToChunkCoordinate(grid_x);
+  int chunk_coord_y = gridToChunkCoordinate(grid_y);
+  Chunk& chunk = chunks_.at({chunk_coord_x, chunk_coord_y});
+  int relative_tile_x = gridToRelativeTile(grid_x);
+  int relative_tile_y = gridToRelativeTile(grid_y);
+  Tile& tile = chunk.getRelativeTile(relative_tile_x, relative_tile_y);
+  return tile;
 }

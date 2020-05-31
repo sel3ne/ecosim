@@ -16,6 +16,7 @@ void Tile::render(sf::RenderWindow& window, int grid_x, int grid_y) const {
   sf::Texture* texture = gResourceManager->getTexture(tex_id);
   sf::Vector2u tex_size = texture->getSize();
   sf::Sprite sprite;
+
   sprite.setTexture(*texture);
   sprite.setPosition(grid_x * kPixelsPerTile, grid_y * kPixelsPerTile);
   sprite.setScale(1. * kPixelsPerTile / tex_size.x,

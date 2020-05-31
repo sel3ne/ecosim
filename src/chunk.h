@@ -16,9 +16,9 @@ class Chunk {
   Chunk(Chunk&& chunk) = default;
 
   // Returns the tile at (offset_x, offset_y) relative to the chunk location.
-  const Tile& getRelativeTile(int offset_x, int offset_y) const;
+  Tile& getRelativeTile(int offset_x, int offset_y);
 
-  void render(sf::RenderWindow& window) const;
+  void render(sf::RenderWindow& window);
 
  private:
   int chunk_x_;

@@ -76,15 +76,46 @@ void Game::moveView(float dx, float dy) {
 template <typename EntityClass>
 EntityClass* Game::buildConstructibleAtMouse(int w_grid, int h_grid,
                                              Entity::EntityType entity_type) {
+  // get mouse coordinates
   sf::Vector2i position = sf::Mouse::getPosition(*window_);
   sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
   sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
-  std::unique_ptr<Entity> constructible = std::make_unique<EntityClass>(
-      gridPosEntity.x, gridPosEntity.y, w_grid, h_grid, entity_type);
-  EntityClass* entity_type_ptr =
-      dynamic_cast<EntityClass*>(constructible.get());
+  EntityClass* entity_type_ptr = nullptr;
 
-  world_->addEntityToEntities(std::move(constructible));
+  // check if the tile is already occupied
+
+  bool allTileOccupied = false;
+  ChunkManager& chunkManager = world_->returnChunkManager();
+  for (int x = 0; x < w_grid; x++) {
+    for (int y = 0; y < h_grid; y++) {
+      int xGridCoord = gridPosEntity.x + x;
+      int yGridCoord = gridPosEntity.y + y;
+
+      Tile& tile = chunkManager.getTile(xGridCoord, yGridCoord);
+      bool oneTileOccupied = tile.returnOccupied();
+      allTileOccupied = allTileOccupied || oneTileOccupied;
+    }
+  }
+
+  if (allTileOccupied == false) {
+    // build the constructible
+    std::unique_ptr<Entity> constructible = std::make_unique<EntityClass>(
+        gridPosEntity.x, gridPosEntity.y, w_grid, h_grid, entity_type);
+    entity_type_ptr = dynamic_cast<EntityClass*>(constructible.get());
+
+    world_->addEntityToEntities(std::move(constructible));
+
+    // occupie tiles under construbctible
+    for (int x = 0; x < w_grid; x++) {
+      for (int y = 0; y < h_grid; y++) {
+        int xGridCoord = gridPosEntity.x + x;
+        int yGridCoord = gridPosEntity.y + y;
+
+        Tile& tile = chunkManager.getTile(xGridCoord, yGridCoord);
+        tile.setOccupied(true);
+      }
+    }
+  }
   return entity_type_ptr;
 }
 
@@ -94,6 +125,9 @@ void Game::handleKeyPress(const sf::Event::KeyEvent& key_event) {
       // House event
       Building* house =
           buildConstructibleAtMouse<Building>(3, 3, Entity::HOUSE);
+      if (!house) {
+        break;
+      }
       world_->addNumberHappyHouse(1);
 
       // add the 10 humans per house
@@ -111,7 +145,11 @@ void Game::handleKeyPress(const sf::Event::KeyEvent& key_event) {
     }
     case sf::Keyboard::P: {
       // Lighthouse event
-      buildConstructibleAtMouse<Building>(2, 4, Entity::LIGHTHOUSE);
+      Building* lighthouse =
+          buildConstructibleAtMouse<Building>(2, 4, Entity::LIGHTHOUSE);
+      if (!lighthouse) {
+        break;
+      }
       world_->addNumberLighthouse(1);
 
       break;
@@ -120,6 +158,9 @@ void Game::handleKeyPress(const sf::Event::KeyEvent& key_event) {
       // Farmhouse event
       Farmhouse* farmhouse_ptr =
           buildConstructibleAtMouse<Farmhouse>(3, 3, Entity::FARMHOUSE);
+      if (!farmhouse_ptr) {
+        break;
+      }
       world_->addNumberFarmhouse(1);
 
       // add farmer-dude
@@ -138,7 +179,10 @@ void Game::handleKeyPress(const sf::Event::KeyEvent& key_event) {
     }
     case sf::Keyboard::F: {
       // Farm event
-      buildConstructibleAtMouse<Farm>(4, 4, Entity::FARM);
+      Farm* farm = buildConstructibleAtMouse<Farm>(4, 4, Entity::FARM);
+      if (!farm) {
+        break;
+      }
       break;
     }
     case sf::Keyboard::F5: {

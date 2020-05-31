@@ -2,6 +2,7 @@
 #define ECOSIM_CHUNK_MANAGER_H
 
 #include <SFML/Graphics.hpp>
+#include <cmath>
 
 #include "chunk.h"
 #include "map_generator.h"
@@ -31,6 +32,8 @@ class ChunkManager {
   void generateChunk(int chunk_x, int chunk_y);
 
   void renderTiles(sf::RenderWindow& window);
+
+  Tile& getTile(int grid_x, int grid_y);
 
  private:
   std::unordered_map<sf::Vector2i, Chunk> chunks_;

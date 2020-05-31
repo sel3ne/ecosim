@@ -37,6 +37,8 @@ class World {
 
   void update(float time_s);
 
+  ChunkManager& returnChunkManager() { return chunk_manager_; }
+
  private:
   ChunkManager chunk_manager_;
   std::vector<std::unique_ptr<Entity>> entities_;
