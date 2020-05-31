@@ -2,9 +2,11 @@
 #define ECOSIM_WORLD_H
 
 #include <SFML/Graphics.hpp>
+#include <list>
 
 #include "chunk_manager.h"
 #include "entity.h"
+#include "human.h"
 
 class World {
  public:
@@ -23,10 +25,10 @@ class World {
   void addNumberUnhappyHouse(int i);
   int returnNumberUnhappyHouse();
 
-  void addNumberHappyHuman(int i);
+  // void addNumberHappyHuman(int i);
   int returnNumberHappyHuman();
 
-  void addNumberUnhappyHuman(int i);
+  // void addNumberUnhappyHuman(int i);
   int returnNumberUnhappyHuman();
 
   void addNumberFarmhouse(int i);
@@ -34,6 +36,18 @@ class World {
 
   void addNumberFarm(int i);
   int returnNumberFarm();
+
+  void addHappyUnemployedHumans(Human* new_human);
+  std::list<Human*>& returnHappyUnemployedHumans();
+
+  void addUnhappyUnemployedHumans(Human* new_human);
+  std::list<Human*>& returnUnhappyUnemployedHumans();
+
+  void addHappyEmployedHumans(Human* new_human);
+  std::list<Human*>& returnHappyEmployedHumans();
+
+  void addUnhappyEmployedHumans(Human* new_human);
+  std::list<Human*>& returnUnhappyEmployedHumans();
 
   void update(float time_s);
 
@@ -53,6 +67,10 @@ class World {
   int number_lighthouse_;
   int number_farmhouse_;
   int number_farm_;
+  std::list<Human*> happy_unemployed_humans_;
+  std::list<Human*> unhappy_unemployed_humans_;
+  std::list<Human*> happy_employed_humans_;
+  std::list<Human*> unhappy_employed_humans_;
 };
 
 #endif  // define ECOSIM_WORLD_H

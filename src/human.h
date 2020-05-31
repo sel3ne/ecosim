@@ -106,10 +106,11 @@ class Human : public Entity {
 
   void setEmployer(Entity* employer) { employer_ = employer; };
 
+  void set_happiness(bool happy) { happiness_ = happy; }
+
   Entity* returnEmployer() { return employer_; }
 
   virtual void update(float time_s);
-  void updateHappiness(float time_s);
   void updateFarmerFindingFarm(float time_s);
 
  private:

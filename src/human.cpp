@@ -30,23 +30,6 @@ void Human::render(sf::RenderWindow& window) {
   window.draw(sprite);
 }
 
-void Human::updateHappiness(float time_s) {
-  World& world = gGame->returnWorld();
-  int unhappyHuman = world.returnNumberUnhappyHuman();
-  int unhappyHouse = world.returnNumberUnhappyHouse();
-  if (unhappyHuman < unhappyHouse * kHumansPerHouse && happiness_ == 1) {
-    happiness_ = 0;
-    world.addNumberUnhappyHuman(1);
-    world.addNumberHappyHuman(-1);
-  } else if (unhappyHuman > unhappyHouse * kHumansPerHouse && happiness_ == 0) {
-    happiness_ = 1;
-    world.addNumberUnhappyHuman(-1);
-    world.addNumberHappyHuman(1);
-  } else if (unhappyHuman * kHumansPerHouse == unhappyHouse) {
-    // std::cout << "balanced humans" << std::endl;
-  }
-}
-
 void Human::updateFarmerFindingFarm(float time_s) {
   if (target_entity_) {
     sf::Vector2f directionVector;
@@ -101,7 +84,6 @@ void Human::updateFarmerFindingFarm(float time_s) {
 }
 
 void Human::update(float time_s) {
-  updateHappiness(time_s);
   if (job_ == FARMER) {
     updateFarmerFindingFarm(time_s);
   }

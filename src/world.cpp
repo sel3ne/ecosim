@@ -51,15 +51,19 @@ void World::addNumberUnhappyHouse(int i) {
 }
 int World::returnNumberUnhappyHouse() { return number_unhappy_house_; }
 
-void World::addNumberHappyHuman(int i) {
-  number_happy_human_ = number_happy_human_ + i;
+// void World::addNumberHappyHuman(int i) {
+//   number_happy_human_ = number_happy_human_ + i;
+// }
+int World::returnNumberHappyHuman() {
+  return happy_employed_humans_.size() + happy_unemployed_humans_.size();
 }
-int World::returnNumberHappyHuman() { return number_happy_human_; }
 
-void World::addNumberUnhappyHuman(int i) {
-  number_unhappy_human_ = number_unhappy_human_ + i;
+// void World::addNumberUnhappyHuman(int i) {
+//   number_unhappy_human_ = number_unhappy_human_ + i;
+// }
+int World::returnNumberUnhappyHuman() {
+  return unhappy_employed_humans_.size() + unhappy_unemployed_humans_.size();
 }
-int World::returnNumberUnhappyHuman() { return number_unhappy_human_; }
 
 void World::addNumberFarmhouse(int i) {
   number_farmhouse_ = number_farmhouse_ + i;
@@ -117,3 +121,31 @@ template Farmhouse* World::buildConstructible<Farmhouse>(
 template Farm* World::buildConstructible<Farm>(int x_grid, int y_grid,
                                                int w_grid, int h_grid,
                                                Entity::EntityType entity_type);
+
+void World::addHappyUnemployedHumans(Human* new_human) {
+  happy_unemployed_humans_.push_back(new_human);
+}
+std::list<Human*>& World::returnHappyUnemployedHumans() {
+  return happy_unemployed_humans_;
+}
+
+void World::addUnhappyUnemployedHumans(Human* new_human) {
+  unhappy_unemployed_humans_.push_back(new_human);
+}
+std::list<Human*>& World::returnUnhappyUnemployedHumans() {
+  return unhappy_unemployed_humans_;
+}
+
+void World::addHappyEmployedHumans(Human* new_human) {
+  happy_employed_humans_.push_back(new_human);
+}
+std::list<Human*>& World::returnHappyEmployedHumans() {
+  return happy_employed_humans_;
+}
+
+void World::addUnhappyEmployedHumans(Human* new_human) {
+  unhappy_employed_humans_.push_back(new_human);
+}
+std::list<Human*>& World::returnUnhappyEmployedHumans() {
+  return unhappy_employed_humans_;
+}
