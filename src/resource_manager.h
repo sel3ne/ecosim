@@ -16,6 +16,7 @@ enum TextureId {
   TEXTURE_FARMHOUSE,
   TEXTURE_FARM,
   TEXTURE_ONE,
+  TEXTURE_STONE_BAR,
 };
 
 enum FontId {

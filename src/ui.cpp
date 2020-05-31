@@ -2,6 +2,7 @@
 
 #include <sstream>
 
+#include "game.h"
 #include "grid.h"
 #include "resource_manager.h"
 
@@ -35,9 +36,32 @@ void UI::renderDebugView(sf::RenderWindow& window) {
   window.draw(mouse_pos_text);
 }
 
+void UI::renderTopBar(sf::RenderWindow& window) {
+  sf::RectangleShape background;
+  background.setPosition(0, 0);
+  background.setSize(
+      sf::Vector2f(static_cast<float>(window.getSize().x), 20.f));
+  background.setTexture(gResourceManager->getTexture(TEXTURE_STONE_BAR));
+  background.setOutlineThickness(2.f);
+  background.setOutlineColor(sf::Color(0, 0, 0));
+  window.draw(background);
+
+  std::ostringstream oss;
+  oss << static_cast<int>(gGame->totalTimePlayed());
+  sf::Text time_played_text(oss.str(), *gResourceManager->getFont(FONT_COURIER),
+                            15);
+  time_played_text.setPosition(
+      window.getSize().x - time_played_text.getLocalBounds().width - 20, 0);
+  time_played_text.setStyle(sf::Text::Bold);
+  time_played_text.setFillColor({0, 0, 0});
+  window.draw(time_played_text);
+}
+
 void UI::render(sf::RenderWindow& window) {
   sf::View saved_view = window.getView();
   window.setView(window.getDefaultView());
+
+  renderTopBar(window);
 
   renderDebugView(window);
 
