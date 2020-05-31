@@ -89,7 +89,6 @@ class Human : public Entity {
 
   virtual void render(sf::RenderWindow& window);
 
-  virtual void update(float time_s);
   virtual float worldX();
   virtual float worldY();
   virtual float worldW();
@@ -108,6 +107,10 @@ class Human : public Entity {
   void setEmployer(Entity* employer) { employer_ = employer; };
 
   Entity* returnEmployer() { return employer_; }
+
+  virtual void update(float time_s);
+  void updateHappiness(float time_s);
+  void updateFarmerFindingFarm(float time_s);
 
  private:
   float x_world_;
