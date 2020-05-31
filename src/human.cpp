@@ -79,12 +79,12 @@ void Human::update(float time_s) {
         farm->set_assigned(false);
         target_entity_ = nullptr;
       }
-
-      if (this->returnResourceAmount(FOOD) != 0 && !target_entity_) {
+    } else {
+      if (this->returnResourceAmount(FOOD) != 0) {
         // human is at farm, new target will be his farmhouse aka employer
         target_entity_ = returnEmployer();
         // farm_farmhouse_toggle = !farm_farmhouse_toggle;
-      } else if (this->returnResourceAmount(FOOD) == 0 && !target_entity_) {
+      } else if (this->returnResourceAmount(FOOD) == 0) {
         // human is at farmhouse, new target will be closest full farm
         Farmhouse* employer_farmhouse = dynamic_cast<Farmhouse*>(employer_);
         Farm* next_farm = employer_farmhouse->closestFullFarm();
@@ -92,6 +92,7 @@ void Human::update(float time_s) {
         // set this farm as assigned, so no one else will go there
         if (next_farm) {
           target_entity_ = next_farm;
+
           next_farm->set_assigned(true);
         }
       }
