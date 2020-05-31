@@ -80,45 +80,11 @@ EntityClass* Game::buildConstructibleAtMouse(int w_grid, int h_grid,
                                              Entity::EntityType entity_type) {
   // get mouse coordinates
   sf::Vector2i position = sf::Mouse::getPosition(*window_);
-  sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
-  sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
-  EntityClass* entity_type_ptr = nullptr;
+  sf::Vector2f world_pos = window_->mapPixelToCoords(position);
+  sf::Vector2i grid_pos = worldCoordinateToGrid(world_pos);
 
-  // check if the tile is already occupied
-
-  bool allTileOccupied = false;
-  ChunkManager& chunkManager = world_->returnChunkManager();
-  for (int x = 0; x < w_grid; x++) {
-    for (int y = 0; y < h_grid; y++) {
-      int xGridCoord = gridPosEntity.x + x;
-      int yGridCoord = gridPosEntity.y + y;
-
-      Tile& tile = chunkManager.getTile(xGridCoord, yGridCoord);
-      bool oneTileOccupied = tile.returnOccupied();
-      allTileOccupied = allTileOccupied || oneTileOccupied;
-    }
-  }
-
-  if (allTileOccupied == false) {
-    // build the constructible
-    std::unique_ptr<Entity> constructible = std::make_unique<EntityClass>(
-        gridPosEntity.x, gridPosEntity.y, w_grid, h_grid, entity_type);
-    entity_type_ptr = dynamic_cast<EntityClass*>(constructible.get());
-
-    world_->addEntityToEntities(std::move(constructible));
-
-    // occupie tiles under construbctible
-    for (int x = 0; x < w_grid; x++) {
-      for (int y = 0; y < h_grid; y++) {
-        int xGridCoord = gridPosEntity.x + x;
-        int yGridCoord = gridPosEntity.y + y;
-
-        Tile& tile = chunkManager.getTile(xGridCoord, yGridCoord);
-        tile.setOccupied(true);
-      }
-    }
-  }
-  return entity_type_ptr;
+  return world_->buildConstructible<EntityClass>(grid_pos.x, grid_pos.y, w_grid,
+                                                 h_grid, entity_type);
 }
 
 void Game::handleKeyPress(const sf::Event::KeyEvent& key_event) {

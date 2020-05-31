@@ -39,6 +39,10 @@ class World {
 
   ChunkManager& returnChunkManager() { return chunk_manager_; }
 
+  template <typename EntityClass>
+  EntityClass* buildConstructible(int x_grid, int y_grid, int w_grid,
+                                  int h_grid, Entity::EntityType entity_type);
+
  private:
   ChunkManager chunk_manager_;
   std::vector<std::unique_ptr<Entity>> entities_;
