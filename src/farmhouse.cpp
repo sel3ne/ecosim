@@ -44,8 +44,6 @@ Farm* Farmhouse::closestFullFarm() {
 }
 
 void Farm::update(float time_s) {
-  std::cout << "Food in Farm: " << returnResourceAmount(Building::FOOD)
-            << std::endl;
   if (returnResourceAmount(Building::FOOD) != kMaxFoodPerFarm) {
     float delta_amount = kFoodProductionFarm * time_s;
     adaptResource(Building::FOOD, delta_amount);
