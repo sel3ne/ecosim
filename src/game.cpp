@@ -73,25 +73,35 @@ void Game::moveView(float dx, float dy) {
   window_->setView(view);
 }
 
+template <typename EntityClass>
+EntityClass* Game::buildConstructibleAtMouse(int w_grid, int h_grid,
+                                             Entity::EntityType entity_type) {
+  sf::Vector2i position = sf::Mouse::getPosition(*window_);
+  sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
+  sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
+  std::unique_ptr<Entity> constructible = std::make_unique<EntityClass>(
+      gridPosEntity.x, gridPosEntity.y, w_grid, h_grid, entity_type);
+  EntityClass* entity_type_ptr =
+      dynamic_cast<EntityClass*>(constructible.get());
+
+  world_->addEntityToEntities(std::move(constructible));
+  return entity_type_ptr;
+}
+
 void Game::handleKeyPress(const sf::Event::KeyEvent& key_event) {
   switch (key_event.code) {
     case sf::Keyboard::O: {
       // House event
-      sf::Vector2i position = sf::Mouse::getPosition(*window_);
-      sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
-      sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
-      std::unique_ptr<Entity> building = std::make_unique<Building>(
-          gridPosEntity.x, gridPosEntity.y, 3, 3, Entity::HOUSE);
+      Building* house =
+          buildConstructibleAtMouse<Building>(3, 3, Entity::HOUSE);
       world_->addNumberHappyHouse(1);
 
-      world_->addEntityToEntities(std::move(building));
       // add the 10 humans per house
-
       for (int i = 0; i < kHumansPerHouse; i++) {
         world_->addNumberHappyHuman(1);
-        int x_coord = worldPosEntity.x +
+        int x_coord = house->worldX() +
                       RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
-        int y_coord = worldPosEntity.y +
+        int y_coord = house->worldY() +
                       RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
         std::unique_ptr<Entity> human =
             std::make_unique<Human>(x_coord, y_coord, 8, 8, Entity::HUMAN);
@@ -101,33 +111,21 @@ void Game::handleKeyPress(const sf::Event::KeyEvent& key_event) {
     }
     case sf::Keyboard::P: {
       // Lighthouse event
-      sf::Vector2i position = sf::Mouse::getPosition(*window_);
-      // std::cout << position.x << std::endl << posit<<ion.y << std::endl;
-      // sf::Vector2f worldPos = window_->mapPixelToCoords(position);
-      // sf::Vector2i gridPos = worldCoordinateToGrid(worldPos);
-      sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
-      sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
-      std::unique_ptr<Entity> building = std::make_unique<Building>(
-          gridPosEntity.x, gridPosEntity.y, 2, 4, Entity::LIGHTHOUSE);
+      buildConstructibleAtMouse<Building>(2, 4, Entity::LIGHTHOUSE);
       world_->addNumberLighthouse(1);
-      world_->addEntityToEntities(std::move(building));
+
       break;
     }
     case sf::Keyboard::I: {
       // Farmhouse event
-      sf::Vector2i position = sf::Mouse::getPosition(*window_);
-      sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
-      sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
-      std::unique_ptr<Entity> farmhouse = std::make_unique<Farmhouse>(
-          gridPosEntity.x, gridPosEntity.y, 3, 3, Entity::FARMHOUSE);
+      Farmhouse* farmhouse_ptr =
+          buildConstructibleAtMouse<Farmhouse>(3, 3, Entity::FARMHOUSE);
       world_->addNumberFarmhouse(1);
-      Farmhouse* farmhouse_ptr = dynamic_cast<Farmhouse*>(farmhouse.get());
-      world_->addEntityToEntities(std::move(farmhouse));
 
       // add farmer-dude
-      int x_coord = worldPosEntity.x +
+      int x_coord = farmhouse_ptr->worldX() +
                     RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
-      int y_coord = worldPosEntity.y +
+      int y_coord = farmhouse_ptr->worldY() +
                     RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
       std::unique_ptr<Entity> human =
           std::make_unique<Human>(x_coord, y_coord, 8, 8, Entity::HUMAN,
@@ -140,12 +138,7 @@ void Game::handleKeyPress(const sf::Event::KeyEvent& key_event) {
     }
     case sf::Keyboard::F: {
       // Farm event
-      sf::Vector2i position = sf::Mouse::getPosition(*window_);
-      sf::Vector2f worldPosEntity = window_->mapPixelToCoords(position);
-      sf::Vector2i gridPosEntity = worldCoordinateToGrid(worldPosEntity);
-      std::unique_ptr<Entity> farm = std::make_unique<Farm>(
-          gridPosEntity.x, gridPosEntity.y, 4, 4, Entity::FARM);
-      world_->addEntityToEntities(std::move(farm));
+      buildConstructibleAtMouse<Farm>(4, 4, Entity::FARM);
       break;
     }
     case sf::Keyboard::F5: {

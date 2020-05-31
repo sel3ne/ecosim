@@ -20,6 +20,10 @@ class Game {
 
   void moveView(float dx, float dy);
 
+  template <typename EntityClass>
+  EntityClass* buildConstructibleAtMouse(int w_grid, int h_grid,
+                                         Entity::EntityType entity_type);
+
  private:
   void handleKeyPress(const sf::Event::KeyEvent& key_event);
 
