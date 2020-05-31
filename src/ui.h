@@ -14,6 +14,7 @@ class UI {
  private:
   void renderDebugView(sf::RenderWindow& window);
   void renderTopBar(sf::RenderWindow& window);
+  void renderTooltip(sf::RenderWindow& window);
 
   bool debug_view_enabled_;
 };
