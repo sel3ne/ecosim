@@ -8,9 +8,9 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -rdynamic -lSegFault")
 
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
-add_executable(
-  ecosim
-  src/building.h
+set(
+	SRCS
+	src/building.h
   src/building.cpp
   src/chunk.cpp
   src/chunk.h
@@ -28,7 +28,6 @@ add_executable(
   src/grid.h
   src/human.cpp
   src/human.h
-  src/main.cpp
   src/map_generator.cpp
   src/map_generator.h
   src/resource_manager.cpp
@@ -41,4 +40,16 @@ add_executable(
   src/world.cpp
   src/world.h)
 
+add_executable(ecosim ${SRCS} src/main.cpp)
 target_link_libraries(ecosim sfml-graphics sfml-audio)
+
+# Testing with googletest
+
+enable_testing()
+include(GoogleTest)
+add_executable(
+	ecosim_tests
+	${SRCS}
+	src/game_test.cpp)
+target_link_libraries(ecosim_tests gtest gtest_main sfml-graphics sfml-audio)
+gtest_discover_tests(ecosim_tests WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})

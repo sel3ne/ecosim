@@ -1,6 +1,11 @@
 #ifndef ECOSIM_SETTINGS_H
 #define ECOSIM_SETTINGS_H
 
+#include <SFML/System/Vector2.hpp>
+
+const sf::Vector2f kMinViewSize = {160, 90};
+const sf::Vector2f kMaxViewSize = {1600, 900};
+
 const float kFoodDecay = 1000. / 60.;
 const int kHumansPerHouse = 10;
 // const int kFarmPerFarmhouse = 5;

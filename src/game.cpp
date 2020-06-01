@@ -12,6 +12,17 @@
 
 Game* gGame = nullptr;
 
+float limitZoomFactor(const sf::View& view, const sf::Vector2f& min_size,
+                      const sf::Vector2f& max_size, float zoom) {
+  float min_zoom_horizontal = min_size.x / view.getSize().x;
+  float min_zoom_vertical = min_size.y / view.getSize().y;
+  float min_zoom = std::max(min_zoom_horizontal, min_zoom_vertical);
+  float max_zoom_horizontal = max_size.x / view.getSize().x;
+  float max_zoom_vertical = max_size.y / view.getSize().y;
+  float max_zoom = std::min(max_zoom_horizontal, max_zoom_vertical);
+  return std::clamp(zoom, min_zoom, max_zoom);
+}
+
 Game::Game(std::unique_ptr<sf::RenderWindow> window)
     : window_(std::move(window)) {
   world_ = std::make_unique<World>();
@@ -51,13 +62,14 @@ void Game::update(float time_s) {
 }
 
 void zoomViewAt(sf::Vector2i pixel, sf::RenderWindow& window, float zoom) {
-  const sf::Vector2f beforeCoord{window.mapPixelToCoords(pixel)};
-  sf::View view{window.getView()};
+  sf::View view = window.getView();
+  zoom = limitZoomFactor(view, kMinViewSize, kMaxViewSize, zoom);
+  const sf::Vector2f before_coord{window.mapPixelToCoords(pixel)};
   view.zoom(zoom);
   window.setView(view);
-  const sf::Vector2f afterCoord{window.mapPixelToCoords(pixel)};
-  const sf::Vector2f offsetCoords{beforeCoord - afterCoord};
-  view.move(offsetCoords);
+  const sf::Vector2f after_coord{window.mapPixelToCoords(pixel)};
+  const sf::Vector2f offset_coords = before_coord - after_coord;
+  view.move(offset_coords);
   window.setView(view);
 }
 

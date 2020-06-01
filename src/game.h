@@ -8,6 +8,12 @@
 #include "ui.h"
 #include "world.h"
 
+// For a given factor the player is trying to zoom in/out, returns the nearest
+// legal value that we can actually zoom. I.e. the value gets clamped in case
+// we are zooming in or out too far.
+float limitZoomFactor(const sf::View& view, const sf::Vector2f& min_size,
+                      const sf::Vector2f& max_size, float zoom);
+
 class Game {
  public:
   Game() = delete;
