@@ -115,10 +115,10 @@ void Game::handleKeyPress(const sf::Event::KeyEvent& key_event) {
       // add the 10 humans per house
       for (int i = 0; i < kHumansPerHouse; i++) {
         // world_->addNumberHappyHuman(1);
-        int x_coord = house->worldX() +
-                      RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
-        int y_coord = house->worldY() +
-                      RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
+        float x_coord = house->worldX() +
+                        RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
+        float y_coord = house->worldY() +
+                        RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
         std::unique_ptr<Entity> human =
             std::make_unique<Human>(x_coord, y_coord, 8, 8, Entity::HUMAN);
         Human* human_ptr = dynamic_cast<Human*>(human.get());
@@ -148,10 +148,10 @@ void Game::handleKeyPress(const sf::Event::KeyEvent& key_event) {
       world_->addNumberFarmhouse(1);
 
       // add farmer-dude
-      int x_coord = farmhouse_ptr->worldX() +
-                    RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
-      int y_coord = farmhouse_ptr->worldY() +
-                    RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
+      float x_coord = farmhouse_ptr->worldX() +
+                      RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
+      float y_coord = farmhouse_ptr->worldY() +
+                      RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
       std::unique_ptr<Entity> human =
           std::make_unique<Human>(x_coord, y_coord, 8, 8, Entity::HUMAN,
                                   farmhouse_ptr, 118, Human::FARMER);
