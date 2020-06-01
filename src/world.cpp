@@ -15,25 +15,41 @@ World::World()
 
 void World::render(sf::RenderWindow& window) {
   chunk_manager_.renderTiles(window);
-  for (std::unique_ptr<Entity>& n : entities_) {
+  for (std::unique_ptr<Constructible>& n : constructibles_) {
+    n->render(window);
+  }
+  for (std::unique_ptr<Human>& n : humans_) {
     n->render(window);
   }
 }
 
 void World::doForAllEntities(std::function<void(Entity&)> func) {
-  for (std::unique_ptr<Entity>& n : entities_) {
+  for (std::unique_ptr<Human>& n : humans_) {
+    func(*n);
+  }
+  for (std::unique_ptr<Constructible>& n : constructibles_) {
     func(*n);
   }
 }
 
 void World::update(float time_s) {
-  for (std::unique_ptr<Entity>& n : entities_) {
+  for (std::unique_ptr<Human>& n : humans_) {
+    n->update(time_s);
+  }
+  for (std::unique_ptr<Constructible>& n : constructibles_) {
     n->update(time_s);
   }
 }
 
 void World::addEntityToEntities(std::unique_ptr<Entity> entity) {
-  entities_.push_back(std::move(entity));
+  if (entity->typeOfEntity() == Entity::HUMAN) {
+    Human* human = dynamic_cast<Human*>(entity.release());
+    humans_.emplace_back(human);
+  } else {
+    Constructible* constructible =
+        dynamic_cast<Constructible*>(entity.release());
+    constructibles_.emplace_back(constructible);
+  }
 }
 
 void World::addNumberLighthouse(int i) {

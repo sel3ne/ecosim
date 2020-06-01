@@ -57,7 +57,9 @@ class World {
 
  private:
   ChunkManager chunk_manager_;
-  std::vector<std::unique_ptr<Entity>> entities_;
+  std::vector<std::unique_ptr<Human>> humans_;
+  std::vector<std::unique_ptr<Constructible>> constructibles_;
+
   int number_happy_house_;
   int number_unhappy_house_;
   int number_happy_human_;
