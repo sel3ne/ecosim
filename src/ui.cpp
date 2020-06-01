@@ -14,24 +14,26 @@
  */
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const sf::Vector2<T>& vec) {
-  out << "(" << vec.x << "," << vec.y << ")";
+  out << vec.x << "," << vec.y;
   return out;
 }
 
-void UI::renderDebugView(sf::RenderWindow& window) {
+void UI::renderDebugView(sf::RenderWindow& window, const sf::View& world_view) {
   if (!debug_view_enabled_) {
     return;
   }
   sf::Vector2i mouse_pos_screen = sf::Mouse::getPosition(window);
-  sf::Vector2f mouse_pos_world = window.mapPixelToCoords(mouse_pos_screen);
+  sf::Vector2f mouse_pos_world =
+      window.mapPixelToCoords(mouse_pos_screen, world_view);
   sf::Vector2i mouse_pos_grid = worldCoordinateToGrid(mouse_pos_world);
 
   std::ostringstream oss;
-  oss << "Mouse pos: " << mouse_pos_screen << " / " << mouse_pos_world << " / "
-      << mouse_pos_grid;
+  oss << "Mouse pos: " << mouse_pos_screen << " (Window) / " << mouse_pos_world
+      << " (World) / " << mouse_pos_grid << " (Grid)\n";
+  oss << "View Size: " << world_view.getSize();
   sf::Text mouse_pos_text(oss.str(), *gResourceManager->getFont(FONT_COURIER),
                           20);
-  mouse_pos_text.setPosition(0, 0);
+  mouse_pos_text.setPosition(0, kTopBarHeight);
   mouse_pos_text.setStyle(sf::Text::Bold);
 
   window.draw(mouse_pos_text);
@@ -40,6 +42,7 @@ void UI::renderDebugView(sf::RenderWindow& window) {
 void UI::renderFoodStatus(sf::RenderWindow& window) {
   int base_x = window.getSize().x - kFoodStatusX;
 
+  // Icon.
   sf::Sprite grain_icon;
   sf::Texture* texture = gResourceManager->getTexture(TEXTURE_GRAIN);
   grain_icon.setTexture(*texture);
@@ -48,6 +51,7 @@ void UI::renderFoodStatus(sf::RenderWindow& window) {
   grain_icon.setScale(icon_scale, icon_scale);
   window.draw(grain_icon);
 
+  // Numbers
   int num_happy = gGame->returnWorld().returnNumberHappyHuman();
   int num_total = num_happy + gGame->returnWorld().returnNumberUnhappyHuman();
   std::ostringstream food_oss;
@@ -99,7 +103,7 @@ void UI::render(sf::RenderWindow& window) {
 
   renderTopBar(window);
 
-  renderDebugView(window);
+  renderDebugView(window, saved_view);
 
   window.setView(saved_view);
 }

@@ -12,7 +12,7 @@ class UI {
   void toggleDebugView() { debug_view_enabled_ = !debug_view_enabled_; }
 
  private:
-  void renderDebugView(sf::RenderWindow& window);
+  void renderDebugView(sf::RenderWindow& window, const sf::View& world_view);
   void renderTopBar(sf::RenderWindow& window);
   void renderTooltip(sf::RenderWindow& window);
   void renderFoodStatus(sf::RenderWindow& window);
