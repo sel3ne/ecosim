@@ -9,36 +9,47 @@ Building::Building(int x_grid, int y_grid, int w_grid, int h_grid,
                    Entity::EntityType entity_type)
     : Constructible(x_grid, y_grid, w_grid, h_grid, entity_type) {
   for (int i = 0; i < _N_RESOURCES; i++) {
-    resource_amounts_[static_cast<ResourceId>(i)] = 0.0f;
+    // resources_available_[static_cast<ResourceId>(i)] = 0.0f;
   }
   if (entity_type == HOUSE) {
-    addToResourceAmount(RESOURCE_FOOD, 100);
+    setAvailableResourceAmount(RESOURCE_FOOD, 100);
   }
 }
 
-float Building::returnResourceAmount(ResourceId res) {
-  return resource_amounts_.at(res);
+float Building::returnAvailableResourceAmount(ResourceId res) {
+  return resources_available_[res];
 }
 
-void Building::addToResourceAmount(ResourceId res, float delta_amount) {
-  float old_amount = Building::returnResourceAmount(res);
-  float new_amount = old_amount + delta_amount;
-  resource_amounts_[res] = new_amount;
+void Building::addToAvailableResourceAmount(ResourceId res,
+                                            float delta_amount) {
+  resources_available_[res] += delta_amount;
 }
 
-void Building::setResourceAmount(ResourceId res, float set_amount) {
-  resource_amounts_[res] = set_amount;
+void Building::setAvailableResourceAmount(ResourceId res, float set_amount) {
+  resources_available_[res] = set_amount;
+}
+
+const std::set<Building*>& Building::getDeliveryTargets(ResourceId resource) {
+  return delivering_to_[resource];
+}
+
+void Building::addDeliveryTarget(ResourceId resource, Building* target) {
+  delivering_to_[resource].insert(target);
+}
+
+void Building::removeDeliveryTarget(ResourceId resource, Building* target) {
+  delivering_to_[resource].erase(target);
 }
 
 void Building::update(float time_s) {
-  if (typeOfEntity() == HOUSE && resource_amounts_[RESOURCE_FOOD] != 0) {
+  if (typeOfEntity() == HOUSE && resources_available_[RESOURCE_FOOD] != 0) {
     float delta_amount = kFoodDecay * time_s;
-    addToResourceAmount(RESOURCE_FOOD, -delta_amount);
+    addToAvailableResourceAmount(RESOURCE_FOOD, -delta_amount);
 
-    if (returnResourceAmount(RESOURCE_FOOD) <= 0) {
+    if (returnAvailableResourceAmount(RESOURCE_FOOD) <= 0) {
       // Updates number of happy and unhappy houses depeding on the food inside
       // of them
-      resource_amounts_[RESOURCE_FOOD] = 0;
+      setAvailableResourceAmount(RESOURCE_FOOD, 0.);
       std::cout << "no more food :(" << std::endl;
       World& world = gGame->returnWorld();
       world.addNumberHappyHouse(-1);

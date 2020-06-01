@@ -4,9 +4,12 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <memory>
+#include <set>
 
 #include "constructible.h"
 #include "resources.h"
+
+class Delivery;
 
 class Building : public Constructible {
  public:
@@ -14,14 +17,36 @@ class Building : public Constructible {
   Building(int x_grid, int y_grid, int w_grid, int h_grid,
            Entity::EntityType entity_type);
 
-  float returnResourceAmount(ResourceId res);
-  void addToResourceAmount(ResourceId res, float delta_amount);
-  void setResourceAmount(ResourceId res, float set_amount);
+  float returnAvailableResourceAmount(ResourceId res);
+  void addToAvailableResourceAmount(ResourceId res, float delta_amount);
+  void setAvailableResourceAmount(ResourceId res, float set_amount);
+
+  const std::set<Building*>& getDeliveryTargets(ResourceId resource);
+  void addDeliveryTarget(ResourceId resource, Building* target);
+  void removeDeliveryTarget(ResourceId resource, Building* target);
 
   virtual void update(float time_s);
 
  private:
-  std::map<ResourceId, float> resource_amounts_;
+  // How many resources are stored and can be used.
+  std::map<ResourceId, float> resources_available_;
+  // How many resources are stored, but are reserved for pickup.
+  std::map<ResourceId, int> resources_reserved_;
+  // How many resources are on their way here.
+  std::map<ResourceId, int> resources_incoming_;
+  // How many resources this building would like to have in total.
+  std::map<ResourceId, int> resources_required_;
+
+  // Which buildings we are distributing our outputs to.
+  std::map<ResourceId, std::set<Building*>> delivering_to_;
+  // Which buildings we receive resources from.
+  std::map<ResourceId, std::set<Building*>> receiving_from_;
+
+  // Deliveries currently on their way here.
+  std::vector<Delivery*> incoming_deliveries_;
+  // Deliveries that will either pick something up from here or that have
+  // already done so, but have not reached the target.
+  std::vector<Delivery*> outgoing_deliveries_;
 };
 
 #endif  // define ECOSIM_BUILDING_H

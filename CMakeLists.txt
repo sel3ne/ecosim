@@ -18,6 +18,8 @@ set(
   src/chunk_manager.h
   src/constructible.cpp
   src/constructible.h
+  src/delivery.cpp
+  src/delivery.h
   src/entity.cpp
   src/entity.h
   src/farmhouse.cpp

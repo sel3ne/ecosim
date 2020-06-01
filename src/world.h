@@ -5,6 +5,7 @@
 #include <list>
 
 #include "chunk_manager.h"
+#include "delivery.h"
 #include "entity.h"
 #include "human.h"
 
@@ -61,6 +62,7 @@ class World {
   ChunkManager chunk_manager_;
   std::vector<std::unique_ptr<Human>> humans_;
   std::vector<std::unique_ptr<Constructible>> constructibles_;
+  std::list<std::unique_ptr<Delivery>> deliveries_;
 
   int number_happy_house_;
   int number_unhappy_house_;

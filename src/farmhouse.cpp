@@ -16,7 +16,8 @@ Farm* Farmhouse::closestFullFarm() {
       // check if farm is already assigned
       if (!farm->is_assigned()) {
         // check if farm is full
-        if (farm->returnResourceAmount(RESOURCE_FOOD) >= kMaxFoodPerFarm) {
+        if (farm->returnAvailableResourceAmount(RESOURCE_FOOD) >=
+            kMaxFoodPerFarm) {
           if (!nearest_full_farm) {
             // if it is the first farm, return it
             nearest_full_farm = farm;
@@ -44,12 +45,12 @@ Farm* Farmhouse::closestFullFarm() {
 }
 
 void Farm::update(float time_s) {
-  if (returnResourceAmount(RESOURCE_FOOD) != kMaxFoodPerFarm) {
+  if (returnAvailableResourceAmount(RESOURCE_FOOD) != kMaxFoodPerFarm) {
     float delta_amount = kFoodProductionFarm * time_s;
-    addToResourceAmount(RESOURCE_FOOD, delta_amount);
+    addToAvailableResourceAmount(RESOURCE_FOOD, delta_amount);
 
-    if (returnResourceAmount(RESOURCE_FOOD) > kMaxFoodPerFarm) {
-      setResourceAmount(RESOURCE_FOOD, kMaxFoodPerFarm);
+    if (returnAvailableResourceAmount(RESOURCE_FOOD) > kMaxFoodPerFarm) {
+      setAvailableResourceAmount(RESOURCE_FOOD, kMaxFoodPerFarm);
     }
   }
 }
@@ -65,7 +66,7 @@ void Farm::render(sf::RenderWindow& window) {
   sprite.setScale(worldW() / texSize.x, worldH() / texSize.y);
   window.draw(sprite);
 
-  if (returnResourceAmount(RESOURCE_FOOD) == kMaxFoodPerFarm) {
+  if (returnAvailableResourceAmount(RESOURCE_FOOD) == kMaxFoodPerFarm) {
     TextureId texID1 = TEXTURE_ONE;
     sf::Texture* texture1 = gResourceManager->getTexture(texID1);
     sf::Vector2u texSize1 = texture->getSize();

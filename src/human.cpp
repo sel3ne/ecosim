@@ -54,16 +54,16 @@ void Human::updateFarmerFindingFarm(float time_s) {
     if (vectorSize < 0.6 &&
         target_entity_->typeOfEntity() == Entity::FARMHOUSE) {
       Farmhouse* farmhouse = dynamic_cast<Farmhouse*>(target_entity_);
-      farmhouse->setResourceAmount(RESOURCE_FOOD,
-                                   returnResourceAmount(RESOURCE_FOOD));
+      farmhouse->setAvailableResourceAmount(
+          RESOURCE_FOOD, returnResourceAmount(RESOURCE_FOOD));
       setResourceAmount(RESOURCE_FOOD, 0);
       target_entity_ = nullptr;
     } else if (vectorSize < 0.6 &&
                target_entity_->typeOfEntity() == Entity::FARM) {
       Farm* farm = dynamic_cast<Farm*>(target_entity_);
       setResourceAmount(RESOURCE_FOOD,
-                        farm->returnResourceAmount(RESOURCE_FOOD));
-      farm->setResourceAmount(RESOURCE_FOOD, 0.0f);
+                        farm->returnAvailableResourceAmount(RESOURCE_FOOD));
+      farm->setAvailableResourceAmount(RESOURCE_FOOD, 0.0f);
       farm->set_assigned(false);
       target_entity_ = nullptr;
     }
