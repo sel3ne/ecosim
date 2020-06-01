@@ -18,6 +18,10 @@ float Human::worldW() { return w_world_; }
 
 float Human::worldH() { return h_world_; }
 
+sf::Rect<float> Human::worldRect() {
+  return sf::Rect(x_world_, y_world_, w_world_, h_world_);
+}
+
 void Human::render(sf::RenderWindow& window) {
   TextureId texID = happiness_ ? TEXTURE_HUMAN_HAPPY : TEXTURE_HUMAN_UNHAPPY;
 

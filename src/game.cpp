@@ -194,6 +194,11 @@ void Game::runMainLoop() {
         else if (event.mouseWheelScroll.delta < 0)
           zoomViewAt({event.mouseWheelScroll.x, event.mouseWheelScroll.y},
                      *window_, zoomAmount);
+      } else if (event.type == sf::Event::MouseButtonPressed &&
+                 event.mouseButton.button == sf::Mouse::Left) {
+        sf::Vector2i position = sf::Mouse::getPosition(*window_);
+
+        ui_.handleClickEvent(position, *window_);
       }
       if (event.type == sf::Event::Closed) {
         window_->close();

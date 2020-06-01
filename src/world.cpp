@@ -32,6 +32,18 @@ void World::doForAllEntities(std::function<void(Entity&)> func) {
   }
 }
 
+void World::doForAllHumans(std::function<void(Human&)> func) {
+  for (std::unique_ptr<Human>& n : humans_) {
+    func(*n);
+  }
+}
+
+void World::doForAllConstructibles(std::function<void(Constructible&)> func) {
+  for (std::unique_ptr<Constructible>& n : constructibles_) {
+    func(*n);
+  }
+}
+
 void World::update(float time_s) {
   for (std::unique_ptr<Human>& n : humans_) {
     n->update(time_s);

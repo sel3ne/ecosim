@@ -23,6 +23,7 @@ class Constructible : public Entity {
   virtual float worldY();
   virtual float worldW();
   virtual float worldH();
+  virtual sf::Rect<float> worldRect();
 
   int gridX() { return x_grid_; }
   int gridY() { return y_grid_; }

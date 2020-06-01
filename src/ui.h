@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "entity.h"
+
 class UI {
  public:
   UI() : debug_view_enabled_(false) {}
@@ -11,6 +13,9 @@ class UI {
 
   void toggleDebugView() { debug_view_enabled_ = !debug_view_enabled_; }
 
+  void handleClickEvent(sf::Vector2i window_mouse_position,
+                        sf::RenderWindow& window);
+
  private:
   void renderDebugView(sf::RenderWindow& window, const sf::View& world_view);
   void renderTopBar(sf::RenderWindow& window);
@@ -18,6 +23,8 @@ class UI {
   void renderFoodStatus(sf::RenderWindow& window);
 
   bool debug_view_enabled_;
+
+  Entity* clicked_entity_;
 };
 
 #endif

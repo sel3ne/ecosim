@@ -107,3 +107,41 @@ void UI::render(sf::RenderWindow& window) {
 
   window.setView(saved_view);
 }
+
+void UI::handleClickEvent(sf::Vector2i window_mouse_position,
+                          sf::RenderWindow& window) {
+  World& world = gGame->returnWorld();
+  sf::Vector2f world_pos = window.mapPixelToCoords(window_mouse_position);
+  Human* clicked_human = nullptr;
+  std::function<void(Human&)> find_clicked_human =
+      [world_pos, &clicked_human](Human& hum) {
+        if (!clicked_human) {
+          sf::Rect<float> rect_human = hum.worldRect();
+          if (rect_human.contains(world_pos)) {
+            clicked_human = &hum;
+          }
+        }
+      };
+  world.doForAllHumans(find_clicked_human);
+  if (clicked_human) {
+    clicked_entity_ = clicked_human;
+    return;
+  }
+
+  if (!clicked_human) {
+    sf::Vector2i grid_pos = worldCoordinateToGrid(world_pos);
+    Constructible* clicked_constructible = nullptr;
+    std::function<void(Constructible&)> find_clicked_constructible =
+        [grid_pos, &clicked_constructible](Constructible& construct) {
+          if (!clicked_constructible) {
+            sf::Rect<float> rect_constructible = construct.worldRect();
+            if (rect_constructible.contains((float)grid_pos.x,
+                                            (float)grid_pos.y)) {
+              clicked_constructible = &construct;
+            }
+          }
+        };
+    world.doForAllConstructibles(find_clicked_constructible);
+    clicked_entity_ = clicked_constructible;
+  }
+}

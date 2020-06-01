@@ -93,6 +93,7 @@ class Human : public Entity {
   virtual float worldY();
   virtual float worldW();
   virtual float worldH();
+  virtual sf::Rect<float> worldRect();
 
   float returnResourceAmount(Human::ResourcesCarrie res);
 

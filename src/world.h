@@ -15,6 +15,8 @@ class World {
   void addEntityToEntities(std::unique_ptr<Entity> entity);
 
   void doForAllEntities(std::function<void(Entity&)> func);
+  void doForAllHumans(std::function<void(Human&)> func);
+  void doForAllConstructibles(std::function<void(Constructible&)> func);
 
   void addNumberLighthouse(int i);
   int returnNumberLighthouse();

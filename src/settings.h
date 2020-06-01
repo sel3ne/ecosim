@@ -20,5 +20,7 @@ const float kMaxFoodPerFarm = 1.0f;
 const float kTopBarHeight = 30.f;
 const int kTopBarTextSize = 22;
 const int kFoodStatusX = 400;
+const int kXSizeHuman = 8;
+const int kYSizeHuman = 8;
 
 #endif  // define ECOSIM_SETTINGS_H

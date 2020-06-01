@@ -28,6 +28,7 @@ class Entity {
   virtual float worldY() = 0;
   virtual float worldW() = 0;
   virtual float worldH() = 0;
+  virtual sf::Rect<float> worldRect() = 0;
   virtual void update(float time_s) = 0;
 
  private:
