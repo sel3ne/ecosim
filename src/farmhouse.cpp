@@ -46,10 +46,10 @@ Farm* Farmhouse::closestFullFarm() {
 void Farm::update(float time_s) {
   if (returnResourceAmount(RESOURCE_FOOD) != kMaxFoodPerFarm) {
     float delta_amount = kFoodProductionFarm * time_s;
-    adaptResource(RESOURCE_FOOD, delta_amount);
+    addToResourceAmount(RESOURCE_FOOD, delta_amount);
 
     if (returnResourceAmount(RESOURCE_FOOD) > kMaxFoodPerFarm) {
-      setResourceToAmount(RESOURCE_FOOD, kMaxFoodPerFarm);
+      setResourceAmount(RESOURCE_FOOD, kMaxFoodPerFarm);
     }
   }
 }

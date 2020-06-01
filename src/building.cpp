@@ -9,36 +9,36 @@ Building::Building(int x_grid, int y_grid, int w_grid, int h_grid,
                    Entity::EntityType entity_type)
     : Constructible(x_grid, y_grid, w_grid, h_grid, entity_type) {
   for (int i = 0; i < _N_RESOURCES; i++) {
-    Building::ResourceToAmount[static_cast<ResourceId>(i)] = 0.0f;
+    resource_amounts_[static_cast<ResourceId>(i)] = 0.0f;
   }
   if (entity_type == HOUSE) {
-    Building::adaptResource(RESOURCE_FOOD, 100);
+    addToResourceAmount(RESOURCE_FOOD, 100);
   }
 }
 
 float Building::returnResourceAmount(ResourceId res) {
-  return ResourceToAmount.at(res);
+  return resource_amounts_.at(res);
 }
 
-void Building::adaptResource(ResourceId res, float delta_amount) {
+void Building::addToResourceAmount(ResourceId res, float delta_amount) {
   float old_amount = Building::returnResourceAmount(res);
   float new_amount = old_amount + delta_amount;
-  ResourceToAmount[res] = new_amount;
+  resource_amounts_[res] = new_amount;
 }
 
-void Building::setResourceToAmount(ResourceId res, float set_amount) {
-  ResourceToAmount[res] = set_amount;
+void Building::setResourceAmount(ResourceId res, float set_amount) {
+  resource_amounts_[res] = set_amount;
 }
 
 void Building::update(float time_s) {
-  if (typeOfEntity() == HOUSE && ResourceToAmount[RESOURCE_FOOD] != 0) {
+  if (typeOfEntity() == HOUSE && resource_amounts_[RESOURCE_FOOD] != 0) {
     float delta_amount = kFoodDecay * time_s;
-    Building::adaptResource(RESOURCE_FOOD, -delta_amount);
+    addToResourceAmount(RESOURCE_FOOD, -delta_amount);
 
-    if (Building::returnResourceAmount(RESOURCE_FOOD) <= 0) {
+    if (returnResourceAmount(RESOURCE_FOOD) <= 0) {
       // Updates number of happy and unhappy houses depeding on the food inside
       // of them
-      ResourceToAmount[RESOURCE_FOOD] = 0;
+      resource_amounts_[RESOURCE_FOOD] = 0;
       std::cout << "no more food :(" << std::endl;
       World& world = gGame->returnWorld();
       world.addNumberHappyHouse(-1);

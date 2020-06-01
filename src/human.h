@@ -27,7 +27,7 @@ class Human : public Entity {
     happiness_ = 1;
     target_entity_ = nullptr;
     for (int i = 0; i < _N_RESOURCES; i++) {
-      Human::ResourceToAmount[static_cast<ResourceId>(i)] = 0.0f;
+      resource_amounts_[static_cast<ResourceId>(i)] = 0.0f;
     }
   }
 
@@ -41,7 +41,7 @@ class Human : public Entity {
         target_entity_(target) {
     happiness_ = 1;
     for (int i = 0; i < _N_RESOURCES; i++) {
-      Human::ResourceToAmount[static_cast<ResourceId>(i)] = 0.0f;
+      resource_amounts_[static_cast<ResourceId>(i)] = 0.0f;
     }
   }
 
@@ -55,9 +55,9 @@ class Human : public Entity {
         target_entity_(target) {
     happiness_ = 1;
     for (int i = 0; i < _N_RESOURCES; i++) {
-      Human::ResourceToAmount[static_cast<ResourceId>(i)] = 0.0f;
+      resource_amounts_[static_cast<ResourceId>(i)] = 0.0f;
     }
-    Human::ResourceToAmount[RESOURCE_FOOD] = food_start_amount;
+    resource_amounts_[RESOURCE_FOOD] = food_start_amount;
   }
 
   Human(float x_world, float y_world, float w_world, float h_world,
@@ -72,9 +72,9 @@ class Human : public Entity {
     happiness_ = 1;
     job_ = job;
     for (int i = 0; i < _N_RESOURCES; i++) {
-      Human::ResourceToAmount[static_cast<ResourceId>(i)] = 0.0f;
+      resource_amounts_[static_cast<ResourceId>(i)] = 0.0f;
     }
-    Human::ResourceToAmount[RESOURCE_FOOD] = food_start_amount;
+    resource_amounts_[RESOURCE_FOOD] = food_start_amount;
   }
 
   void printHappiness() { std::cout << happiness_ << std::endl; }
@@ -90,20 +90,16 @@ class Human : public Entity {
   virtual sf::Rect<float> worldRect();
 
   float returnResourceAmount(ResourceId res);
-
-  void adaptResource(ResourceId res, float delta_amount);
-
-  void setResourceToAmount(ResourceId res, float set_amount);
+  void addToResourceAmount(ResourceId res, float delta_amount);
+  void setResourceAmount(ResourceId res, float set_amount);
 
   void setJob(Job job) { job_ = job; }
-
   Job returnJob() { return job_; }
 
   void setEmployer(Entity* employer) { employer_ = employer; };
+  Entity* returnEmployer() { return employer_; }
 
   void set_happiness(bool happy) { happiness_ = happy; }
-
-  Entity* returnEmployer() { return employer_; }
 
   virtual void update(float time_s);
   void updateFarmerFindingFarm(float time_s);
@@ -116,7 +112,7 @@ class Human : public Entity {
   bool happiness_;
   Entity* target_entity_;
   Entity* employer_ = nullptr;
-  std::map<ResourceId, float> ResourceToAmount;
+  std::map<ResourceId, float> resource_amounts_;
   Job job_ = UNEMPOLYED;
 };
 

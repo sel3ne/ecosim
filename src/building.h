@@ -15,15 +15,13 @@ class Building : public Constructible {
            Entity::EntityType entity_type);
 
   float returnResourceAmount(ResourceId res);
-
-  void adaptResource(ResourceId res, float delta_amount);
-
-  void setResourceToAmount(ResourceId res, float set_amount);
+  void addToResourceAmount(ResourceId res, float delta_amount);
+  void setResourceAmount(ResourceId res, float set_amount);
 
   virtual void update(float time_s);
 
  private:
-  std::map<ResourceId, float> ResourceToAmount;
+  std::map<ResourceId, float> resource_amounts_;
 };
 
 #endif  // define ECOSIM_BUILDING_H
