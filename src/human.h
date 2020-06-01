@@ -99,7 +99,7 @@ class Human : public Entity {
   void setEmployer(Entity* employer) { employer_ = employer; };
   Entity* returnEmployer() { return employer_; }
 
-  void set_happiness(bool happy) { happiness_ = happy; }
+  void setHappiness(bool happy) { happiness_ = happy; }
 
   virtual void update(float time_s);
   void updateFarmerFindingFarm(float time_s);

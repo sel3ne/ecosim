@@ -56,7 +56,7 @@ void Building::update(float time_s) {
           Human* happy_human = happy_unemployed_humans.front();
           happy_unemployed_humans.pop_front();
           unhappy_unemployed_humans.push_back(happy_human);
-          happy_human->set_happiness(false);
+          happy_human->setHappiness(false);
         } else {
           std::list<Human*>& happy_employed_humans =
               world.returnHappyEmployedHumans();
@@ -65,7 +65,7 @@ void Building::update(float time_s) {
           Human* happy_human = happy_employed_humans.front();
           happy_employed_humans.pop_front();
           unhappy_employed_humans.push_back(happy_human);
-          happy_human->set_happiness(false);
+          happy_human->setHappiness(false);
         }
       }
     }
