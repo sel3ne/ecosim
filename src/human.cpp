@@ -54,25 +54,25 @@ void Human::updateFarmerFindingFarm(float time_s) {
     if (vectorSize < 0.6 &&
         target_entity_->typeOfEntity() == Entity::FARMHOUSE) {
       Farmhouse* farmhouse = dynamic_cast<Farmhouse*>(target_entity_);
-      farmhouse->setResourceToAmount(Building::FOOD,
-                                     returnResourceAmount(Human::FOOD));
-      setResourceToAmount(Human::FOOD, 0);
+      farmhouse->setResourceToAmount(RESOURCE_FOOD,
+                                     returnResourceAmount(RESOURCE_FOOD));
+      setResourceToAmount(RESOURCE_FOOD, 0);
       target_entity_ = nullptr;
     } else if (vectorSize < 0.6 &&
                target_entity_->typeOfEntity() == Entity::FARM) {
       Farm* farm = dynamic_cast<Farm*>(target_entity_);
-      this->setResourceToAmount(Human::FOOD,
-                                farm->returnResourceAmount(Building::FOOD));
-      farm->setResourceToAmount(Building::FOOD, 0.0f);
+      this->setResourceToAmount(RESOURCE_FOOD,
+                                farm->returnResourceAmount(RESOURCE_FOOD));
+      farm->setResourceToAmount(RESOURCE_FOOD, 0.0f);
       farm->set_assigned(false);
       target_entity_ = nullptr;
     }
   } else {
-    if (this->returnResourceAmount(FOOD) != 0) {
+    if (this->returnResourceAmount(RESOURCE_FOOD) != 0) {
       // human is at farm, new target will be his farmhouse aka employer
       target_entity_ = returnEmployer();
       // farm_farmhouse_toggle = !farm_farmhouse_toggle;
-    } else if (this->returnResourceAmount(FOOD) == 0) {
+    } else if (this->returnResourceAmount(RESOURCE_FOOD) == 0) {
       // human is at farmhouse, new target will be closest full farm
       Farmhouse* employer_farmhouse = dynamic_cast<Farmhouse*>(employer_);
       Farm* next_farm = employer_farmhouse->closestFullFarm();
@@ -95,16 +95,16 @@ void Human::update(float time_s) {
 
 void Human::setTargetEntity(Entity* target) { target_entity_ = target; }
 
-float Human::returnResourceAmount(Human::ResourcesCarrie res) {
+float Human::returnResourceAmount(ResourceId res) {
   return ResourceToAmount.at(res);
 }
 
-void Human::adaptResource(Human::ResourcesCarrie res, float delta_amount) {
+void Human::adaptResource(ResourceId res, float delta_amount) {
   float old_amount = Human::returnResourceAmount(res);
   float new_amount = old_amount + delta_amount;
   ResourceToAmount[res] = new_amount;
 }
 
-void Human::setResourceToAmount(Human::ResourcesCarrie res, float set_amount) {
+void Human::setResourceToAmount(ResourceId res, float set_amount) {
   ResourceToAmount[res] = set_amount;
 }

@@ -30,6 +30,7 @@ set(
   src/human.h
   src/map_generator.cpp
   src/map_generator.h
+  src/resources.h
   src/resource_manager.cpp
   src/resource_manager.h
   src/settings.h

@@ -6,20 +6,14 @@
 #include <memory>
 
 #include "constructible.h"
+#include "resources.h"
 
 class Human : public Entity {
  public:
-  enum ResourcesCarrie {
-    FOOD = 0,
-    GOLD,
-
-    _N_RESOURCES,
-  };
-
   enum Job {
     UNEMPOLYED,
     FARMER,
-
+    CARRIER,
   };
 
   Human() = delete;
@@ -33,7 +27,7 @@ class Human : public Entity {
     happiness_ = 1;
     target_entity_ = nullptr;
     for (int i = 0; i < _N_RESOURCES; i++) {
-      Human::ResourceToAmount[static_cast<ResourcesCarrie>(i)] = 0.0f;
+      Human::ResourceToAmount[static_cast<ResourceId>(i)] = 0.0f;
     }
   }
 
@@ -47,7 +41,7 @@ class Human : public Entity {
         target_entity_(target) {
     happiness_ = 1;
     for (int i = 0; i < _N_RESOURCES; i++) {
-      Human::ResourceToAmount[static_cast<ResourcesCarrie>(i)] = 0.0f;
+      Human::ResourceToAmount[static_cast<ResourceId>(i)] = 0.0f;
     }
   }
 
@@ -61,9 +55,9 @@ class Human : public Entity {
         target_entity_(target) {
     happiness_ = 1;
     for (int i = 0; i < _N_RESOURCES; i++) {
-      Human::ResourceToAmount[static_cast<ResourcesCarrie>(i)] = 0.0f;
+      Human::ResourceToAmount[static_cast<ResourceId>(i)] = 0.0f;
     }
-    Human::ResourceToAmount[FOOD] = food_start_amount;
+    Human::ResourceToAmount[RESOURCE_FOOD] = food_start_amount;
   }
 
   Human(float x_world, float y_world, float w_world, float h_world,
@@ -78,9 +72,9 @@ class Human : public Entity {
     happiness_ = 1;
     job_ = job;
     for (int i = 0; i < _N_RESOURCES; i++) {
-      Human::ResourceToAmount[static_cast<ResourcesCarrie>(i)] = 0.0f;
+      Human::ResourceToAmount[static_cast<ResourceId>(i)] = 0.0f;
     }
-    Human::ResourceToAmount[FOOD] = food_start_amount;
+    Human::ResourceToAmount[RESOURCE_FOOD] = food_start_amount;
   }
 
   void printHappiness() { std::cout << happiness_ << std::endl; }
@@ -95,11 +89,11 @@ class Human : public Entity {
   virtual float worldH();
   virtual sf::Rect<float> worldRect();
 
-  float returnResourceAmount(Human::ResourcesCarrie res);
+  float returnResourceAmount(ResourceId res);
 
-  void adaptResource(Human::ResourcesCarrie res, float delta_amount);
+  void adaptResource(ResourceId res, float delta_amount);
 
-  void setResourceToAmount(Human::ResourcesCarrie res, float set_amount);
+  void setResourceToAmount(ResourceId res, float set_amount);
 
   void setJob(Job job) { job_ = job; }
 
@@ -122,7 +116,7 @@ class Human : public Entity {
   bool happiness_;
   Entity* target_entity_;
   Entity* employer_ = nullptr;
-  std::map<Human::ResourcesCarrie, float> ResourceToAmount;
+  std::map<ResourceId, float> ResourceToAmount;
   Job job_ = UNEMPOLYED;
 };
 
