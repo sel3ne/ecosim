@@ -23,7 +23,7 @@ class Human : public Entity {
   };
 
   Human() = delete;
-  Human(int x_world, int y_world, int w_world, int h_world,
+  Human(float x_world, float y_world, float w_world, float h_world,
         Entity::EntityType entity_type)
       : Entity(entity_type),
         x_world_(x_world),
@@ -37,7 +37,7 @@ class Human : public Entity {
     }
   }
 
-  Human(int x_world, int y_world, int w_world, int h_world,
+  Human(float x_world, float y_world, float w_world, float h_world,
         Entity::EntityType entity_type, Entity* target)
       : Entity(entity_type),
         x_world_(x_world),
@@ -51,7 +51,7 @@ class Human : public Entity {
     }
   }
 
-  Human(int x_world, int y_world, int w_world, int h_world,
+  Human(float x_world, float y_world, float w_world, float h_world,
         Entity::EntityType entity_type, Entity* target, int food_start_amount)
       : Entity(entity_type),
         x_world_(x_world),
@@ -66,7 +66,7 @@ class Human : public Entity {
     Human::ResourceToAmount[FOOD] = food_start_amount;
   }
 
-  Human(int x_world, int y_world, int w_world, int h_world,
+  Human(float x_world, float y_world, float w_world, float h_world,
         Entity::EntityType entity_type, Entity* target, int food_start_amount,
         Job job)
       : Entity(entity_type),
