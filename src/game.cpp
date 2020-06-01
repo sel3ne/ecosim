@@ -39,21 +39,23 @@ void Game::render() {
 World& Game::returnWorld() { return *world_; }
 
 void Game::update(float time_s) {
+  float scroll_distance =
+      kScrollSpeed * window_->getView().getSize().y * time_s;
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) ||
       sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-    moveView(0.0f, -4.0f);
+    moveView(0.0f, -scroll_distance);
   }
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) ||
       sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-    moveView(-4.0f, 0.f);
+    moveView(-scroll_distance, 0.f);
   }
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) ||
       sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-    moveView(4.0f, 0.f);
+    moveView(scroll_distance, 0.f);
   }
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) ||
       sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-    moveView(0.0f, 4.0f);
+    moveView(0.0f, scroll_distance);
   }
 
   total_time_played_ += time_s;
