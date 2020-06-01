@@ -3,8 +3,12 @@
 
 #include <SFML/System/Vector2.hpp>
 
+// Minimum/maximum viewable world area.
 const sf::Vector2f kMinViewSize = {160, 90};
 const sf::Vector2f kMaxViewSize = {1600, 900};
+
+// Scroll speed in screen heights per second.
+const float kScrollSpeed = 0.8;
 
 const float kFoodDecay = 1000. / 60.;
 const int kHumansPerHouse = 10;
