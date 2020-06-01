@@ -17,6 +17,7 @@ const std::map<TextureId, std::string> kTexturePaths = {
     {TEXTURE_FARM, "data/farm_field.png"},
     {TEXTURE_ONE, "data/one.png"},
     {TEXTURE_STONE_BAR, "data/stone_bar.png"},
+    {TEXTURE_GRAIN, "data/grain.png"},
 };
 
 const std::map<FontId, std::string> kFontPaths = {
