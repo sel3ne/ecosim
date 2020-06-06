@@ -15,9 +15,6 @@ class Human : public Entity {
     CARRIER,
   };
 
-  std::vector<std::string> JobNames{"Unemployed", "Farmer", "Carrier"};
-  std::vector<std::string> ResourceNames{"Food", "Gold"};
-
   Human() = delete;
 
   Human(float x_world, float y_world, float w_world, float h_world,
@@ -74,5 +71,7 @@ class Human : public Entity {
   std::map<ResourceId, float> resource_amounts_;
   Job job_ = UNEMPOLYED;
 };
+
+extern const std::map<Human::Job, std::string> kJobNames;
 
 #endif  // define ECOSIM_HUMAN_H

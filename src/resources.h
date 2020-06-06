@@ -12,6 +12,6 @@ enum ResourceId {
   _N_RESOURCES,
 };
 
-// std::vector<std::string> ResourceNames{"Food", "Gold"};
+extern const std::map<ResourceId, std::string> kResourceNames;
 
 #endif  // ifndef ECOSIM_RESOURCES_H

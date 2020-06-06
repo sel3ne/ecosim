@@ -10,6 +10,11 @@
 #include "resource_manager.h"
 #include "settings.h"
 
+const std::map<Human::Job, std::string> kJobNames{
+    {Human::UNEMPOLYED, "Unemployed"},
+    {Human::FARMER, "Farmer"},
+    {Human::CARRIER, "Carrier"}};
+
 float Human::worldX() { return x_world_; }
 
 float Human::worldY() { return y_world_; }
@@ -101,13 +106,13 @@ float Human::returnResourceAmount(ResourceId res) {
 
 std::string Human::printResource() {
   std::string result = "";
-  result.append(JobNames[(int)job_]);
+  result.append(kJobNames.at(job_));
   result.append("\n");
-  for (int i = 0; i < _N_RESOURCES; i++) {
-    std::string resource_name = ResourceNames[i];
+  for (int resource_idx = 0; resource_idx < _N_RESOURCES; resource_idx++) {
+    ResourceId resource = static_cast<ResourceId>(resource_idx);
+    std::string resource_name = kResourceNames.at(resource);
     result.append(resource_name);
     result.append(" ");
-    ResourceId resource = static_cast<ResourceId>(i);
     result.append(std::to_string(returnResourceAmount(resource)));
     result.append("\n");
   }
