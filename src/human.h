@@ -16,6 +16,9 @@ class Human : public Entity {
     CARRIER,
   };
 
+  std::vector<std::string> JobNames{"Unemployed", "Farmer", "Carrier"};
+  std::vector<std::string> ResourceNames{"Food", "Gold"};
+
   Human() = delete;
   Human(float x_world, float y_world, float w_world, float h_world,
         Entity::EntityType entity_type)
@@ -90,6 +93,7 @@ class Human : public Entity {
   virtual sf::Rect<float> worldRect();
 
   float returnResourceAmount(ResourceId res);
+  std::string printResource();
   void addToResourceAmount(ResourceId res, float delta_amount);
   void setResourceAmount(ResourceId res, float set_amount);
 

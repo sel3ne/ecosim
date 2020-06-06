@@ -21,10 +21,11 @@ class UI {
   void renderTopBar(sf::RenderWindow& window);
   void renderTooltip(sf::RenderWindow& window);
   void renderFoodStatus(sf::RenderWindow& window);
+  void renderEntity(sf::RenderWindow& window);
 
   bool debug_view_enabled_;
 
-  Entity* clicked_entity_;
+  Entity* clicked_entity_ = nullptr;
 };
 
 #endif

@@ -95,6 +95,34 @@ void UI::renderTopBar(sf::RenderWindow& window) {
   renderFoodStatus(window);
 }
 
+void UI::renderEntity(sf::RenderWindow& window) {
+  // draw background
+  sf::RectangleShape background;
+  background.setPosition(0, window.getSize().y - kEntityBarHeight);
+  background.setSize(
+      sf::Vector2f(static_cast<float>(window.getSize().x), kEntityBarHeight));
+  background.setTexture(gResourceManager->getTexture(TEXTURE_STONE_BAR));
+  background.setOutlineThickness(2.f);
+  background.setOutlineColor(sf::Color(50, 50, 50));
+  window.draw(background);
+
+  // Draw first Entity
+  if (clicked_entity_) {
+    if (clicked_entity_->typeOfEntity() == Entity::HUMAN) {
+      Human* human_ptr = dynamic_cast<Human*>(clicked_entity_);
+
+      sf::Text human_text(human_ptr->printResource(),
+                          *gResourceManager->getFont(FONT_COURIER),
+                          kTopBarTextSize);
+      human_text.setPosition(5, window.getSize().y - kEntityBarHeight + 5);
+      human_text.setStyle(sf::Text::Bold);
+      human_text.setFillColor({0, 0, 0});
+      human_text.setCharacterSize(15);
+      window.draw(human_text);
+    }
+  }
+}
+
 void UI::renderTooltip(sf::RenderWindow& window) {}
 
 void UI::render(sf::RenderWindow& window) {
@@ -102,6 +130,7 @@ void UI::render(sf::RenderWindow& window) {
   window.setView(window.getDefaultView());
 
   renderTopBar(window);
+  renderEntity(window);
 
   renderDebugView(window, saved_view);
 

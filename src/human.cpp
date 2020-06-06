@@ -99,6 +99,21 @@ float Human::returnResourceAmount(ResourceId res) {
   return resource_amounts_.at(res);
 }
 
+std::string Human::printResource() {
+  std::string result = "";
+  result.append(JobNames[(int)job_]);
+  result.append("\n");
+  for (int i = 0; i < _N_RESOURCES; i++) {
+    std::string resource_name = ResourceNames[i];
+    result.append(resource_name);
+    result.append(" ");
+    ResourceId resource = static_cast<ResourceId>(i);
+    result.append(std::to_string(returnResourceAmount(resource)));
+    result.append("\n");
+  }
+  return result;
+}
+
 void Human::addToResourceAmount(ResourceId res, float delta_amount) {
   float old_amount = Human::returnResourceAmount(res);
   float new_amount = old_amount + delta_amount;
