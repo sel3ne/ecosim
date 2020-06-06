@@ -6,6 +6,6 @@ set -e
 mkdir -p build
 cd build
 cmake ..
-make ecosim_tests
+make -j$(nproc) ecosim_tests
 cd ..
 ./build/ecosim_tests
