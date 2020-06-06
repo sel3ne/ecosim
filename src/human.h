@@ -10,7 +10,7 @@
 class Human : public Entity {
  public:
   enum Job {
-    UNEMPOLYED,
+    UNEMPLOYED,
     FARMER,
     CARRIER,
   };
@@ -19,7 +19,7 @@ class Human : public Entity {
 
   Human(float x_world, float y_world, float w_world, float h_world,
         Entity::EntityType entity_type, Entity* target = nullptr,
-        int food_start_amount = 0, Job job = UNEMPOLYED)
+        int food_start_amount = 0, Job job = UNEMPLOYED)
       : Entity(entity_type),
         x_world_(x_world),
         y_world_(y_world),
@@ -69,7 +69,7 @@ class Human : public Entity {
   Entity* target_entity_;
   Entity* employer_ = nullptr;
   std::map<ResourceId, float> resource_amounts_;
-  Job job_ = UNEMPOLYED;
+  Job job_ = UNEMPLOYED;
 };
 
 extern const std::map<Human::Job, std::string> kJobNames;

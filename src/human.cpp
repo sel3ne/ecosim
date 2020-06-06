@@ -11,7 +11,7 @@
 #include "settings.h"
 
 const std::map<Human::Job, std::string> kJobNames{
-    {Human::UNEMPOLYED, "Unemployed"},
+    {Human::UNEMPLOYED, "Unemployed"},
     {Human::FARMER, "Farmer"},
     {Human::CARRIER, "Carrier"}};
 
