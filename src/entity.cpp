@@ -26,3 +26,12 @@ void Entity::render(sf::RenderWindow& window) {
 }
 
 Entity::EntityType Entity::typeOfEntity() { return entity_type_; }
+
+const std::map<Entity::EntityType, std::string> kEntityNames = {
+    {Entity::LIGHTHOUSE, "Lighthouse"},
+    {Entity::HOUSE, "House"},
+    {Entity::ROAD, "Road"},
+    {Entity::HUMAN, "Human"},
+    {Entity::FARMHOUSE, "Farmhouse"},
+    {Entity::FARM, "Farmli"},
+};

@@ -25,7 +25,7 @@ class UI {
   void renderTopBar(sf::RenderWindow& window);
   void renderTooltip(sf::RenderWindow& window);
   void renderFoodStatus(sf::RenderWindow& window);
-  void renderEntity(sf::RenderWindow& window);
+  void renderEntityInfo(sf::RenderWindow& window);
 
   bool debug_view_enabled_;
 

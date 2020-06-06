@@ -18,8 +18,31 @@ Building::Building(int x_grid, int y_grid, int w_grid, int h_grid,
   }
 }
 
+std::string Building::printNameAndResource() {
+  std::string result = "";
+  result.append(kEntityNames.at(this->typeOfEntity()));
+  result.append("\n");
+  for (int resource_index = 0; resource_index < _N_RESOURCES;
+       resource_index++) {
+    ResourceId resource = static_cast<ResourceId>(resource_index);
+    std::string resource_name = kResourceNames.at(resource);
+    result.append(resource_name);
+    result.append(": ");
+    result.append(std::to_string(returnAvailableResourceAmount(resource)));
+    result.append("/");
+    result.append(
+        std::to_string(returnAvailableAndReservedResourceAmount(resource)));
+    result.append("\n");
+  }
+  return result;
+}
+
 float Building::returnAvailableResourceAmount(ResourceId res) {
   return resources_available_[res];
+}
+
+float Building::returnAvailableAndReservedResourceAmount(ResourceId res) {
+  return resources_available_[res] + resources_reserved_[res];
 }
 
 void Building::addToAvailableResourceAmount(ResourceId res,

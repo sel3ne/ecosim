@@ -45,9 +45,9 @@ class Human : public Entity {
   virtual sf::Rect<float> worldRect();
 
   float returnResourceAmount(ResourceId res);
-  std::string printResource();
   void addToResourceAmount(ResourceId res, float delta_amount);
   void setResourceAmount(ResourceId res, float set_amount);
+  std::string printJobAndResource();
 
   void setJob(Job job) { job_ = job; }
   Job returnJob() { return job_; }
@@ -59,6 +59,8 @@ class Human : public Entity {
 
   virtual void update(float time_s);
   void updateFarmerFindingFarm(float time_s);
+
+  virtual bool isBuilding() { return false; };
 
  private:
   float x_world_;

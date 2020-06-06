@@ -59,7 +59,7 @@ void Human::updateFarmerFindingFarm(float time_s) {
     if (vectorSize < 0.6 &&
         target_entity_->typeOfEntity() == Entity::FARMHOUSE) {
       Farmhouse* farmhouse = dynamic_cast<Farmhouse*>(target_entity_);
-      farmhouse->setAvailableResourceAmount(
+      farmhouse->addToAvailableResourceAmount(
           RESOURCE_FOOD, returnResourceAmount(RESOURCE_FOOD));
       setResourceAmount(RESOURCE_FOOD, 0);
       target_entity_ = nullptr;
@@ -104,7 +104,7 @@ float Human::returnResourceAmount(ResourceId res) {
   return resource_amounts_.at(res);
 }
 
-std::string Human::printResource() {
+std::string Human::printJobAndResource() {
   std::string result = "";
   result.append(kJobNames.at(job_));
   result.append("\n");

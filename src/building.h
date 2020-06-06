@@ -16,14 +16,17 @@ class Building : public Constructible {
            Entity::EntityType entity_type);
 
   float returnAvailableResourceAmount(ResourceId res);
+  float returnAvailableAndReservedResourceAmount(ResourceId res);
   void addToAvailableResourceAmount(ResourceId res, float delta_amount);
   void setAvailableResourceAmount(ResourceId res, float set_amount);
+  std::string printNameAndResource();
 
   const std::set<Building*>& getDeliveryTargets(ResourceId resource);
   void addDeliveryTarget(ResourceId resource, Building* target);
   void removeDeliveryTarget(ResourceId resource, Building* target);
 
   virtual void update(float time_s);
+  virtual bool isBuilding() { return true; };
 
  private:
   // How many resources are stored and can be used.

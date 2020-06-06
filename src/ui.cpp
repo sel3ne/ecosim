@@ -2,6 +2,7 @@
 
 #include <sstream>
 
+#include "building.h"
 #include "constructible.h"
 #include "game.h"
 #include "grid.h"
@@ -88,7 +89,7 @@ void UI::renderTopBar(sf::RenderWindow& window) {
   renderFoodStatus(window);
 }
 
-void UI::renderEntity(sf::RenderWindow& window) {
+void UI::renderEntityInfo(sf::RenderWindow& window) {
   // draw background
   sf::RectangleShape background;
   background.setPosition(0, window.getSize().y - kEntityBarHeight);
@@ -99,20 +100,26 @@ void UI::renderEntity(sf::RenderWindow& window) {
   background.setOutlineColor(sf::Color(50, 50, 50));
   window.draw(background);
 
-  // Draw first Entity
+  // Draw first Entity Info
   if (clicked_entity_) {
+    std::string text_string;
     if (clicked_entity_->typeOfEntity() == Entity::HUMAN) {
       Human* human_ptr = dynamic_cast<Human*>(clicked_entity_);
-
-      sf::Text human_text(human_ptr->printResource(),
-                          *gResourceManager->getFont(FONT_COURIER),
-                          kTopBarTextSize);
-      human_text.setPosition(5, window.getSize().y - kEntityBarHeight + 5);
-      human_text.setStyle(sf::Text::Bold);
-      human_text.setFillColor({0, 0, 0});
-      human_text.setCharacterSize(15);
-      window.draw(human_text);
+      text_string = human_ptr->printJobAndResource();
     }
+
+    if (clicked_entity_->isBuilding()) {
+      Building* building_ptr = dynamic_cast<Building*>(clicked_entity_);
+      text_string = building_ptr->printNameAndResource();
+    }
+
+    sf::Text text(text_string, *gResourceManager->getFont(FONT_COURIER),
+                  kTopBarTextSize);
+    text.setPosition(5, window.getSize().y - kEntityBarHeight + 5);
+    text.setStyle(sf::Text::Bold);
+    text.setFillColor({0, 0, 0});
+    text.setCharacterSize(15);
+    window.draw(text);
   }
 }
 
@@ -123,7 +130,7 @@ void UI::render(sf::RenderWindow& window) {
   window.setView(window.getDefaultView());
 
   renderTopBar(window);
-  renderEntity(window);
+  renderEntityInfo(window);
 
   renderDebugView(window, saved_view);
 
@@ -151,14 +158,13 @@ void UI::handleClickEvent(sf::Vector2i window_mouse_position,
   }
 
   if (!clicked_human) {
-    sf::Vector2i grid_pos = worldCoordinateToGrid(world_pos);
+    // sf::Vector2i grid_pos = worldCoordinateToGrid(world_pos);
     Constructible* clicked_constructible = nullptr;
     std::function<void(Constructible&)> find_clicked_constructible =
-        [grid_pos, &clicked_constructible](Constructible& construct) {
+        [world_pos, &clicked_constructible](Constructible& construct) {
           if (!clicked_constructible) {
             sf::Rect<float> rect_constructible = construct.worldRect();
-            if (rect_constructible.contains((float)grid_pos.x,
-                                            (float)grid_pos.y)) {
+            if (rect_constructible.contains(world_pos.x, world_pos.y)) {
               clicked_constructible = &construct;
             }
           }

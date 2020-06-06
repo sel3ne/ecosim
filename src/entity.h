@@ -2,6 +2,7 @@
 #define ECOSIM_ENTITY_H
 
 #include <SFML/Graphics/Rect.hpp>
+#include <map>
 
 namespace sf {
 class RenderWindow;
@@ -32,9 +33,12 @@ class Entity {
   virtual float worldH() = 0;
   virtual sf::Rect<float> worldRect() = 0;
   virtual void update(float time_s) = 0;
+  virtual bool isBuilding() = 0;
 
  private:
   EntityType entity_type_;
 };
+
+extern const std::map<Entity::EntityType, std::string> kEntityNames;
 
 #endif  // define ECOSIM_ENTITY_H
