@@ -2,10 +2,9 @@
 #define ECOSIM_HUMAN_H
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
-#include <memory>
+#include <map>
 
-#include "constructible.h"
+#include "entity.h"
 #include "resources.h"
 
 class Human : public Entity {
@@ -20,67 +19,23 @@ class Human : public Entity {
   std::vector<std::string> ResourceNames{"Food", "Gold"};
 
   Human() = delete;
-  Human(float x_world, float y_world, float w_world, float h_world,
-        Entity::EntityType entity_type)
-      : Entity(entity_type),
-        x_world_(x_world),
-        y_world_(y_world),
-        w_world_(w_world),
-        h_world_(h_world) {
-    happiness_ = 1;
-    target_entity_ = nullptr;
-    for (int i = 0; i < _N_RESOURCES; i++) {
-      resource_amounts_[static_cast<ResourceId>(i)] = 0.0f;
-    }
-  }
 
   Human(float x_world, float y_world, float w_world, float h_world,
-        Entity::EntityType entity_type, Entity* target)
+        Entity::EntityType entity_type, Entity* target = nullptr,
+        int food_start_amount = 0, Job job = UNEMPOLYED)
       : Entity(entity_type),
         x_world_(x_world),
         y_world_(y_world),
         w_world_(w_world),
         h_world_(h_world),
-        target_entity_(target) {
-    happiness_ = 1;
-    for (int i = 0; i < _N_RESOURCES; i++) {
-      resource_amounts_[static_cast<ResourceId>(i)] = 0.0f;
-    }
-  }
-
-  Human(float x_world, float y_world, float w_world, float h_world,
-        Entity::EntityType entity_type, Entity* target, int food_start_amount)
-      : Entity(entity_type),
-        x_world_(x_world),
-        y_world_(y_world),
-        w_world_(w_world),
-        h_world_(h_world),
-        target_entity_(target) {
-    happiness_ = 1;
+        happiness_(true),
+        target_entity_(target),
+        job_(job) {
     for (int i = 0; i < _N_RESOURCES; i++) {
       resource_amounts_[static_cast<ResourceId>(i)] = 0.0f;
     }
     resource_amounts_[RESOURCE_FOOD] = food_start_amount;
   }
-
-  Human(float x_world, float y_world, float w_world, float h_world,
-        Entity::EntityType entity_type, Entity* target, int food_start_amount,
-        Job job)
-      : Entity(entity_type),
-        x_world_(x_world),
-        y_world_(y_world),
-        w_world_(w_world),
-        h_world_(h_world),
-        target_entity_(target) {
-    happiness_ = 1;
-    job_ = job;
-    for (int i = 0; i < _N_RESOURCES; i++) {
-      resource_amounts_[static_cast<ResourceId>(i)] = 0.0f;
-    }
-    resource_amounts_[RESOURCE_FOOD] = food_start_amount;
-  }
-
-  void printHappiness() { std::cout << happiness_ << std::endl; }
 
   void setTargetEntity(Entity* target);
 

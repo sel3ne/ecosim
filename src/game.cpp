@@ -4,11 +4,14 @@
 #include <random>
 
 #include "building.h"
+#include "delivery.h"
 #include "farmhouse.h"
 #include "grid.h"
 #include "human.h"
+#include "map_generator.h"
 #include "resource_manager.h"
 #include "settings.h"
+#include "world.h"
 
 Game* gGame = nullptr;
 

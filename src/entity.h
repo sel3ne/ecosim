@@ -1,9 +1,11 @@
 #ifndef ECOSIM_ENTITY_H
 #define ECOSIM_ENTITY_H
 
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <memory>
+#include <SFML/Graphics/Rect.hpp>
+
+namespace sf {
+class RenderWindow;
+}
 
 class Entity {
  public:

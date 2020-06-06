@@ -1,9 +1,13 @@
 #ifndef ECOSIM_UI_H
 #define ECOSIM_UI_H
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Rect.hpp>
 
-#include "entity.h"
+namespace sf {
+class RenderWindow;
+class View;
+}  // namespace sf
+class Entity;
 
 class UI {
  public:

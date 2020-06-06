@@ -1,13 +1,18 @@
 #ifndef ECOSIM_WORLD_H
 #define ECOSIM_WORLD_H
 
-#include <SFML/Graphics.hpp>
 #include <list>
 
 #include "chunk_manager.h"
-#include "delivery.h"
 #include "entity.h"
-#include "human.h"
+
+namespace sf {
+class RenderWindow;
+}
+
+class Constructible;
+class Delivery;
+class Human;
 
 class World {
  public:

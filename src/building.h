@@ -1,9 +1,7 @@
 #ifndef ECOSIM_BUILDING_H
 #define ECOSIM_BUILDING_H
 
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <memory>
+#include <map>
 #include <set>
 
 #include "constructible.h"

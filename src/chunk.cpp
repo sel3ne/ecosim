@@ -1,5 +1,7 @@
 #include "chunk.h"
 
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <iostream>
 
 #include "grid.h"

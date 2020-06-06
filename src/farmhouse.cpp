@@ -1,9 +1,13 @@
 #include "farmhouse.h"
 
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <iostream>
 
 #include "game.h"
+#include "resource_manager.h"
 #include "settings.h"
+#include "world.h"
 
 Farm* Farmhouse::closestFullFarm() {
   World& world = gGame->returnWorld();

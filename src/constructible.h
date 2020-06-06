@@ -1,9 +1,7 @@
 #ifndef ECOSIM_CONSTRUCTIBLE_H
 #define ECOSIM_CONSTRUCTIBLE_H
 
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <memory>
+#include <SFML/Graphics/Rect.hpp>
 
 #include "entity.h"
 

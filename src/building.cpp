@@ -3,7 +3,9 @@
 #include <iostream>
 
 #include "game.h"
+#include "human.h"
 #include "settings.h"
+#include "world.h"
 
 Building::Building(int x_grid, int y_grid, int w_grid, int h_grid,
                    Entity::EntityType entity_type)

@@ -1,7 +1,9 @@
 #ifndef ECOSIM_TILE_H
 #define ECOSIM_TILE_H
 
-#include <SFML/Graphics.hpp>
+namespace sf {
+class RenderWindow;
+}
 
 class Tile {
  public:

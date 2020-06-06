@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "building.h"
+#include "delivery.h"
 #include "farmhouse.h"
 #include "human.h"
 

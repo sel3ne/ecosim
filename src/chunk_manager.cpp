@@ -1,5 +1,9 @@
 #include "chunk_manager.h"
 
+#include <cmath>
+
+#include "map_generator.h"
+
 int gridToChunkCoordinate(int grid_coord) {
   return std::floor((float)grid_coord / (float)kChunkSize);
 }
@@ -20,6 +24,8 @@ ChunkManager::ChunkManager() {
     }
   }
 }
+
+ChunkManager::~ChunkManager() {}
 
 void ChunkManager::generateChunk(int chunk_x, int chunk_y) {
   sf::Vector2i chunk_pos(chunk_x, chunk_y);

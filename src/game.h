@@ -1,12 +1,17 @@
 #ifndef ECOSIM_GAME_H
 #define ECOSIM_GAME_H
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Window/Event.hpp>
 #include <memory>
 
-#include "resource_manager.h"
+#include "entity.h"
 #include "ui.h"
-#include "world.h"
+
+namespace sf {
+class RenderWindow;
+}  // namespace sf
+
+class World;
 
 // For a given factor the player is trying to zoom in/out, returns the nearest
 // legal value that we can actually zoom. I.e. the value gets clamped in case

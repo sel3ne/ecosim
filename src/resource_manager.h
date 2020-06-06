@@ -1,8 +1,8 @@
 #ifndef ECOSIM_RESOURCE_MANAGER_H
 #define ECOSIM_RESOURCE_MANAGER_H
 
-#include <SFML/Graphics.hpp>
-#include <string_view>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <unordered_map>
 
 enum TextureId {

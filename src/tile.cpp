@@ -1,5 +1,7 @@
 #include "tile.h"
 
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <iostream>
 
 #include "grid.h"

@@ -1,9 +1,11 @@
 #ifndef ECOSIM_CHUNK_H
 #define ECOSIM_CHUNK_H
 
-#include <SFML/Graphics.hpp>
-
 #include "tile.h"
+
+namespace sf {
+class RenderWindow;
+}
 
 const int kChunkSize = 64;
 

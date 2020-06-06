@@ -2,21 +2,14 @@
 
 #include <sstream>
 
+#include "constructible.h"
 #include "game.h"
 #include "grid.h"
+#include "human.h"
 #include "resource_manager.h"
 #include "settings.h"
-
-/*
- * Defining this function makes it possible to write:
- * stream << my_vector;
- * where stream is an std::ostringstream and my_vector is an sf::Vector
- */
-template <typename T>
-std::ostream& operator<<(std::ostream& out, const sf::Vector2<T>& vec) {
-  out << vec.x << "," << vec.y;
-  return out;
-}
+#include "vector_util.h"
+#include "world.h"
 
 void UI::renderDebugView(sf::RenderWindow& window, const sf::View& world_view) {
   if (!debug_view_enabled_) {
