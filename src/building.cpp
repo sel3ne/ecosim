@@ -40,14 +40,43 @@ float Building::returnAvailableResourceAmount(ResourceId res) {
   return resources_available_[res];
 }
 
+int Building::returnReservedResourceAmount(ResourceId res) {
+  return resources_reserved_[res];
+}
+
+int Building::returnIncomingResourceAmount(ResourceId res) {
+  return resources_incoming_[res];
+}
+
+int Building::returnRequiredResourceAmount(ResourceId res) {
+  return resources_required_[res];
+}
+
 float Building::returnAvailableAndReservedResourceAmount(ResourceId res) {
   return resources_available_[res] + resources_reserved_[res];
 }
 
 void Building::addToAvailableResourceAmount(ResourceId res,
                                             float delta_amount) {
+  if (typeOfEntity() == Entity::HOUSE && res == RESOURCE_FOOD &&
+      resources_available_[RESOURCE_FOOD] == 0. && delta_amount > 0) {
+    gGame->returnWorld().handleHouseBecomingHappy();
+  }
+
   resources_available_[res] += delta_amount;
   tryToDeliverAvailableResources(res);
+}
+
+void Building::addToReservedResourceAmount(ResourceId res, int delta_amount) {
+  resources_reserved_[res] += delta_amount;
+}
+
+void Building::addToIncomingResourceAmount(ResourceId res, int delta_amount) {
+  resources_incoming_[res] += delta_amount;
+}
+
+void Building::addToRequiredResourceAmount(ResourceId res, int delta_amount) {
+  resources_required_[res] += delta_amount;
 }
 
 void Building::setAvailableResourceAmount(ResourceId res, float set_amount) {
@@ -75,8 +104,9 @@ bool Building::needsMoreResource(ResourceId res) {
 }
 
 void Building::tryToDeliverAvailableResources(ResourceId res) {
-  while (resources_available_[res] >= 1) {
-    std::cout << "Trying to deliver 1 " << kResourceNames.at(res) << std::endl;
+  while (resources_available_[res] >= kCarrierCapacity) {
+    std::cout << "Trying to deliver 100 " << kResourceNames.at(res)
+              << std::endl;
     int& next_delivery_target_index = next_delivery_target_indices[res];
     std::vector<Building*>& target_candidates = delivering_to_[res];
 
@@ -101,8 +131,8 @@ void Building::tryToDeliverAvailableResources(ResourceId res) {
 }
 
 void Building::MakeDeliveryTo(Building* target, ResourceId res) {
-  resources_available_[res] -= 1.;
-  resources_reserved_[res] += 1;
+  resources_available_[res] -= kCarrierCapacity;
+  resources_reserved_[res] += kCarrierCapacity;
 
   std::unique_ptr<Delivery> delivery =
       std::make_unique<Delivery>(this, target, nullptr, res);
@@ -119,38 +149,8 @@ void Building::update(float time_s) {
     addToAvailableResourceAmount(RESOURCE_FOOD, -delta_amount);
 
     if (returnAvailableResourceAmount(RESOURCE_FOOD) <= 0) {
-      // Updates number of happy and unhappy houses depeding on the food inside
-      // of them
       setAvailableResourceAmount(RESOURCE_FOOD, 0.);
-      std::cout << "no more food :(" << std::endl;
-      World& world = gGame->returnWorld();
-      world.addNumberHappyHouse(-1);
-      world.addNumberUnhappyHouse(1);
-      // find kHumansPerHouse happy people to make unhappy
-      for (int i = 0; i < kHumansPerHouse; i++) {
-        std::cout << i << std::endl;
-        World& world = gGame->returnWorld();
-        std::list<Human*>& happy_unemployed_humans =
-            world.returnHappyUnemployedHumans();
-        std::list<Human*>& unhappy_unemployed_humans =
-            world.returnUnhappyUnemployedHumans();
-
-        if (!happy_unemployed_humans.empty()) {
-          Human* happy_human = happy_unemployed_humans.front();
-          happy_unemployed_humans.pop_front();
-          unhappy_unemployed_humans.push_back(happy_human);
-          happy_human->setHappiness(false);
-        } else {
-          std::list<Human*>& happy_employed_humans =
-              world.returnHappyEmployedHumans();
-          std::list<Human*>& unhappy_employed_humans =
-              world.returnUnhappyEmployedHumans();
-          Human* happy_human = happy_employed_humans.front();
-          happy_employed_humans.pop_front();
-          unhappy_employed_humans.push_back(happy_human);
-          happy_human->setHappiness(false);
-        }
-      }
+      gGame->returnWorld().handleHouseBecomingUnhappy();
     }
   }
 }

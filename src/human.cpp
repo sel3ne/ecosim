@@ -57,21 +57,44 @@ void Human::updateFarmerFindingFarm(float time_s) {
 }
 
 void Human::handleArrivalAtTarget() {
-  if (job_ == FARMER) {
-    if (target_entity_->typeOfEntity() == Entity::FARMHOUSE) {
-      Farmhouse* farmhouse = dynamic_cast<Farmhouse*>(target_entity_);
-      farmhouse->addToAvailableResourceAmount(
-          RESOURCE_FOOD, returnResourceAmount(RESOURCE_FOOD));
-      setResourceAmount(RESOURCE_FOOD, 0);
-      target_entity_ = nullptr;
-    } else if (target_entity_->typeOfEntity() == Entity::FARM) {
-      Farm* farm = dynamic_cast<Farm*>(target_entity_);
-      setResourceAmount(RESOURCE_FOOD,
-                        farm->returnAvailableResourceAmount(RESOURCE_FOOD));
-      farm->setAvailableResourceAmount(RESOURCE_FOOD, 0.0f);
-      farm->set_assigned(false);
-      target_entity_ = returnEmployer();
+  switch (job_) {
+    case FARMER:
+      if (target_entity_->typeOfEntity() == Entity::FARMHOUSE) {
+        Farmhouse* farmhouse = dynamic_cast<Farmhouse*>(target_entity_);
+        farmhouse->addToAvailableResourceAmount(
+            RESOURCE_FOOD, returnResourceAmount(RESOURCE_FOOD));
+        setResourceAmount(RESOURCE_FOOD, 0);
+        target_entity_ = nullptr;
+      } else if (target_entity_->typeOfEntity() == Entity::FARM) {
+        Farm* farm = dynamic_cast<Farm*>(target_entity_);
+        setResourceAmount(RESOURCE_FOOD,
+                          farm->returnAvailableResourceAmount(RESOURCE_FOOD));
+        farm->setAvailableResourceAmount(RESOURCE_FOOD, 0.0f);
+        farm->set_assigned(false);
+        target_entity_ = returnEmployer();
+      }
+      break;
+    case CARRIER: {
+      Building* target_building = dynamic_cast<Building*>(target_entity_);
+      ResourceId carried_resource = assigned_delivery_->getResource();
+      if (target_building == assigned_delivery_->getSource()) {
+        target_building->addToReservedResourceAmount(carried_resource,
+                                                     -kCarrierCapacity);
+        addToResourceAmount(carried_resource, kCarrierCapacity);
+        setTargetEntity(assigned_delivery_->getDestination());
+      } else if (target_entity_ == assigned_delivery_->getDestination()) {
+        addToResourceAmount(carried_resource, -kCarrierCapacity);
+        target_building->addToAvailableResourceAmount(carried_resource,
+                                                      kCarrierCapacity);
+        setTargetEntity(nullptr);
+        setJob(UNEMPLOYED);
+      } else {
+        std::cerr << "Carrier arrived at an unknown target!" << std::endl;
+        exit(1);
+      }
+      break;
     }
+    default:;
   }
 }
 

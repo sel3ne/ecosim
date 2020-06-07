@@ -7,6 +7,7 @@
 #include "farmhouse.h"
 #include "grid.h"
 #include "human.h"
+#include "settings.h"
 
 World::World()
     : number_happy_house_(0),
@@ -221,4 +222,44 @@ void World::addUnhappyEmployedHumans(Human* new_human) {
 }
 std::list<Human*>& World::returnUnhappyEmployedHumans() {
   return unhappy_employed_humans_;
+}
+
+void World::handleHouseBecomingUnhappy() {
+  addNumberHappyHouse(-1);
+  addNumberUnhappyHouse(1);
+
+  // find kHumansPerHouse happy people to make unhappy
+  for (int i = 0; i < kHumansPerHouse; i++) {
+    if (!happy_unemployed_humans_.empty()) {
+      Human* happy_human = happy_unemployed_humans_.front();
+      happy_unemployed_humans_.pop_front();
+      unhappy_unemployed_humans_.push_back(happy_human);
+      happy_human->setHappiness(false);
+    } else {
+      Human* happy_human = happy_employed_humans_.front();
+      happy_employed_humans_.pop_front();
+      unhappy_employed_humans_.push_back(happy_human);
+      happy_human->setHappiness(false);
+    }
+  }
+}
+
+void World::handleHouseBecomingHappy() {
+  addNumberHappyHouse(1);
+  addNumberUnhappyHouse(-1);
+
+  // find kHumansPerHouse happy people to make happy
+  for (int i = 0; i < kHumansPerHouse; i++) {
+    if (!unhappy_employed_humans_.empty()) {
+      Human* unhappy_human = unhappy_employed_humans_.front();
+      unhappy_employed_humans_.pop_front();
+      happy_employed_humans_.push_back(unhappy_human);
+      unhappy_human->setHappiness(true);
+    } else {
+      Human* unhappy_human = unhappy_unemployed_humans_.front();
+      unhappy_unemployed_humans_.pop_front();
+      happy_unemployed_humans_.push_back(unhappy_human);
+      unhappy_human->setHappiness(true);
+    }
+  }
 }

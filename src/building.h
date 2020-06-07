@@ -16,8 +16,16 @@ class Building : public Constructible {
            Entity::EntityType entity_type);
 
   float returnAvailableResourceAmount(ResourceId res);
+  int returnReservedResourceAmount(ResourceId res);
+  int returnIncomingResourceAmount(ResourceId res);
+  int returnRequiredResourceAmount(ResourceId res);
   float returnAvailableAndReservedResourceAmount(ResourceId res);
+
   void addToAvailableResourceAmount(ResourceId res, float delta_amount);
+  void addToReservedResourceAmount(ResourceId res, int delta_amount);
+  void addToIncomingResourceAmount(ResourceId res, int delta_amount);
+  void addToRequiredResourceAmount(ResourceId res, int delta_amount);
+
   void setAvailableResourceAmount(ResourceId res, float set_amount);
   std::string printNameAndResource();
 

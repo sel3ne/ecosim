@@ -10,12 +10,12 @@ const sf::Vector2f kMaxViewSize = {1600, 900};
 // Scroll speed in screen heights per second.
 const float kScrollSpeed = 0.8;
 
-const float kFoodDecay = 1000. / 60.;
+const int kCarrierCapacity = 100;
+const float kFoodDecay = 100. / 60.;
 const int kHumansPerHouse = 10;
-// const int kFarmPerFarmhouse = 5;
-const float kFoodProductionFarm = 100 / 60;
+const float kFoodProductionFarm = 100. / 60;
 const float kSpeedHuman = 8;
-const float kMaxFoodPerFarm = 1.0f;
+const float kMaxFoodPerFarm = 1000.0f;
 
 const float kTopBarHeight = 30.f;
 const int kTopBarTextSize = 22;

@@ -59,6 +59,9 @@ class World {
   void addUnhappyEmployedHumans(Human* new_human);
   std::list<Human*>& returnUnhappyEmployedHumans();
 
+  void handleHouseBecomingUnhappy();
+  void handleHouseBecomingHappy();
+
   void update(float time_s);
 
   ChunkManager& returnChunkManager() { return chunk_manager_; }
