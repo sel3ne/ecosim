@@ -181,42 +181,31 @@ void Building::update(float time_s) {
   }
 }
 
-void Building::renderArrows(sf::RenderWindow& window) {
-  drawLine(sf::Vector2f(0, -100), sf::Vector2f(10, 200), window);
-}
+void drawArrow(sf::Vector2f start, sf::Vector2f end, float thickness,
+               sf::Color color, sf::RenderWindow& window) {
+  float triangle_radius = 2.f * thickness;
 
-void Building::drawLine(sf::Vector2f start, sf::Vector2f end,
-                        sf::RenderWindow& window) {
-  // float triangle_size = 5.f;
+  float length = norm(end - start);
+  float angle_rad = atan2((end - start).y, (end - start).x);
+  float angle_deg = angle_rad * 180 / 3.14159;
 
-  // end = end - sf::Vector2f(1.732*);
-  float lenght = norm(end - start);
-  sf::RectangleShape line(sf::Vector2f(lenght, 1));
-  float angle = atan2((end - start).y, (end - start).x);
-  line.rotate(angle * 180 / 3.141);
+  sf::RectangleShape line(
+      sf::Vector2f(length - triangle_radius * 1.5, thickness));
+  line.setOrigin(0, 0.5 * thickness);
+  line.setRotation(angle_deg);
   line.setPosition(start);
+  line.setFillColor(color);
   window.draw(line);
 
-  float triangle_size = 5.f;
-
-  // fucking pfeil mit 3 linien -> geht nicht
-  // sf::RectangleShape line2(sf::Vector2f(triangle_size, 1));
-  // line2.setPosition(end);
-  // line2.rotate(angle * 180 / 3.141 - 45 + 180);
-  // window.draw(line2);
-
-  // sf::RectangleShape line3(sf::Vector2f(triangle_size, 1));
-  // line3.setPosition(end);
-  // line3.rotate(angle * 180 / 3.141 + 45 + 180);
-  // window.draw(line3);
-
-  // fucking pfeil mit dreieck -> geht nicht
-  sf::CircleShape triang(triangle_size, 3);
-
-  triang.rotate(-30 + angle * 180 / 3.141);
-  sf::Vector2f triang_summit(triangle_size, 0);
-  sf::Vector2f triang_summit2(0, triangle_size * 2);
-  sf::Vector2f triang_offset = (triang_summit + triang_summit2) / 2.f;
-  triang.setPosition(end - triang_offset);
+  sf::CircleShape triang(triangle_radius, 3);
+  triang.setOrigin(triangle_radius, 0.);
+  triang.setPosition(end);
+  triang.setRotation(90 + angle_deg);
+  triang.setFillColor(color);
   window.draw(triang);
+}
+
+void Building::renderArrows(sf::RenderWindow& window) {
+  drawArrow(sf::Vector2f(10, 10), sf::Vector2f(100, 200), /*thickness=*/3,
+            sf::Color(230, 20, 20), window);
 }

@@ -40,8 +40,6 @@ class Building : public Constructible {
 
   void renderArrows(sf::RenderWindow& window);
 
-  void drawLine(sf::Vector2f start, sf::Vector2f end, sf::RenderWindow& window);
-
  private:
   void tryToDeliverAvailableResources(ResourceId res);
   void tryToRequestMissingResources(ResourceId res);
