@@ -202,6 +202,11 @@ void Game::runMainLoop() {
         sf::Vector2i position = sf::Mouse::getPosition(*window_);
 
         ui_.handleClickEvent(position, *window_);
+      } else if (event.type == sf::Event::MouseButtonPressed &&
+                 event.mouseButton.button == sf::Mouse::Right) {
+        // sf::Vector2i position = sf::Mouse::getPosition(*window_);
+
+        // todo
       }
       if (event.type == sf::Event::Closed) {
         window_->close();

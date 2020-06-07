@@ -6,6 +6,7 @@
 #include "game.h"
 #include "human.h"
 #include "settings.h"
+#include "vector_util.h"
 #include "world.h"
 
 Building::Building(int x_grid, int y_grid, int w_grid, int h_grid,
@@ -153,4 +154,44 @@ void Building::update(float time_s) {
       }
     }
   }
+}
+
+void Building::renderArrows(sf::RenderWindow& window) {
+  drawLine(sf::Vector2f(0, -100), sf::Vector2f(10, 200), window);
+}
+
+void Building::drawLine(sf::Vector2f start, sf::Vector2f end,
+                        sf::RenderWindow& window) {
+  // float triangle_size = 5.f;
+
+  // end = end - sf::Vector2f(1.732*);
+  float lenght = norm(end - start);
+  sf::RectangleShape line(sf::Vector2f(lenght, 1));
+  float angle = atan2((end - start).y, (end - start).x);
+  line.rotate(angle * 180 / 3.141);
+  line.setPosition(start);
+  window.draw(line);
+
+  float triangle_size = 5.f;
+
+  // fucking pfeil mit 3 linien -> geht nicht
+  // sf::RectangleShape line2(sf::Vector2f(triangle_size, 1));
+  // line2.setPosition(end);
+  // line2.rotate(angle * 180 / 3.141 - 45 + 180);
+  // window.draw(line2);
+
+  // sf::RectangleShape line3(sf::Vector2f(triangle_size, 1));
+  // line3.setPosition(end);
+  // line3.rotate(angle * 180 / 3.141 + 45 + 180);
+  // window.draw(line3);
+
+  // fucking pfeil mit dreieck -> geht nicht
+  sf::CircleShape triang(triangle_size, 3);
+
+  triang.rotate(-30 + angle * 180 / 3.141);
+  sf::Vector2f triang_summit(triangle_size, 0);
+  sf::Vector2f triang_summit2(0, triangle_size * 2);
+  sf::Vector2f triang_offset = (triang_summit + triang_summit2) / 2.f;
+  triang.setPosition(end - triang_offset);
+  window.draw(triang);
 }

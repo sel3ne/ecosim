@@ -30,6 +30,10 @@ class Building : public Constructible {
   virtual void update(float time_s);
   virtual bool isBuilding() { return true; };
 
+  void renderArrows(sf::RenderWindow& window);
+
+  void drawLine(sf::Vector2f start, sf::Vector2f end, sf::RenderWindow& window);
+
  private:
   void tryToDeliverAvailableResources(ResourceId res);
   void MakeDeliveryTo(Building* target, ResourceId res);
