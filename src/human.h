@@ -23,10 +23,8 @@ class Human : public Entity {
         Entity::EntityType entity_type, Entity* target = nullptr,
         int food_start_amount = 0, Job job = UNEMPLOYED)
       : Entity(entity_type),
-        x_world_(x_world),
-        y_world_(y_world),
-        w_world_(w_world),
-        h_world_(h_world),
+        world_pos_(x_world, y_world),
+        world_size_(w_world, h_world),
         happiness_(true),
         target_entity_(target),
         job_(job) {
@@ -66,10 +64,10 @@ class Human : public Entity {
   virtual bool isBuilding() { return false; };
 
  private:
-  float x_world_;
-  float y_world_;
-  float w_world_;
-  float h_world_;
+  void handleArrivalAtTarget();
+
+  sf::Vector2f world_pos_;
+  sf::Vector2f world_size_;
   bool happiness_;
   Entity* target_entity_;
   Entity* employer_ = nullptr;

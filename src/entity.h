@@ -32,6 +32,9 @@ class Entity {
   virtual float worldW() = 0;
   virtual float worldH() = 0;
   virtual sf::Rect<float> worldRect() = 0;
+  virtual sf::Vector2f worldPos() { return {worldX(), worldY()}; }
+  virtual sf::Vector2f worldSize() { return {worldW(), worldH()}; }
+
   virtual void update(float time_s) = 0;
   virtual bool isBuilding() = 0;
 

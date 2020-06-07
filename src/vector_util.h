@@ -2,6 +2,7 @@
 #define ECOSIM_VECTOR_UTIL_H
 
 #include <SFML/System/Vector2.hpp>
+#include <cmath>
 #include <cstddef>
 #include <functional>
 #include <ostream>
@@ -33,6 +34,11 @@ template <typename T>
 std::ostream& operator<<(std::ostream& out, const sf::Vector2<T>& vec) {
   out << vec.x << "," << vec.y;
   return out;
+}
+
+template <typename T>
+float norm(sf::Vector2<T> vec) {
+  return std::sqrt(vec.x * vec.x + vec.y * vec.y);
 }
 
 #endif  // ifndef ECOSIM_VECTOR_UTIL_H
