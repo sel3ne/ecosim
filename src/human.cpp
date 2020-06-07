@@ -101,7 +101,7 @@ void Human::assignDelivery(Delivery* delivery) {
   assigned_delivery_ = delivery;
   delivery->setCarrier(this);
   setJob(CARRIER);
-  setTargetEntity(delivery->getDestination());
+  setTargetEntity(delivery->getSource());
 }
 
 float Human::returnResourceAmount(ResourceId res) {
