@@ -106,8 +106,6 @@ bool Building::needsMoreResource(ResourceId res) {
 
 void Building::tryToDeliverAvailableResources(ResourceId res) {
   while (resources_available_[res] >= kCarrierCapacity) {
-    std::cout << "Trying to deliver 100 " << kResourceNames.at(res)
-              << std::endl;
     int& next_delivery_target_index = next_delivery_target_indices[res];
     std::vector<Building*>& target_candidates = delivering_to_[res];
 
@@ -127,11 +125,38 @@ void Building::tryToDeliverAvailableResources(ResourceId res) {
       return;
     }
 
-    MakeDeliveryTo(target, res);
+    makeDeliveryTo(target, res);
   }
 }
 
-void Building::MakeDeliveryTo(Building* target, ResourceId res) {
+void Building::tryToRequestMissingResources(ResourceId res) {
+  while (resources_required_[res] - resources_available_[res] -
+             resources_incoming_[res] >=
+         kCarrierCapacity) {
+    float min_squared_dist = std::numeric_limits<float>::max();
+    Building* nearest_source = nullptr;
+    for (Building* candidate_source : receiving_from_[res]) {
+      if (candidate_source->returnAvailableResourceAmount(res) >=
+          kCarrierCapacity) {
+        float candidate_squared_distance =
+            squaredDistance(candidate_source->worldPos(), worldPos());
+        if (candidate_squared_distance < min_squared_dist) {
+          min_squared_dist = candidate_squared_distance;
+          nearest_source = candidate_source;
+        }
+      }
+    }
+
+    if (!nearest_source) {
+      // No one can send us this resource anymore. Give up.
+      return;
+    }
+
+    nearest_source->makeDeliveryTo(this, res);
+  }
+}
+
+void Building::makeDeliveryTo(Building* target, ResourceId res) {
   resources_available_[res] -= kCarrierCapacity;
   resources_reserved_[res] += kCarrierCapacity;
 

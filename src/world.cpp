@@ -8,6 +8,7 @@
 #include "grid.h"
 #include "human.h"
 #include "settings.h"
+#include "vector_util.h"
 
 World::World()
     : number_happy_house_(0),
@@ -68,12 +69,6 @@ void World::doForAllConstructibles(std::function<void(Constructible&)> func) {
   }
 }
 
-float squaredDistance(sf::Vector2f a, sf::Vector2f b) {
-  sf::Vector2f distance_vector = a - b;
-  return distance_vector.x * distance_vector.x +
-         distance_vector.y * distance_vector.y;
-}
-
 Human* World::closestHuman(sf::Vector2f world_pos,
                            std::function<bool(const Human&)> predicate) {
   float min_dist_sq = std::numeric_limits<float>::max();
@@ -84,6 +79,26 @@ Human* World::closestHuman(sf::Vector2f world_pos,
           sf::Vector2f(human->worldX(), human->worldY()), world_pos);
       if (dist_sq < min_dist_sq) {
         closest = human.get();
+      }
+    }
+  }
+  return closest;
+}
+
+Building* World::closestBuilding(
+    sf::Vector2f world_pos, std::function<bool(const Building&)> predicate) {
+  float min_dist_sq = std::numeric_limits<float>::max();
+  Building* closest = nullptr;
+  for (const std::unique_ptr<Constructible>& constructible : constructibles_) {
+    if (!constructible->isBuilding()) {
+      continue;
+    }
+    Building* building = dynamic_cast<Building*>(constructible.get());
+    if (predicate(*building)) {
+      float dist_sq = squaredDistance(
+          sf::Vector2f(building->worldX(), building->worldY()), world_pos);
+      if (dist_sq < min_dist_sq) {
+        closest = building;
       }
     }
   }

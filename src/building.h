@@ -44,7 +44,8 @@ class Building : public Constructible {
 
  private:
   void tryToDeliverAvailableResources(ResourceId res);
-  void MakeDeliveryTo(Building* target, ResourceId res);
+  void tryToRequestMissingResources(ResourceId res);
+  void makeDeliveryTo(Building* target, ResourceId res);
 
   // How many resources are stored and can be used.
   std::map<ResourceId, float> resources_available_;

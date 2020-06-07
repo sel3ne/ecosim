@@ -41,6 +41,7 @@ set(
   src/tile.h
   src/ui.cpp
   src/ui.h
+  src/vector_util.cpp
   src/vector_util.h
   src/world.cpp
   src/world.h)

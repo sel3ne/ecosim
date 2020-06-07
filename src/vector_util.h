@@ -36,6 +36,8 @@ std::ostream& operator<<(std::ostream& out, const sf::Vector2<T>& vec) {
   return out;
 }
 
+float squaredDistance(sf::Vector2f a, sf::Vector2f b);
+
 template <typename T>
 float norm(sf::Vector2<T> vec) {
   return std::sqrt(vec.x * vec.x + vec.y * vec.y);

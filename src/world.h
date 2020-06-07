@@ -10,6 +10,7 @@ namespace sf {
 class RenderWindow;
 }
 
+class Building;
 class Constructible;
 class Delivery;
 class Human;
@@ -27,6 +28,8 @@ class World {
 
   Human* closestHuman(sf::Vector2f world_pos,
                       std::function<bool(const Human&)> predicate);
+  Building* closestBuilding(sf::Vector2f world_pos,
+                            std::function<bool(const Building&)> predicate);
 
   void addNumberLighthouse(int i);
   int returnNumberLighthouse();
