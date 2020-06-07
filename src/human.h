@@ -7,6 +7,8 @@
 #include "entity.h"
 #include "resources.h"
 
+class Delivery;
+
 class Human : public Entity {
  public:
   enum Job {
@@ -35,6 +37,7 @@ class Human : public Entity {
   }
 
   void setTargetEntity(Entity* target);
+  void assignDelivery(Delivery* delivery);
 
   virtual void render(sf::RenderWindow& window);
 
@@ -50,7 +53,7 @@ class Human : public Entity {
   std::string printJobAndResource();
 
   void setJob(Job job) { job_ = job; }
-  Job returnJob() { return job_; }
+  Job returnJob() const { return job_; }
 
   void setEmployer(Entity* employer) { employer_ = employer; };
   Entity* returnEmployer() { return employer_; }
@@ -72,6 +75,7 @@ class Human : public Entity {
   Entity* employer_ = nullptr;
   std::map<ResourceId, float> resource_amounts_;
   Job job_ = UNEMPLOYED;
+  Delivery* assigned_delivery_;
 };
 
 extern const std::map<Human::Job, std::string> kJobNames;

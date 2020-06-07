@@ -19,10 +19,14 @@ class World {
   World();
   void render(sf::RenderWindow& window);
   void addEntityToEntities(std::unique_ptr<Entity> entity);
+  void scheduleDelivery(std::unique_ptr<Delivery> delivery);
 
   void doForAllEntities(std::function<void(Entity&)> func);
   void doForAllHumans(std::function<void(Human&)> func);
   void doForAllConstructibles(std::function<void(Constructible&)> func);
+
+  Human* closestHuman(sf::Vector2f world_pos,
+                      std::function<bool(const Human&)> predicate);
 
   void addNumberLighthouse(int i);
   int returnNumberLighthouse();

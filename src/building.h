@@ -21,7 +21,9 @@ class Building : public Constructible {
   void setAvailableResourceAmount(ResourceId res, float set_amount);
   std::string printNameAndResource();
 
-  const std::set<Building*>& getDeliveryTargets(ResourceId resource);
+  bool needsMoreResource(ResourceId res);
+
+  const std::vector<Building*>& getDeliveryTargets(ResourceId resource);
   void addDeliveryTarget(ResourceId resource, Building* target);
   void removeDeliveryTarget(ResourceId resource, Building* target);
 
@@ -29,6 +31,9 @@ class Building : public Constructible {
   virtual bool isBuilding() { return true; };
 
  private:
+  void tryToDeliverAvailableResources(ResourceId res);
+  void MakeDeliveryTo(Building* target, ResourceId res);
+
   // How many resources are stored and can be used.
   std::map<ResourceId, float> resources_available_;
   // How many resources are stored, but are reserved for pickup.
@@ -38,10 +43,13 @@ class Building : public Constructible {
   // How many resources this building would like to have in total.
   std::map<ResourceId, int> resources_required_;
 
-  // Which buildings we are distributing our outputs to.
-  std::map<ResourceId, std::set<Building*>> delivering_to_;
   // Which buildings we receive resources from.
-  std::map<ResourceId, std::set<Building*>> receiving_from_;
+  std::map<ResourceId, std::vector<Building*>> receiving_from_;
+  // Which buildings we are distributing our outputs to.
+  std::map<ResourceId, std::vector<Building*>> delivering_to_;
+  // Index into delivering_to_ where we will want to deliver next to balance
+  // between receivers.
+  std::map<ResourceId, int> next_delivery_target_indices;
 
   // Deliveries currently on their way here.
   std::vector<Delivery*> incoming_deliveries_;

@@ -5,6 +5,7 @@
 #include "building.h"
 #include "delivery.h"
 #include "farmhouse.h"
+#include "grid.h"
 #include "human.h"
 
 World::World()
@@ -12,7 +13,22 @@ World::World()
       number_unhappy_house_(0),
       number_happy_human_(0),
       number_unhappy_human_(0),
-      number_lighthouse_(0) {}
+      number_lighthouse_(0) {
+  Building* house = buildConstructible<Building>(3, 3, 3, 3, Entity::HOUSE);
+  for (int i = 0; i < 11; i++) {
+    float x_coord = house->worldX() + i;
+    float y_coord = house->worldY() + i;
+    std::unique_ptr<Entity> human =
+        std::make_unique<Human>(x_coord, y_coord, 8, 8, Entity::HUMAN);
+    Human* human_ptr = dynamic_cast<Human*>(human.get());
+    addHappyUnemployedHumans(human_ptr);
+    addEntityToEntities(std::move(human));
+  }
+
+  Farm* farm = buildConstructible<Farm>(7, 7, 3, 3, Entity::FARM);
+
+  farm->addDeliveryTarget(RESOURCE_FOOD, house);
+}
 
 void World::render(sf::RenderWindow& window) {
   chunk_manager_.renderTiles(window);
@@ -45,6 +61,28 @@ void World::doForAllConstructibles(std::function<void(Constructible&)> func) {
   }
 }
 
+float squaredDistance(sf::Vector2f a, sf::Vector2f b) {
+  sf::Vector2f distance_vector = a - b;
+  return distance_vector.x * distance_vector.x +
+         distance_vector.y * distance_vector.y;
+}
+
+Human* World::closestHuman(sf::Vector2f world_pos,
+                           std::function<bool(const Human&)> predicate) {
+  float min_dist_sq = std::numeric_limits<float>::max();
+  Human* closest = nullptr;
+  for (const std::unique_ptr<Human>& human : humans_) {
+    if (predicate(*human)) {
+      float dist_sq = squaredDistance(
+          sf::Vector2f(human->worldX(), human->worldY()), world_pos);
+      if (dist_sq < min_dist_sq) {
+        closest = human.get();
+      }
+    }
+  }
+  return closest;
+}
+
 void World::update(float time_s) {
   for (std::unique_ptr<Human>& n : humans_) {
     n->update(time_s);
@@ -63,6 +101,18 @@ void World::addEntityToEntities(std::unique_ptr<Entity> entity) {
         dynamic_cast<Constructible*>(entity.release());
     constructibles_.emplace_back(constructible);
   }
+}
+
+void World::scheduleDelivery(std::unique_ptr<Delivery> delivery) {
+  sf::Vector2f source_pos(delivery->getSource()->worldX(),
+                          delivery->getSource()->worldY());
+  Human* carrier = closestHuman(source_pos, [](const Human& human) -> bool {
+    return human.returnJob() == Human::UNEMPLOYED;
+  });
+  if (carrier) {
+    carrier->assignDelivery(delivery.get());
+  }
+  deliveries_.push_back(std::move(delivery));
 }
 
 void World::addNumberLighthouse(int i) {

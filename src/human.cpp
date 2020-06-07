@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "building.h"
+#include "delivery.h"
 #include "farmhouse.h"
 #include "game.h"
 #include "resource_manager.h"
@@ -99,6 +100,14 @@ void Human::update(float time_s) {
 }
 
 void Human::setTargetEntity(Entity* target) { target_entity_ = target; }
+
+void Human::assignDelivery(Delivery* delivery) {
+  std::cout << "assigning delivery to me: " << delivery << std::endl;
+  assigned_delivery_ = delivery;
+  delivery->setCarrier(this);
+  setJob(CARRIER);
+  setTargetEntity(delivery->getDestination());
+}
 
 float Human::returnResourceAmount(ResourceId res) {
   return resource_amounts_.at(res);

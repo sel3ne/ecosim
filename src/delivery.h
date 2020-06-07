@@ -21,6 +21,8 @@ class Delivery {
   Human* getCarrier() { return carrier_; }
   ResourceId getResource() { return resource_; }
 
+  void setCarrier(Human* human) { carrier_ = human; }
+
  private:
   Building* source_;
   Building* destination_;
