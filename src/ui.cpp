@@ -125,7 +125,19 @@ void UI::renderEntityInfo(sf::RenderWindow& window) {
 
 void UI::renderTooltip(sf::RenderWindow& window) {}
 
+void UI::renderArrowBuilding(sf::RenderWindow& window, Building* building) {
+  building->renderArrows(window);
+}
+
 void UI::render(sf::RenderWindow& window) {
+  if (clicked_entity_) {
+    if (clicked_entity_->isBuilding()) {
+      Building* clicked_building_ptr = dynamic_cast<Building*>(clicked_entity_);
+      renderArrowBuilding(window, clicked_building_ptr);
+    }
+
+    // ToDo draw arrwos for humans
+  }
   sf::View saved_view = window.getView();
   window.setView(window.getDefaultView());
 

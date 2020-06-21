@@ -206,6 +206,24 @@ void drawArrow(sf::Vector2f start, sf::Vector2f end, float thickness,
 }
 
 void Building::renderArrows(sf::RenderWindow& window) {
-  drawArrow(sf::Vector2f(10, 10), sf::Vector2f(100, 200), /*thickness=*/3,
-            sf::Color(230, 20, 20), window);
+  for (auto& [resource, sources] : receiving_from_) {
+    sf::Vector2f end = this->worldPos();
+    end = end + this->worldSize() / 2.f;
+    for (auto& source : sources) {
+      sf::Vector2f start = source->worldPos();
+      start = start + source->worldSize() / 2.f;
+      drawArrow(start, end,
+                /*thickness=*/2, sf::Color(230, 20, 20), window);
+    }
+  }
+  for (auto& [resource, targets] : delivering_to_) {
+    sf::Vector2f start = this->worldPos();
+    start = start + this->worldSize() / 2.f;
+    for (auto& target : targets) {
+      sf::Vector2f end = target->worldPos();
+      end = end + target->worldSize() / 2.f;
+      drawArrow(start, end,
+                /*thickness=*/2, sf::Color::Green, window);
+    }
+  }
 }

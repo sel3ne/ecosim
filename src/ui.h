@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics/Rect.hpp>
 
+#include "building.h"
+
 namespace sf {
 class RenderWindow;
 class View;
@@ -26,6 +28,7 @@ class UI {
   void renderTooltip(sf::RenderWindow& window);
   void renderFoodStatus(sf::RenderWindow& window);
   void renderEntityInfo(sf::RenderWindow& window);
+  void renderArrowBuilding(sf::RenderWindow& window, Building* building);
 
   bool debug_view_enabled_;
 

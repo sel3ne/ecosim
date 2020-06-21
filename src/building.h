@@ -36,9 +36,12 @@ class Building : public Constructible {
   void removeDeliveryTarget(ResourceId resource, Building* target);
 
   virtual void update(float time_s);
-  virtual bool isBuilding() { return true; };
+  virtual bool isBuilding() { return true; }
 
   void renderArrows(sf::RenderWindow& window);
+  // std::map<ResourceId, std::vector<Building*>> returnReceivingFrom() {
+  //   return receiving_from_;
+  // }
 
  private:
   void tryToDeliverAvailableResources(ResourceId res);
