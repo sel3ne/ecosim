@@ -29,6 +29,7 @@ class UI {
   void renderFoodStatus(sf::RenderWindow& window);
   void renderEntityInfo(sf::RenderWindow& window);
   void renderArrowBuilding(sf::RenderWindow& window, Building* building);
+  void renderVisualizeClickedEntity(sf::RenderWindow& window);
 
   bool debug_view_enabled_;
 

@@ -38,6 +38,8 @@ class Entity {
   virtual void update(float time_s) = 0;
   virtual bool isBuilding() = 0;
 
+  void visualizeClickedEntity(sf::RenderWindow& window);
+
  private:
   EntityType entity_type_;
 };

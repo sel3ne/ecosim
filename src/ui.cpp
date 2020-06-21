@@ -129,8 +129,13 @@ void UI::renderArrowBuilding(sf::RenderWindow& window, Building* building) {
   building->renderArrows(window);
 }
 
+void UI::renderVisualizeClickedEntity(sf::RenderWindow& window) {
+  clicked_entity_->visualizeClickedEntity(window);
+}
+
 void UI::render(sf::RenderWindow& window) {
   if (clicked_entity_) {
+    renderVisualizeClickedEntity(window);
     if (clicked_entity_->isBuilding()) {
       Building* clicked_building_ptr = dynamic_cast<Building*>(clicked_entity_);
       renderArrowBuilding(window, clicked_building_ptr);

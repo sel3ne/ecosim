@@ -1,5 +1,6 @@
 #include "entity.h"
 
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <iostream>
@@ -26,6 +27,15 @@ void Entity::render(sf::RenderWindow& window) {
 }
 
 Entity::EntityType Entity::typeOfEntity() { return entity_type_; }
+
+void Entity::visualizeClickedEntity(sf::RenderWindow& window) {
+  sf::RectangleShape rectangle(worldSize());
+  rectangle.setFillColor(sf::Color::Transparent);
+  rectangle.setOutlineThickness(1.f);
+  rectangle.setOutlineColor(sf::Color::Black);
+  rectangle.setPosition(worldX(), worldY());
+  window.draw(rectangle);
+}
 
 const std::map<Entity::EntityType, std::string> kEntityNames = {
     {Entity::LIGHTHOUSE, "Lighthouse"},
