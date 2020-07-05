@@ -65,7 +65,12 @@ void Building::addToAvailableResourceAmount(ResourceId res,
   }
 
   resources_available_[res] += delta_amount;
+
+  // Depending on whether resources were increased or decreased, we might be
+  // able to deliver resources somewhere now or we might need to request new
+  // ones.
   tryToDeliverAvailableResources(res);
+  tryToRequestMissingResources(res);
 }
 
 void Building::addToReservedResourceAmount(ResourceId res, int delta_amount) {
@@ -78,11 +83,13 @@ void Building::addToIncomingResourceAmount(ResourceId res, int delta_amount) {
 
 void Building::addToRequiredResourceAmount(ResourceId res, int delta_amount) {
   resources_required_[res] += delta_amount;
+  tryToRequestMissingResources(res);
 }
 
 void Building::setAvailableResourceAmount(ResourceId res, float set_amount) {
   resources_available_[res] = set_amount;
   tryToDeliverAvailableResources(res);
+  tryToRequestMissingResources(res);
 }
 
 const std::vector<Building*>& Building::getDeliveryTargets(
@@ -99,9 +106,9 @@ void Building::removeDeliveryTarget(ResourceId resource, Building* target) {
   std::erase(delivering_to_[resource], target);
 }
 
-bool Building::needsMoreResource(ResourceId res) {
-  return resources_required_[res] >
-         resources_available_[res] + resources_incoming_[res];
+float Building::getResourceDeficit(ResourceId res) {
+  return resources_required_[res] - resources_available_[res] -
+         resources_incoming_[res];
 }
 
 void Building::tryToDeliverAvailableResources(ResourceId res) {
@@ -115,7 +122,7 @@ void Building::tryToDeliverAvailableResources(ResourceId res) {
           target_candidates.at(next_delivery_target_index);
       next_delivery_target_index =
           next_delivery_target_index + 1 % target_candidates.size();
-      if (target_candidate->needsMoreResource(res)) {
+      if (target_candidate->getResourceDeficit(res) >= kCarrierCapacity) {
         target = target_candidate;
         break;
       }
