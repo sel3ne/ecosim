@@ -29,22 +29,6 @@ float limitZoomFactor(const sf::View& view, const sf::Vector2f& min_size,
 Game::Game(std::unique_ptr<sf::RenderWindow> window)
     : window_(std::move(window)) {
   world_ = std::make_unique<World>();
-
-  Building* house =
-      world_->buildConstructible<Building>(3, 3, 3, 3, Entity::HOUSE);
-  for (int i = 0; i < 11; i++) {
-    float x_coord = house->worldX() + i;
-    float y_coord = house->worldY() + i;
-    std::unique_ptr<Entity> human =
-        std::make_unique<Human>(x_coord, y_coord, 8, 8, Entity::HUMAN);
-    Human* human_ptr = dynamic_cast<Human*>(human.get());
-    world_->addHappyUnemployedHumans(human_ptr);
-    world_->addEntityToEntities(std::move(human));
-  }
-
-  Farm* farm = world_->buildConstructible<Farm>(7, 7, 3, 3, Entity::FARM);
-
-  farm->addDeliveryTarget(RESOURCE_FOOD, house);
 }
 
 void Game::render() {
