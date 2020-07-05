@@ -191,8 +191,8 @@ void UI::handleClickEvent(sf::Vector2i window_mouse_position,
   }
 }
 
-void UI::saveArrow(sf::Vector2i window_mouse_position,
-                   sf::RenderWindow& window) {
+void UI::toggleArrow(sf::Vector2i window_mouse_position,
+                     sf::RenderWindow& window) {
   // check if there is already an entity clicked
   if (!clicked_entity_) {
     return;

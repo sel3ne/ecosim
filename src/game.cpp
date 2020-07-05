@@ -214,7 +214,7 @@ void Game::runMainLoop() {
         // save Arrow (from left to right click entity)
         // checking for clicked_entity_ in saveArrow
         sf::Vector2i position = sf::Mouse::getPosition(*window_);
-        ui_.saveArrow(position, *window_);
+        ui_.toggleArrow(position, *window_);
       }
       if (event.type == sf::Event::Closed) {
         window_->close();
