@@ -199,8 +199,8 @@ void Building::update(float time_s) {
   }
 }
 
-void drawArrow(sf::Vector2f start, sf::Vector2f end, float thickness,
-               sf::Color color, sf::RenderWindow& window) {
+void Building::drawArrow(sf::Vector2f start, sf::Vector2f end, float thickness,
+                         sf::Color color, sf::RenderWindow& window) {
   float triangle_radius = 2.f * thickness;
 
   float length = norm(end - start);

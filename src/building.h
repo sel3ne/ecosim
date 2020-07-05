@@ -40,6 +40,9 @@ class Building : public Constructible {
   virtual bool isBuilding() { return true; }
 
   void renderArrows(sf::RenderWindow& window);
+
+  void drawArrow(sf::Vector2f start, sf::Vector2f end, float thickness,
+                 sf::Color color, sf::RenderWindow& window);
   // std::map<ResourceId, std::vector<Building*>> returnReceivingFrom() {
   //   return receiving_from_;
   // }

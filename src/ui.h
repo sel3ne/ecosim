@@ -22,8 +22,11 @@ class UI {
   void handleClickEvent(sf::Vector2i window_mouse_position,
                         sf::RenderWindow& window);
 
-  void toggleArrow(sf::Vector2i window_mouse_position,
-                   sf::RenderWindow& window);
+  void setGhostArrow(sf::Vector2i window_mouse_position,
+                     sf::RenderWindow& window);
+
+  void toggleArrow(sf::Vector2i window_mouse_position, sf::RenderWindow& window,
+                   ResourceId resource);
 
  private:
   void renderDebugView(sf::RenderWindow& window, const sf::View& world_view);
@@ -37,6 +40,7 @@ class UI {
   bool debug_view_enabled_;
 
   Entity* clicked_entity_ = nullptr;
+  std::pair<Building*, Building*> ghost_arrow_ = {nullptr, nullptr};
 };
 
 #endif

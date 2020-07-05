@@ -137,6 +137,17 @@ void UI::renderVisualizeClickedEntity(sf::RenderWindow& window) {
 }
 
 void UI::render(sf::RenderWindow& window) {
+  if (ghost_arrow_ != std::pair<Building*, Building*>{nullptr, nullptr}) {
+    // draw ghost arrow
+    sf::Vector2f end = ghost_arrow_.second->worldPos();
+    end = end + ghost_arrow_.second->worldSize() / 2.f;
+
+    sf::Vector2f start = ghost_arrow_.first->worldPos();
+    start = start + ghost_arrow_.first->worldSize() / 2.f;
+    ghost_arrow_.first->drawArrow(start, end,
+                                  /*thickness=*/2, sf::Color(0, 0, 100, 100),
+                                  window);
+  }
   if (clicked_entity_) {
     renderVisualizeClickedEntity(window);
     if (clicked_entity_->isBuilding()) {
@@ -146,6 +157,7 @@ void UI::render(sf::RenderWindow& window) {
 
     // ToDo draw arrwos for humans
   }
+
   sf::View saved_view = window.getView();
   window.setView(window.getDefaultView());
 
@@ -159,6 +171,7 @@ void UI::render(sf::RenderWindow& window) {
 
 void UI::handleClickEvent(sf::Vector2i window_mouse_position,
                           sf::RenderWindow& window) {
+  ghost_arrow_ = {nullptr, nullptr};
   World& world = gGame->returnWorld();
   sf::Vector2f world_pos = window.mapPixelToCoords(window_mouse_position);
   Human* clicked_human = nullptr;
@@ -194,8 +207,8 @@ void UI::handleClickEvent(sf::Vector2i window_mouse_position,
   }
 }
 
-void UI::toggleArrow(sf::Vector2i window_mouse_position,
-                     sf::RenderWindow& window) {
+void UI::setGhostArrow(sf::Vector2i window_mouse_position,
+                       sf::RenderWindow& window) {
   // check if there is already an entity clicked
   if (!clicked_entity_) {
     return;
@@ -223,6 +236,10 @@ void UI::toggleArrow(sf::Vector2i window_mouse_position,
         }
       };
   world.doForAllConstructibles(find_clicked_constructible);
+  // check if nothing is clicked
+  if (!clicked_constructible) {
+    return;
+  }
   Entity* right_clicked_entity = clicked_constructible;
   // check if righht_clicked_entity is anything but a building
   if (!right_clicked_entity->isBuilding()) {
@@ -243,6 +260,13 @@ void UI::toggleArrow(sf::Vector2i window_mouse_position,
     return;
   }
 
-  left_clicked_building->toggleDeliveryTarget(ResourceId::RESOURCE_FOOD,
-                                              right_clicked_building);
+  ghost_arrow_ = {left_clicked_building, right_clicked_building};
+}
+
+void UI::toggleArrow(sf::Vector2i window_mouse_position,
+                     sf::RenderWindow& window, ResourceId resource) {
+  if (ghost_arrow_ == std::pair<Building*, Building*>{nullptr, nullptr}) {
+    return;
+  }
+  ghost_arrow_.first->toggleDeliveryTarget(resource, ghost_arrow_.second);
 }

@@ -165,10 +165,15 @@ void Game::handleKeyPress(const sf::Event::KeyEvent& key_event) {
       break;
     }
     case sf::Keyboard::F: {
-      // Farm event
-      Farm* farm = buildConstructibleAtMouse<Farm>(4, 4, Entity::FARM);
-      if (!farm) {
-        break;
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+        sf::Vector2i position = sf::Mouse::getPosition(*window_);
+        ui_.toggleArrow(position, *window_, ResourceId::RESOURCE_FOOD);
+      } else {
+        // Farm event
+        Farm* farm = buildConstructibleAtMouse<Farm>(4, 4, Entity::FARM);
+        if (!farm) {
+          break;
+        }
       }
       break;
     }
@@ -214,8 +219,9 @@ void Game::runMainLoop() {
         // save Arrow (from left to right click entity)
         // checking for clicked_entity_ in saveArrow
         sf::Vector2i position = sf::Mouse::getPosition(*window_);
-        ui_.toggleArrow(position, *window_);
+        ui_.setGhostArrow(position, *window_);
       }
+
       if (event.type == sf::Event::Closed) {
         window_->close();
       }
