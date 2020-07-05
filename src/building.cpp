@@ -14,7 +14,7 @@ Building::Building(int x_grid, int y_grid, int w_grid, int h_grid,
     : Constructible(x_grid, y_grid, w_grid, h_grid, entity_type) {
   if (entity_type == HOUSE) {
     setAvailableResourceAmount(RESOURCE_FOOD, 100);
-    resources_required_[RESOURCE_FOOD] = 100;
+    resources_required_[RESOURCE_FOOD] = 200;
   }
 }
 
@@ -176,6 +176,7 @@ void Building::tryToRequestMissingResources(ResourceId res) {
 void Building::makeDeliveryTo(Building* target, ResourceId res) {
   resources_available_[res] -= kCarrierCapacity;
   resources_reserved_[res] += kCarrierCapacity;
+  target->resources_incoming_[res] += kCarrierCapacity;
 
   std::unique_ptr<Delivery> delivery =
       std::make_unique<Delivery>(this, target, nullptr, res);

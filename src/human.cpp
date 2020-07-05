@@ -86,6 +86,8 @@ void Human::handleArrivalAtTarget() {
         addToResourceAmount(carried_resource, -kCarrierCapacity);
         target_building->addToAvailableResourceAmount(carried_resource,
                                                       kCarrierCapacity);
+        target_building->addToIncomingResourceAmount(carried_resource,
+                                                     -kCarrierCapacity);
         setTargetEntity(nullptr);
         setJob(UNEMPLOYED);
       } else {
@@ -120,7 +122,6 @@ void Human::update(float time_s) {
 void Human::setTargetEntity(Entity* target) { target_entity_ = target; }
 
 void Human::assignDelivery(Delivery* delivery) {
-  std::cout << "assigning delivery to me: " << delivery << std::endl;
   assigned_delivery_ = delivery;
   delivery->setCarrier(this);
   setJob(CARRIER);
