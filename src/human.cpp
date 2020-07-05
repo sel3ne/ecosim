@@ -11,6 +11,7 @@
 #include "resource_manager.h"
 #include "settings.h"
 #include "vector_util.h"
+#include "world.h"
 
 const std::map<Human::Job, std::string> kJobNames{
     {Human::UNEMPLOYED, "Unemployed"},
@@ -119,6 +120,18 @@ void Human::update(float time_s) {
 
   if (job_ == FARMER) {
     updateFarmerFindingFarm(time_s);
+  }
+}
+
+void Human::setJob(Job new_job) {
+  job_ = new_job;
+
+  if (new_job == UNEMPLOYED) {
+    Delivery* oldest_unassigned_delivery =
+        gGame->returnWorld().getOldestUnassignedDelivery();
+    if (oldest_unassigned_delivery) {
+      assignDelivery(oldest_unassigned_delivery);
+    }
   }
 }
 

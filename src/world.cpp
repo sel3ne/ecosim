@@ -1,5 +1,6 @@
 #include "world.h"
 
+#include <cassert>
 #include <iostream>
 
 #include "building.h"
@@ -116,6 +117,19 @@ void World::scheduleDelivery(std::unique_ptr<Delivery> delivery) {
   deliveries_.push_back(std::move(delivery));
 }
 
+Delivery* World::getOldestUnassignedDelivery() {
+  std::list<std::unique_ptr<Delivery>>::iterator first_unassigned_iter =
+      std::find_if(deliveries_.begin(), deliveries_.end(),
+                   [](const std::unique_ptr<Delivery>& delivery) {
+                     return delivery->getCarrier() == nullptr;
+                   });
+
+  if (first_unassigned_iter == deliveries_.end()) {
+    return nullptr;
+  }
+  return first_unassigned_iter->get();
+}
+
 void World::addNumberLighthouse(int i) {
   number_lighthouse_ = number_lighthouse_ + i;
 }
@@ -132,11 +146,11 @@ void World::addNumberUnhappyHouse(int i) {
 int World::returnNumberUnhappyHouse() { return number_unhappy_house_; }
 
 int World::returnNumberHappyHuman() {
-  return happy_employed_humans_.size() + happy_unemployed_humans_.size();
+  return number_happy_house_ * kHumansPerHouse;
 }
 
 int World::returnNumberUnhappyHuman() {
-  return unhappy_employed_humans_.size() + unhappy_unemployed_humans_.size();
+  return number_unhappy_house_ * kHumansPerHouse;
 }
 
 void World::addNumberFarmhouse(int i) {
@@ -196,50 +210,36 @@ template Farm* World::buildConstructible<Farm>(int x_grid, int y_grid,
                                                int w_grid, int h_grid,
                                                Entity::EntityType entity_type);
 
-void World::addHappyUnemployedHumans(Human* new_human) {
-  happy_unemployed_humans_.push_back(new_human);
-}
-std::list<Human*>& World::returnHappyUnemployedHumans() {
-  return happy_unemployed_humans_;
-}
-
-void World::addUnhappyUnemployedHumans(Human* new_human) {
-  unhappy_unemployed_humans_.push_back(new_human);
-}
-std::list<Human*>& World::returnUnhappyUnemployedHumans() {
-  return unhappy_unemployed_humans_;
-}
-
-void World::addHappyEmployedHumans(Human* new_human) {
-  happy_employed_humans_.push_back(new_human);
-}
-std::list<Human*>& World::returnHappyEmployedHumans() {
-  return happy_employed_humans_;
-}
-
-void World::addUnhappyEmployedHumans(Human* new_human) {
-  unhappy_employed_humans_.push_back(new_human);
-}
-std::list<Human*>& World::returnUnhappyEmployedHumans() {
-  return unhappy_employed_humans_;
-}
-
 void World::handleHouseBecomingUnhappy() {
   addNumberHappyHouse(-1);
   addNumberUnhappyHouse(1);
 
-  // find kHumansPerHouse happy people to make unhappy
-  for (int i = 0; i < kHumansPerHouse; i++) {
-    if (!happy_unemployed_humans_.empty()) {
-      Human* happy_human = happy_unemployed_humans_.front();
-      happy_unemployed_humans_.pop_front();
-      unhappy_unemployed_humans_.push_back(happy_human);
-      happy_human->setHappiness(false);
-    } else {
-      Human* happy_human = happy_employed_humans_.front();
-      happy_employed_humans_.pop_front();
-      unhappy_employed_humans_.push_back(happy_human);
-      happy_human->setHappiness(false);
+  std::vector<Human*> happy_unemployed_humans;
+  std::vector<Human*> happy_employed_humans;
+
+  doForAllHumans([&](Human& human) {
+    if (human.isHappy()) {
+      if (human.returnJob() == Human::UNEMPLOYED) {
+        happy_unemployed_humans.push_back(&human);
+      } else {
+        happy_employed_humans.push_back(&human);
+      }
+    }
+  });
+
+  if (happy_unemployed_humans.size() >= kHumansPerHouse) {
+    for (uint i = 0; i < kHumansPerHouse; i++) {
+      happy_unemployed_humans[i]->setHappiness(false);
+    }
+  } else {
+    for (Human* human : happy_unemployed_humans) {
+      human->setHappiness(false);
+    }
+    uint num_to_make_unhappy_left =
+        kHumansPerHouse - happy_unemployed_humans.size();
+    assert(num_to_make_unhappy_left <= happy_employed_humans.size());
+    for (uint i = 0; i < num_to_make_unhappy_left; ++i) {
+      happy_employed_humans[i]->setHappiness(false);
     }
   }
 }
@@ -248,18 +248,32 @@ void World::handleHouseBecomingHappy() {
   addNumberHappyHouse(1);
   addNumberUnhappyHouse(-1);
 
-  // find kHumansPerHouse happy people to make happy
-  for (int i = 0; i < kHumansPerHouse; i++) {
-    if (!unhappy_employed_humans_.empty()) {
-      Human* unhappy_human = unhappy_employed_humans_.front();
-      unhappy_employed_humans_.pop_front();
-      happy_employed_humans_.push_back(unhappy_human);
-      unhappy_human->setHappiness(true);
-    } else {
-      Human* unhappy_human = unhappy_unemployed_humans_.front();
-      unhappy_unemployed_humans_.pop_front();
-      happy_unemployed_humans_.push_back(unhappy_human);
-      unhappy_human->setHappiness(true);
+  std::vector<Human*> unhappy_unemployed_humans;
+  std::vector<Human*> unhappy_employed_humans;
+
+  doForAllHumans([&](Human& human) {
+    if (!human.isHappy()) {
+      if (human.returnJob() == Human::UNEMPLOYED) {
+        unhappy_unemployed_humans.push_back(&human);
+      } else {
+        unhappy_employed_humans.push_back(&human);
+      }
+    }
+  });
+
+  if (unhappy_employed_humans.size() >= kHumansPerHouse) {
+    for (uint i = 0; i < kHumansPerHouse; i++) {
+      unhappy_employed_humans[i]->setHappiness(true);
+    }
+  } else {
+    for (Human* human : unhappy_employed_humans) {
+      human->setHappiness(true);
+    }
+    uint num_to_make_happy_left =
+        kHumansPerHouse - unhappy_employed_humans.size();
+    assert(num_to_make_happy_left <= unhappy_unemployed_humans.size());
+    for (uint i = 0; i < num_to_make_happy_left; ++i) {
+      unhappy_unemployed_humans[i]->setHappiness(true);
     }
   }
 }

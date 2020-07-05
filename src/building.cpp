@@ -59,12 +59,14 @@ float Building::returnAvailableAndReservedResourceAmount(ResourceId res) {
 
 void Building::addToAvailableResourceAmount(ResourceId res,
                                             float delta_amount) {
+  float old_amount = resources_available_[res];
+  float new_amount = old_amount + delta_amount;
+  resources_available_[res] = new_amount;
+
   if (typeOfEntity() == Entity::HOUSE && res == RESOURCE_FOOD &&
-      resources_available_[RESOURCE_FOOD] == 0. && delta_amount > 0) {
+      old_amount == 0. && new_amount > 0) {
     gGame->returnWorld().handleHouseBecomingHappy();
   }
-
-  resources_available_[res] += delta_amount;
 
   // Depending on whether resources were increased or decreased, we might be
   // able to deliver resources somewhere now or we might need to request new
@@ -132,7 +134,7 @@ void Building::tryToDeliverAvailableResources(ResourceId res) {
       Building* target_candidate =
           target_candidates.at(next_delivery_target_index);
       next_delivery_target_index =
-          next_delivery_target_index + 1 % target_candidates.size();
+          (next_delivery_target_index + 1) % target_candidates.size();
       if (target_candidate->getResourceDeficit(res) >= kCarrierCapacity) {
         target = target_candidate;
         break;

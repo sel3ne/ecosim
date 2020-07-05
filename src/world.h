@@ -21,6 +21,7 @@ class World {
   void render(sf::RenderWindow& window);
   void addEntityToEntities(std::unique_ptr<Entity> entity);
   void scheduleDelivery(std::unique_ptr<Delivery> delivery);
+  Delivery* getOldestUnassignedDelivery();
 
   void doForAllEntities(std::function<void(Entity&)> func);
   void doForAllHumans(std::function<void(Human&)> func);
@@ -50,18 +51,6 @@ class World {
   void addNumberFarm(int i);
   int returnNumberFarm();
 
-  void addHappyUnemployedHumans(Human* new_human);
-  std::list<Human*>& returnHappyUnemployedHumans();
-
-  void addUnhappyUnemployedHumans(Human* new_human);
-  std::list<Human*>& returnUnhappyUnemployedHumans();
-
-  void addHappyEmployedHumans(Human* new_human);
-  std::list<Human*>& returnHappyEmployedHumans();
-
-  void addUnhappyEmployedHumans(Human* new_human);
-  std::list<Human*>& returnUnhappyEmployedHumans();
-
   void handleHouseBecomingUnhappy();
   void handleHouseBecomingHappy();
 
@@ -86,10 +75,6 @@ class World {
   int number_lighthouse_;
   int number_farmhouse_;
   int number_farm_;
-  std::list<Human*> happy_unemployed_humans_;
-  std::list<Human*> unhappy_unemployed_humans_;
-  std::list<Human*> happy_employed_humans_;
-  std::list<Human*> unhappy_employed_humans_;
 };
 
 #endif  // define ECOSIM_WORLD_H

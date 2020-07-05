@@ -124,8 +124,6 @@ void Game::handleKeyPress(const sf::Event::KeyEvent& key_event) {
                         RandomFloat(-kPixelsPerTile * 2, kPixelsPerTile * 2);
         std::unique_ptr<Entity> human =
             std::make_unique<Human>(x_coord, y_coord, 8, 8, Entity::HUMAN);
-        Human* human_ptr = dynamic_cast<Human*>(human.get());
-        world_->addHappyUnemployedHumans(human_ptr);
         world_->addEntityToEntities(std::move(human));
       }
       break;

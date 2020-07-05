@@ -50,13 +50,14 @@ class Human : public Entity {
   void setResourceAmount(ResourceId res, float set_amount);
   std::string printJobAndResource();
 
-  void setJob(Job job) { job_ = job; }
+  void setJob(Job job);
   Job returnJob() const { return job_; }
 
   void setEmployer(Entity* employer) { employer_ = employer; };
   Entity* returnEmployer() { return employer_; }
 
   void setHappiness(bool happy) { happiness_ = happy; }
+  bool isHappy() { return happiness_; }
 
   virtual void update(float time_s);
   void updateFarmerFindingFarm(float time_s);
