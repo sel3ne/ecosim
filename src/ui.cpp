@@ -234,6 +234,12 @@ void UI::saveArrow(sf::Vector2i window_mouse_position,
   Building* left_clicked_building = dynamic_cast<Building*>(clicked_entity_);
   Building* right_clicked_building =
       dynamic_cast<Building*>(right_clicked_entity);
+
+  // no arrows between the same building
+  if (right_clicked_building == left_clicked_building) {
+    return;
+  }
+
   left_clicked_building->addDeliveryTarget(ResourceId::RESOURCE_FOOD,
                                            right_clicked_building);
 }
