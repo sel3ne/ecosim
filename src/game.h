@@ -45,6 +45,7 @@ class Game {
   UI ui_;
 
   float total_time_played_ = 0.f;
+  float game_speed_multiplier_ = 1.f;
 };
 
 extern Game* gGame;

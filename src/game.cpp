@@ -1,5 +1,6 @@
 #include "game.h"
 
+#include <algorithm>
 #include <iostream>
 #include <random>
 
@@ -175,6 +176,14 @@ void Game::handleKeyPress(const sf::Event::KeyEvent& key_event) {
       ui_.toggleDebugView();
       break;
     }
+    case sf::Keyboard::Add: {
+      game_speed_multiplier_ = std::min(game_speed_multiplier_ * 1.5, 100.);
+      break;
+    }
+    case sf::Keyboard::Subtract: {
+      game_speed_multiplier_ = std::max(game_speed_multiplier_ * 0.67, .5);
+      break;
+    }
     // All other keys do nothing.
     default:;
   }
@@ -213,7 +222,8 @@ void Game::runMainLoop() {
     }
 
     sf::Time elapsed = clock.restart();
-    update(elapsed.asSeconds());
+    float game_time_elapsed = elapsed.asSeconds() * game_speed_multiplier_;
+    update(game_time_elapsed);
 
     render();
   }
