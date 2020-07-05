@@ -36,6 +36,7 @@ class Game {
                                          Entity::EntityType entity_type);
 
   float totalTimePlayed() { return total_time_played_; }
+  float gameSpeedMultipler() { return game_speed_multiplier_; }
 
  private:
   void handleKeyPress(const sf::Event::KeyEvent& key_event);

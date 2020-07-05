@@ -1,5 +1,6 @@
 #include "ui.h"
 
+#include <iomanip>
 #include <sstream>
 
 #include "building.h"
@@ -76,6 +77,8 @@ void UI::renderTopBar(sf::RenderWindow& window) {
   // Game time display.
   std::ostringstream time_oss;
   time_oss << static_cast<int>(gGame->totalTimePlayed());
+  time_oss << "(" << std::fixed << std::setprecision(1)
+           << gGame->gameSpeedMultipler() << ")";
   sf::Text time_played_text(time_oss.str(),
                             *gResourceManager->getFont(FONT_COURIER),
                             kTopBarTextSize);

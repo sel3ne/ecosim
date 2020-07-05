@@ -181,7 +181,7 @@ void Game::handleKeyPress(const sf::Event::KeyEvent& key_event) {
       break;
     }
     case sf::Keyboard::Subtract: {
-      game_speed_multiplier_ = std::max(game_speed_multiplier_ * 0.67, .5);
+      game_speed_multiplier_ = std::max(game_speed_multiplier_ / 1.5, 1. / 1.5);
       break;
     }
     // All other keys do nothing.
