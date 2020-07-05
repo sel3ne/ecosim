@@ -190,3 +190,50 @@ void UI::handleClickEvent(sf::Vector2i window_mouse_position,
     clicked_entity_ = clicked_constructible;
   }
 }
+
+void UI::saveArrow(sf::Vector2i window_mouse_position,
+                   sf::RenderWindow& window) {
+  // check if there is already an entity clicked
+  if (!clicked_entity_) {
+    return;
+  }
+  // check if clicked_entity is anything but a building
+  if (!clicked_entity_->isBuilding()) {
+    return;
+  }
+  // not possible to make arrows from farmhouses
+  if (clicked_entity_->typeOfEntity() == Entity::FARMHOUSE) {
+    return;
+  }
+
+  World& world = gGame->returnWorld();
+  sf::Vector2f world_pos = window.mapPixelToCoords(window_mouse_position);
+
+  Constructible* clicked_constructible = nullptr;
+  std::function<void(Constructible&)> find_clicked_constructible =
+      [world_pos, &clicked_constructible](Constructible& construct) {
+        if (!clicked_constructible) {
+          sf::Rect<float> rect_constructible = construct.worldRect();
+          if (rect_constructible.contains(world_pos.x, world_pos.y)) {
+            clicked_constructible = &construct;
+          }
+        }
+      };
+  world.doForAllConstructibles(find_clicked_constructible);
+  Entity* right_clicked_entity = clicked_constructible;
+  // check if righht_clicked_entity is anything but a building
+  if (!right_clicked_entity->isBuilding()) {
+    return;
+  }
+  // not possible to make arrows to farmhouses
+  if (right_clicked_entity->typeOfEntity() == Entity::FARMHOUSE) {
+    return;
+  }
+
+  // save arrows
+  Building* left_clicked_building = dynamic_cast<Building*>(clicked_entity_);
+  Building* right_clicked_building =
+      dynamic_cast<Building*>(right_clicked_entity);
+  left_clicked_building->addDeliveryTarget(ResourceId::RESOURCE_FOOD,
+                                           right_clicked_building);
+}

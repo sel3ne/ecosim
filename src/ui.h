@@ -22,6 +22,8 @@ class UI {
   void handleClickEvent(sf::Vector2i window_mouse_position,
                         sf::RenderWindow& window);
 
+  void saveArrow(sf::Vector2i window_mouse_position, sf::RenderWindow& window);
+
  private:
   void renderDebugView(sf::RenderWindow& window, const sf::View& world_view);
   void renderTopBar(sf::RenderWindow& window);

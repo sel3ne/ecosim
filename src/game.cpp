@@ -200,13 +200,13 @@ void Game::runMainLoop() {
       } else if (event.type == sf::Event::MouseButtonPressed &&
                  event.mouseButton.button == sf::Mouse::Left) {
         sf::Vector2i position = sf::Mouse::getPosition(*window_);
-
         ui_.handleClickEvent(position, *window_);
       } else if (event.type == sf::Event::MouseButtonPressed &&
                  event.mouseButton.button == sf::Mouse::Right) {
-        // sf::Vector2i position = sf::Mouse::getPosition(*window_);
-
-        // todo
+        // save Arrow (from left to right click entity)
+        // checking for clicked_entity_ in saveArrow
+        sf::Vector2i position = sf::Mouse::getPosition(*window_);
+        ui_.saveArrow(position, *window_);
       }
       if (event.type == sf::Event::Closed) {
         window_->close();
