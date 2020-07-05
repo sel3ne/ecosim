@@ -201,8 +201,8 @@ void UI::saveArrow(sf::Vector2i window_mouse_position,
   if (!clicked_entity_->isBuilding()) {
     return;
   }
-  // not possible to make arrows from farmhouses
-  if (clicked_entity_->typeOfEntity() == Entity::FARMHOUSE) {
+  // not possible to make arrows from farm
+  if (clicked_entity_->typeOfEntity() == Entity::FARM) {
     return;
   }
 
@@ -225,8 +225,8 @@ void UI::saveArrow(sf::Vector2i window_mouse_position,
   if (!right_clicked_entity->isBuilding()) {
     return;
   }
-  // not possible to make arrows to farmhouses
-  if (right_clicked_entity->typeOfEntity() == Entity::FARMHOUSE) {
+  // not possible to make arrows to farm
+  if (right_clicked_entity->typeOfEntity() == Entity::FARM) {
     return;
   }
 
