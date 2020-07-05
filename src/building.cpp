@@ -104,6 +104,16 @@ void Building::addDeliveryTarget(ResourceId resource, Building* target) {
 
 void Building::removeDeliveryTarget(ResourceId resource, Building* target) {
   std::erase(delivering_to_[resource], target);
+  std::erase(target->receiving_from_[resource], this);
+}
+
+void Building::toggleDeliveryTarget(ResourceId resource, Building* target) {
+  const std::vector<Building*>& targets = getDeliveryTargets(resource);
+  if (std::find(targets.begin(), targets.end(), target) != targets.end()) {
+    removeDeliveryTarget(resource, target);
+  } else {
+    addDeliveryTarget(resource, target);
+  }
 }
 
 float Building::getResourceDeficit(ResourceId res) {

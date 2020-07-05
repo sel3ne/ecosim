@@ -34,6 +34,7 @@ class Building : public Constructible {
   const std::vector<Building*>& getDeliveryTargets(ResourceId resource);
   void addDeliveryTarget(ResourceId resource, Building* target);
   void removeDeliveryTarget(ResourceId resource, Building* target);
+  void toggleDeliveryTarget(ResourceId resource, Building* target);
 
   virtual void update(float time_s);
   virtual bool isBuilding() { return true; }

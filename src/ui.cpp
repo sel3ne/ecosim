@@ -240,6 +240,6 @@ void UI::saveArrow(sf::Vector2i window_mouse_position,
     return;
   }
 
-  left_clicked_building->addDeliveryTarget(ResourceId::RESOURCE_FOOD,
-                                           right_clicked_building);
+  left_clicked_building->toggleDeliveryTarget(ResourceId::RESOURCE_FOOD,
+                                              right_clicked_building);
 }
