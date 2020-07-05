@@ -15,6 +15,7 @@ const float kFoodDecay = 100. / 60.;
 const int kHumansPerHouse = 10;
 const float kFoodProductionFarm = 100. / 60;
 const float kSpeedHuman = 8;
+const float kUnhappinessSpeedMultipler = 0.2;
 const float kMaxFoodPerFarm = 1000.0f;
 
 const float kTopBarHeight = 30.f;

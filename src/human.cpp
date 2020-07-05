@@ -107,6 +107,9 @@ void Human::update(float time_s) {
     sf::Vector2f norm_direction_vector = direction_vector / target_distance;
 
     float move_distance = kSpeedHuman * time_s;
+    if (!happiness_) {
+      move_distance *= kUnhappinessSpeedMultipler;
+    }
     world_pos_ += move_distance * norm_direction_vector;
 
     if (target_distance < 0.6) {

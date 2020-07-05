@@ -100,6 +100,7 @@ const std::vector<Building*>& Building::getDeliveryTargets(
 void Building::addDeliveryTarget(ResourceId resource, Building* target) {
   delivering_to_[resource].push_back(target);
   target->receiving_from_[resource].push_back(this);
+  tryToDeliverAvailableResources(resource);
 }
 
 void Building::removeDeliveryTarget(ResourceId resource, Building* target) {
