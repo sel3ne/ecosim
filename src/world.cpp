@@ -25,12 +25,6 @@ void World::render(sf::RenderWindow& window) {
   for (std::unique_ptr<Human>& n : humans_) {
     n->render(window);
   }
-  // for (std::unique_ptr<Constructible>& n : constructibles_) {
-  //   if (n->isBuilding()) {
-  //     Building* building_ptr = dynamic_cast<Building*>(n.get());
-  //     building_ptr->renderArrows(window);
-  //   }
-  // }
 }
 
 void World::doForAllEntities(std::function<void(Entity&)> func) {
