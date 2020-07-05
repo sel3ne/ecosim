@@ -15,22 +15,7 @@ World::World()
       number_unhappy_house_(0),
       number_happy_human_(0),
       number_unhappy_human_(0),
-      number_lighthouse_(0) {
-  Building* house = buildConstructible<Building>(3, 3, 3, 3, Entity::HOUSE);
-  for (int i = 0; i < 11; i++) {
-    float x_coord = house->worldX() + i;
-    float y_coord = house->worldY() + i;
-    std::unique_ptr<Entity> human =
-        std::make_unique<Human>(x_coord, y_coord, 8, 8, Entity::HUMAN);
-    Human* human_ptr = dynamic_cast<Human*>(human.get());
-    addHappyUnemployedHumans(human_ptr);
-    addEntityToEntities(std::move(human));
-  }
-
-  Farm* farm = buildConstructible<Farm>(7, 7, 3, 3, Entity::FARM);
-
-  farm->addDeliveryTarget(RESOURCE_FOOD, house);
-}
+      number_lighthouse_(0) {}
 
 void World::render(sf::RenderWindow& window) {
   chunk_manager_.renderTiles(window);
