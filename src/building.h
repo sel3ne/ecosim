@@ -29,7 +29,7 @@ class Building : public Constructible {
   void setAvailableResourceAmount(ResourceId res, float set_amount);
   std::string printNameAndResource();
 
-  bool needsMoreResource(ResourceId res);
+  float getResourceDeficit(ResourceId res);
 
   const std::vector<Building*>& getDeliveryTargets(ResourceId resource);
   void addDeliveryTarget(ResourceId resource, Building* target);
