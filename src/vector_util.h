@@ -43,4 +43,9 @@ float norm(sf::Vector2<T> vec) {
   return std::sqrt(vec.x * vec.x + vec.y * vec.y);
 }
 
+template <typename T>
+T dotProduct(sf::Vector2<T> v1, sf::Vector2<T> v2) {
+  return v1.x * v2.x + v1.y * v2.y;
+}
+
 #endif  // ifndef ECOSIM_VECTOR_UTIL_H

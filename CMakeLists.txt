@@ -32,6 +32,8 @@ set(
   src/human.h
   src/map_generator.cpp
   src/map_generator.h
+  src/random.cpp
+  src/random.h
   src/resources.cpp
   src/resources.h
   src/resource_manager.cpp
@@ -56,6 +58,8 @@ include(GoogleTest)
 add_executable(
 	ecosim_tests
 	${SRCS}
-	src/game_test.cpp)
+	src/game_test.cpp
+	src/map_generator_test.cpp
+	src/random_test.cpp)
 target_link_libraries(ecosim_tests gtest gtest_main sfml-graphics sfml-audio)
 gtest_discover_tests(ecosim_tests WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
