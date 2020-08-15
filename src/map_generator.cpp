@@ -96,9 +96,11 @@ void PerlinNoiseMapGenerator::generateTileIds(
       float height = pinkNoise(seed_, height_period_, x, y);
 
       Tile::TileId tile_id;
-      if (height < 0) {
+      if (height < -0.05) {
         tile_id = Tile::WATER;
-      } else if (height < 0.7) {
+      } else if (height < 0.) {
+        tile_id = Tile::SAND;
+      } else if (height < 0.5) {
         tile_id = Tile::GRASS;
       } else {
         tile_id = Tile::STONE;

@@ -7,7 +7,7 @@ class RenderWindow;
 
 class Tile {
  public:
-  enum TileId { GRASS, WATER, STONE };
+  enum TileId { GRASS, WATER, STONE, SAND };
 
   Tile() : id_(GRASS) {}
   Tile(TileId id) : id_(id) {}

@@ -11,6 +11,7 @@ const std::unordered_map<Tile::TileId, TextureId> kTexturesOfTiles = {
     {Tile::GRASS, TEXTURE_GRASS},
     {Tile::WATER, TEXTURE_WATER},
     {Tile::STONE, TEXTURE_STONE},
+    {Tile::SAND, TEXTURE_SAND},
 };
 
 void Tile::render(sf::RenderWindow& window, int grid_x, int grid_y) const {
