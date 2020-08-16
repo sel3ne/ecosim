@@ -65,7 +65,7 @@ void Building::addToAvailableResourceAmount(ResourceId res,
 
   if (typeOfEntity() == Entity::HOUSE && res == RESOURCE_FOOD &&
       old_amount == 0. && new_amount > 0) {
-    gGame->returnWorld().handleHouseBecomingHappy();
+    gWorld->handleHouseBecomingHappy();
   }
 
   // Depending on whether resources were increased or decreased, we might be
@@ -187,7 +187,7 @@ void Building::makeDeliveryTo(Building* target, ResourceId res) {
   outgoing_deliveries_.push_back(delivery.get());
   target->incoming_deliveries_.push_back(delivery.get());
 
-  gGame->returnWorld().scheduleDelivery(std::move(delivery));
+  gWorld->scheduleDelivery(std::move(delivery));
 }
 
 void Building::update(float time_s) {
@@ -197,7 +197,7 @@ void Building::update(float time_s) {
 
     if (returnAvailableResourceAmount(RESOURCE_FOOD) <= 0) {
       setAvailableResourceAmount(RESOURCE_FOOD, 0.);
-      gGame->returnWorld().handleHouseBecomingUnhappy();
+      gWorld->handleHouseBecomingUnhappy();
     }
   }
 }

@@ -10,8 +10,6 @@
 #include "world.h"
 
 Farm* Farmhouse::closestFullFarm() {
-  World& world = gGame->returnWorld();
-
   Farm* nearest_full_farm = nullptr;
   std::function<void(Entity&)> store_min = [this,
                                             &nearest_full_farm](Entity& ent) {
@@ -43,7 +41,7 @@ Farm* Farmhouse::closestFullFarm() {
     }
   };
 
-  world.doForAllEntities(store_min);
+  gWorld->doForAllEntities(store_min);
 
   return nearest_full_farm;
 }

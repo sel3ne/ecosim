@@ -11,12 +11,22 @@
 #include "settings.h"
 #include "vector_util.h"
 
+World* gWorld = nullptr;
+
 World::World()
     : number_happy_house_(0),
       number_unhappy_house_(0),
       number_happy_human_(0),
       number_unhappy_human_(0),
-      number_lighthouse_(0) {}
+      number_lighthouse_(0) {
+  if (gWorld) {
+    std::cerr << "Error creating world: There is already a World!" << std::endl;
+    exit(1);
+  }
+  gWorld = this;
+}
+
+World::~World() { gWorld = nullptr; }
 
 void World::render(sf::RenderWindow& window) {
   chunk_manager_.renderTiles(window);

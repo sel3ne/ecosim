@@ -18,6 +18,8 @@ class Human;
 class World {
  public:
   World();
+  ~World();
+
   void render(sf::RenderWindow& window);
   void addEntityToEntities(std::unique_ptr<Entity> entity);
   void scheduleDelivery(std::unique_ptr<Delivery> delivery);
@@ -79,5 +81,7 @@ class World {
   int number_farm_;
   float total_time_played_ = 0.f;
 };
+
+extern World* gWorld;
 
 #endif  // define ECOSIM_WORLD_H

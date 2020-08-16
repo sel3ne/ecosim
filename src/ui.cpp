@@ -47,8 +47,8 @@ void UI::renderFoodStatus(sf::RenderWindow& window) {
   window.draw(grain_icon);
 
   // Numbers
-  int num_happy = gGame->returnWorld().returnNumberHappyHuman();
-  int num_total = num_happy + gGame->returnWorld().returnNumberUnhappyHuman();
+  int num_happy = gWorld->returnNumberHappyHuman();
+  int num_total = num_happy + gWorld->returnNumberUnhappyHuman();
   std::ostringstream food_oss;
   food_oss << num_happy << "/" << num_total;
   sf::Text food_text(food_oss.str(), *gResourceManager->getFont(FONT_COURIER),
@@ -76,7 +76,7 @@ void UI::renderTopBar(sf::RenderWindow& window) {
 
   // Game time display.
   std::ostringstream time_oss;
-  time_oss << static_cast<int>(gGame->returnWorld().totalTimePlayed());
+  time_oss << static_cast<int>(gWorld->totalTimePlayed());
   time_oss << "(" << std::fixed << std::setprecision(1)
            << gGame->gameSpeedMultipler() << ")";
   sf::Text time_played_text(time_oss.str(),
@@ -172,7 +172,6 @@ void UI::render(sf::RenderWindow& window) {
 void UI::handleClickEvent(sf::Vector2i window_mouse_position,
                           sf::RenderWindow& window) {
   ghost_arrow_ = {nullptr, nullptr};
-  World& world = gGame->returnWorld();
   sf::Vector2f world_pos = window.mapPixelToCoords(window_mouse_position);
   Human* clicked_human = nullptr;
   std::function<void(Human&)> find_clicked_human =
@@ -184,7 +183,7 @@ void UI::handleClickEvent(sf::Vector2i window_mouse_position,
           }
         }
       };
-  world.doForAllHumans(find_clicked_human);
+  gWorld->doForAllHumans(find_clicked_human);
   if (clicked_human) {
     clicked_entity_ = clicked_human;
     return;
@@ -202,7 +201,7 @@ void UI::handleClickEvent(sf::Vector2i window_mouse_position,
             }
           }
         };
-    world.doForAllConstructibles(find_clicked_constructible);
+    gWorld->doForAllConstructibles(find_clicked_constructible);
     clicked_entity_ = clicked_constructible;
   }
 }
@@ -222,7 +221,6 @@ void UI::setGhostArrow(sf::Vector2i window_mouse_position,
     return;
   }
 
-  World& world = gGame->returnWorld();
   sf::Vector2f world_pos = window.mapPixelToCoords(window_mouse_position);
 
   Constructible* clicked_constructible = nullptr;
@@ -235,7 +233,7 @@ void UI::setGhostArrow(sf::Vector2i window_mouse_position,
           }
         }
       };
-  world.doForAllConstructibles(find_clicked_constructible);
+  gWorld->doForAllConstructibles(find_clicked_constructible);
   // check if nothing is clicked
   if (!clicked_constructible) {
     return;
