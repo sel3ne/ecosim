@@ -62,6 +62,8 @@ class World {
   EntityClass* buildConstructible(int x_grid, int y_grid, int w_grid,
                                   int h_grid, Entity::EntityType entity_type);
 
+  float totalTimePlayed() { return total_time_played_; }
+
  private:
   ChunkManager chunk_manager_;
   std::vector<std::unique_ptr<Human>> humans_;
@@ -75,6 +77,7 @@ class World {
   int number_lighthouse_;
   int number_farmhouse_;
   int number_farm_;
+  float total_time_played_ = 0.f;
 };
 
 #endif  // define ECOSIM_WORLD_H

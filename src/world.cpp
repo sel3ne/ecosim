@@ -92,6 +92,7 @@ void World::update(float time_s) {
   for (std::unique_ptr<Constructible>& n : constructibles_) {
     n->update(time_s);
   }
+  total_time_played_ += time_s;
 }
 
 void World::addEntityToEntities(std::unique_ptr<Entity> entity) {

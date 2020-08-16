@@ -61,8 +61,6 @@ void Game::update(float time_s) {
     moveView(0.0f, scroll_distance);
   }
 
-  total_time_played_ += time_s;
-
   world_->update(time_s);
 }
 
