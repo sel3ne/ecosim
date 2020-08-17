@@ -27,6 +27,7 @@ class Building : public Constructible {
   void addToRequiredResourceAmount(ResourceId res, int delta_amount);
 
   void setAvailableResourceAmount(ResourceId res, float set_amount);
+  void setRequiredResourceAmount(ResourceId res, float set_amount);
   std::string printNameAndResource();
 
   float getResourceDeficit(ResourceId res);

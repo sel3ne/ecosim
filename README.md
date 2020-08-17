@@ -14,7 +14,7 @@ Install the `sfml` package.
 
 ### Testing
 
-Install the `sfml` and `gtest` packages.
+Install the `sfml`, `gtest` and `gmock` packages.
 
 ```
 ./run_tests.sh

@@ -11,7 +11,7 @@ class MapGenerator;
 
 class ChunkManager {
  public:
-  ChunkManager();
+  ChunkManager(std::unique_ptr<MapGenerator> map_generator);
   ~ChunkManager();
 
   void generateChunk(int chunk_x, int chunk_y);

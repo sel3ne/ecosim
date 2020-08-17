@@ -29,7 +29,10 @@ float limitZoomFactor(const sf::View& view, const sf::Vector2f& min_size,
 
 Game::Game(std::unique_ptr<sf::RenderWindow> window)
     : window_(std::move(window)) {
-  world_ = std::make_unique<World>();
+  std::unique_ptr<MapGenerator> map_gen =
+      std::make_unique<PerlinNoiseMapGenerator>(/*seed=*/1,
+                                                /*height_period=*/64.);
+  world_ = std::make_unique<World>(std::move(map_gen));
 }
 
 void Game::render() {

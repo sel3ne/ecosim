@@ -8,13 +8,15 @@
 #include "farmhouse.h"
 #include "grid.h"
 #include "human.h"
+#include "map_generator.h"
 #include "settings.h"
 #include "vector_util.h"
 
 World* gWorld = nullptr;
 
-World::World()
-    : number_happy_house_(0),
+World::World(std::unique_ptr<MapGenerator> map_generator)
+    : chunk_manager_(std::move(map_generator)),
+      number_happy_house_(0),
       number_unhappy_house_(0),
       number_happy_human_(0),
       number_unhappy_human_(0),

@@ -59,20 +59,7 @@ float Building::returnAvailableAndReservedResourceAmount(ResourceId res) {
 
 void Building::addToAvailableResourceAmount(ResourceId res,
                                             float delta_amount) {
-  float old_amount = resources_available_[res];
-  float new_amount = old_amount + delta_amount;
-  resources_available_[res] = new_amount;
-
-  if (typeOfEntity() == Entity::HOUSE && res == RESOURCE_FOOD &&
-      old_amount == 0. && new_amount > 0) {
-    gWorld->handleHouseBecomingHappy();
-  }
-
-  // Depending on whether resources were increased or decreased, we might be
-  // able to deliver resources somewhere now or we might need to request new
-  // ones.
-  tryToDeliverAvailableResources(res);
-  tryToRequestMissingResources(res);
+  setAvailableResourceAmount(res, resources_available_[res] + delta_amount);
 }
 
 void Building::addToReservedResourceAmount(ResourceId res, int delta_amount) {
@@ -84,13 +71,27 @@ void Building::addToIncomingResourceAmount(ResourceId res, int delta_amount) {
 }
 
 void Building::addToRequiredResourceAmount(ResourceId res, int delta_amount) {
-  resources_required_[res] += delta_amount;
-  tryToRequestMissingResources(res);
+  setRequiredResourceAmount(res, resources_required_[res] + delta_amount);
 }
 
 void Building::setAvailableResourceAmount(ResourceId res, float set_amount) {
+  float old_amount = resources_available_[res];
   resources_available_[res] = set_amount;
+
+  if (typeOfEntity() == Entity::HOUSE && res == RESOURCE_FOOD &&
+      old_amount == 0. && set_amount > 0) {
+    gWorld->handleHouseBecomingHappy();
+  }
+
+  // Depending on whether resources were increased or decreased, we might be
+  // able to deliver resources somewhere now or we might need to request new
+  // ones.
   tryToDeliverAvailableResources(res);
+  tryToRequestMissingResources(res);
+}
+
+void Building::setRequiredResourceAmount(ResourceId res, float set_amount) {
+  resources_required_[res] = set_amount;
   tryToRequestMissingResources(res);
 }
 

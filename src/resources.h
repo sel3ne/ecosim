@@ -9,6 +9,9 @@ enum ResourceId {
   RESOURCE_FOOD = 0,
   RESOURCE_GOLD,
 
+  // A fake resource only for tests.
+  RESOURCE_TEST,
+
   _N_RESOURCES,
 };
 

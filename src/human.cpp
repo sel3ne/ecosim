@@ -128,7 +128,7 @@ void Human::setJob(Job new_job) {
 
   if (new_job == UNEMPLOYED) {
     Delivery* oldest_unassigned_delivery =
-        gGame->returnWorld().getOldestUnassignedDelivery();
+        gWorld->getOldestUnassignedDelivery();
     if (oldest_unassigned_delivery) {
       assignDelivery(oldest_unassigned_delivery);
     }

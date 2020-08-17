@@ -16,9 +16,8 @@ int gridToRelativeTile(int grid_coord) {
   return temp;
 }
 
-ChunkManager::ChunkManager() {
-  map_gen_ = std::make_unique<PerlinNoiseMapGenerator>(/*seed=*/1,
-                                                       /*height_period=*/64.);
+ChunkManager::ChunkManager(std::unique_ptr<MapGenerator> map_generator)
+    : map_gen_(std::move(map_generator)) {
   for (int x = -10; x <= 10; ++x) {
     for (int y = -10; y <= 10; ++y) {
       generateChunk(x, y);

@@ -17,13 +17,18 @@ class Human;
 
 class World {
  public:
-  World();
+  World(std::unique_ptr<MapGenerator> map_generator);
   ~World();
 
   void render(sf::RenderWindow& window);
   void addEntityToEntities(std::unique_ptr<Entity> entity);
+
   void scheduleDelivery(std::unique_ptr<Delivery> delivery);
   Delivery* getOldestUnassignedDelivery();
+  // Readonly access to deliveries.
+  const std::list<std::unique_ptr<Delivery>>& returnDeliveries() {
+    return deliveries_;
+  }
 
   void doForAllEntities(std::function<void(Entity&)> func);
   void doForAllHumans(std::function<void(Human&)> func);

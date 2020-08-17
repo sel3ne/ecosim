@@ -58,6 +58,7 @@ include(GoogleTest)
 add_executable(
 	ecosim_tests
 	${SRCS}
+	src/delivery_test.cpp
 	src/game_test.cpp
 	src/map_generator_test.cpp
 	src/random_test.cpp)
