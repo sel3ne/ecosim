@@ -18,8 +18,8 @@ int gridToRelativeTile(int grid_coord) {
 
 ChunkManager::ChunkManager(std::unique_ptr<MapGenerator> map_generator)
     : map_gen_(std::move(map_generator)) {
-  for (int x = -10; x <= 10; ++x) {
-    for (int y = -10; y <= 10; ++y) {
+  for (int x = -5; x <= 5; ++x) {
+    for (int y = -5; y <= 5; ++y) {
       generateChunk(x, y);
     }
   }
