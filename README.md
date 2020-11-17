@@ -32,3 +32,5 @@ Install the `sfml`, `gtest` and `gmock` packages.
 	"format_on_save": true
 }
  ```
+### Goal
+* Economy simulation
