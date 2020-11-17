@@ -1,5 +1,5 @@
 # ecosim
-Eco sim game
+Economy simulation game
 
 
 ## Arch Linux
@@ -32,5 +32,3 @@ Install the `sfml`, `gtest` and `gmock` packages.
 	"format_on_save": true
 }
  ```
-### Goal
-* Economy simulation
