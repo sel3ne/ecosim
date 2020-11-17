@@ -1,6 +1,8 @@
 # ecosim
 Economy simulation game: There are different resources available (Food, Gold, etc). Humans carry them around from the buildings. The ressources can only be collected at the right places, according to the map.
 
+![alt text](https://github.com/sel3ne/ecosim/data/Screenshot_map.png?raw=true)
+
 
 ## Arch Linux
 
