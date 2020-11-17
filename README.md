@@ -3,6 +3,7 @@ Economy simulation game: There are different resources available (Food, Gold, et
 
 ![Screenshot_map](https://user-images.githubusercontent.com/56499347/99402390-965b7800-28e9-11eb-82e5-a219ac40c117.png)
 
+On the map the player can arrange the buildings:
 
 
 ## Arch Linux
