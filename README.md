@@ -3,7 +3,12 @@ Economy simulation game: There are different resources available (Food, Gold, et
 
 ![Screenshot_map](https://user-images.githubusercontent.com/56499347/99402390-965b7800-28e9-11eb-82e5-a219ac40c117.png)
 
-On the map the player can arrange the buildings:
+On the map the player can arrange the buildings (like the lighthouse in the following image):
+
+![Screenshot from 2020-11-17 15-33-01](https://user-images.githubusercontent.com/56499347/99403379-afb0f400-28ea-11eb-8c10-d4f08bd3a6cd.png)
+
+There are buildings like the farmhouse which come automaticly with humans:
+
 
 
 ## Arch Linux
