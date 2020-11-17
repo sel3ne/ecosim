@@ -1,6 +1,5 @@
 # ecosim
-Economy simulation game:
-There are different ressources availible (Food, Gold, etc). Human carrie them arround from different buildings. The ressources can only be collected at the right places, according to the map.
+Economy simulation game: There are different resources available (Food, Gold, etc). Humans carry them around from the buildings. The ressources can only be collected at the right places, according to the map.
 
 
 ## Arch Linux
