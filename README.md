@@ -7,7 +7,7 @@ On the map the player can arrange the buildings (like the lighthouse in the foll
 
 ![Screenshot from 2020-11-17 15-31-59](https://user-images.githubusercontent.com/56499347/99403540-dc650b80-28ea-11eb-921c-54fba1a4fc02.png)
 
-There are buildings like the farmhouse which come automaticly with humans:
+There are buildings like the farmhouse which come automatically with humans:
 
 ![Screenshot from 2020-11-17 15-33-01](https://user-images.githubusercontent.com/56499347/99403379-afb0f400-28ea-11eb-8c10-d4f08bd3a6cd.png)
 
@@ -15,7 +15,7 @@ For the farmhouses there are farms, where the farmer can get food:
 
 ![Screenshot from 2020-11-17 15-33-58](https://user-images.githubusercontent.com/56499347/99403695-0ae2e680-28eb-11eb-96d6-e03e32b4156e.png)
 
-The player can direct the flow of ressources by left and right mouse click which is visualized with arrows (green arrow indicates the chosen ressource is food):
+The player can direct the flow of resources by left and right mouse click which is visualized with arrows (green arrow indicates the chosen ressource is food):
 
 ![Screenshot from 2020-11-17 15-41-41](https://user-images.githubusercontent.com/56499347/99404055-775de580-28eb-11eb-8954-4e83f80d97a9.png)
 
