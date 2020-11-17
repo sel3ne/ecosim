@@ -32,6 +32,9 @@ Game::Game(std::unique_ptr<sf::RenderWindow> window)
   std::unique_ptr<MapGenerator> map_gen =
       std::make_unique<PerlinNoiseMapGenerator>(/*seed=*/1,
                                                 /*height_period=*/64.);
+  // std::unique_ptr<MapGenerator> map_gen =
+  //     std::make_unique<SimpleIslandGenerator>();
+
   world_ = std::make_unique<World>(std::move(map_gen));
 }
 
