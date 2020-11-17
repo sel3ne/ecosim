@@ -15,6 +15,11 @@ For the farmhouses there are farms, where the farmer can get food:
 
 ![Screenshot from 2020-11-17 15-33-58](https://user-images.githubusercontent.com/56499347/99403695-0ae2e680-28eb-11eb-96d6-e03e32b4156e.png)
 
+The player can direct the flow of ressources by left and right mouse click which is visualized with arrows (green arrow indicates the chosen ressource is food):
+
+![Screenshot from 2020-11-17 15-41-41](https://user-images.githubusercontent.com/56499347/99404055-775de580-28eb-11eb-8954-4e83f80d97a9.png)
+
+
 
 ## Arch Linux
 
