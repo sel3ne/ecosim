@@ -13,6 +13,9 @@ There are buildings like the farmhouse which come automaticly with humans:
 
 For the farmhouses there are farms, where the farmer can get food:
 
+![Screenshot from 2020-11-17 15-33-58](https://user-images.githubusercontent.com/56499347/99403695-0ae2e680-28eb-11eb-96d6-e03e32b4156e.png)
+
+
 ## Arch Linux
 
 ### Building and Running
